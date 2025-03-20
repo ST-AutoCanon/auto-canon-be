@@ -8,7 +8,7 @@ const modelDataRoutes = require("./modelDataRoutes");
 const formsDataRoutes = require("./formsDataRoutes")
 const { authenticateTokenMiddleWare } = require("../middleware/authMiddleware");
 const fileUploadController = require("../controllers/fileUploadController");
-const barrelRoutes = require("./formRoutes")
+const barrelRoutes = require("./formsRoutes")
 
 // Multer configuration
 // Updated the file path to ensure it points to the correct directory for file storage

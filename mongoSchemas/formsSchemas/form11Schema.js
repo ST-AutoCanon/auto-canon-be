@@ -58,10 +58,11 @@ const VehicleIdentificationNumberSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Example of Engine/Motor No" },
       },
-      Example_of_Chassis_No_with_Month_Year_of_Manufacture: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Example of Chassis No. (Vehicle Identification Number) with Month & Year of Manufacture" },
-      },
+      // Example_of_Chassis_No_with_Month_Year_of_Manufacture: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Example of Chassis No. (Vehicle Identification Number) with Month & Year of Manufacture" },
+      //   display: { type: Boolean, default: false },
+      // },
     },
   },
 })
@@ -71,6 +72,61 @@ const codeForMonthOfProductionSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "supplier",
   },
+
+  Month_of_Production1: {
+    label: { type: String, default: "Code for Month of production" },
+    properties: {
+      January: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "January" },
+      },
+      February: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "February" },
+      },
+      March: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "March" },
+      },
+      April: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "April" },
+      },
+      May: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "May" },
+      },
+      June: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "June" },
+      },
+      July: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "July" },
+      },
+      August: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "August" },
+      },
+      September: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "September" },
+      },
+      October: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "October" },
+      },
+      November: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "November" },
+      },
+      December: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "December" },
+      },
+    },
+  },
+
   Year_of_Production: {
     label: { type: String, default: "Year of production" },
     properties: {
@@ -81,6 +137,7 @@ const codeForMonthOfProductionSchema = mongoose.Schema({
       
     },
   },
+
   Code_for_Year: {
     label: { type: String, default: "Code For Year" },
     properties: {      
@@ -206,63 +263,11 @@ const codeForMonthOfProductionSchema = mongoose.Schema({
       },
     }
   },
-  Month_of_Production: {
-    label: { type: String, default: "Code for Month of production" },
-    properties: {
-      January: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "January" },
-      },
-      February: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "February" },
-      },
-      March: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "March" },
-      },
-      April: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "April" },
-      },
-      May: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "May" },
-      },
-      June: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "June" },
-      },
-      July: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "July" },
-      },
-      August: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "August" },
-      },
-      September: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "September" },
-      },
-      October: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "October" },
-      },
-      November: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "November" },
-      },
-      December: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "December" },
-      },
-    },
-  }, 
+  
 
 
-chessy_Number: {
-  label: { type: String, default: "Chessy Number" },
+  chassis_Number: {
+  label: { type: String, default: "Chassis Number" },
   properties: {
     WMI_Code: {
       value: { type: String, default: "" },
@@ -325,7 +330,7 @@ vds_Sequence: {
       value: { type: String, default: "" },
       label: { type: String, default: "VDS 4th" },
     },
-    VDS_fourthh: {
+    VDS_fourth_type: {
       value: { type: String, default: "" },
       label: { type: String, default: "VDS type 4th" },
     },
@@ -341,7 +346,7 @@ vds_Sequence: {
       value: { type: String, default: "" },
       label: { type: String, default: "VDS 5th" },
     },
-    VDS_fifthh: {
+    VDS_fifth_type: {
       value: { type: String, default: "" },
       label: { type: String, default: "VDS type 5th" },
     },
@@ -357,7 +362,7 @@ vds_Sequence: {
       value: { type: String, default: "" },
       label: { type: String, default: "VDS 6th" },
     },
-    VDS_sixthh: {
+    VDS_sixth_type: {
       value: { type: String, default: "" },
       label: { type: String, default: "VDS type 6th" },
     },
@@ -373,7 +378,7 @@ vds_Sequence: {
       value: { type: String, default: "" },
       label: { type: String, default: "VDS 7th" },
     },
-    VDS_seventhh: {
+    VDS_seventh_type: {
       value: { type: String, default: "" },
       label: { type: String, default: "VDS type 7th" },
     },
@@ -389,7 +394,7 @@ vds_Sequence: {
       value: { type: String, default: "" },
       label: { type: String, default: "VDS 8th" },
     },
-    VDS_eighthh: {
+    VDS_eighth_type: {
       value: { type: String, default: "" },
       label: { type: String, default: "VDS type 8th" },
     },
@@ -405,7 +410,7 @@ vds_Sequence: {
       value: { type: String, default: "" },
       label: { type: String, default: "VDS 9th" },
     },
-    VDS_ninthh: {
+    VDS_ninth_type: {
       value: { type: String, default: "" },
       label: { type: String, default: "VDS type 9th" },
     },
@@ -419,6 +424,13 @@ vds_Sequence: {
   },
 },
  
+
+
+
+
+
+
+
 })
 
 

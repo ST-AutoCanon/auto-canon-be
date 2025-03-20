@@ -12,6 +12,11 @@ const userProfileSchema = mongoose.Schema(
       required: [true, "User must have a username"],
       unique: true,
     },
+    username1: {
+      type: String,
+      // required: [true, "User must have a username"],
+      unique: true,
+    },
     password: {
       type: String,
       required: [true, "User must have a password"],

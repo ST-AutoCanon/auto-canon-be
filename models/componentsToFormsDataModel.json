@@ -357,11 +357,6 @@
     "forms": ["1A"]
   },
   {
-    "component": "R Point",
-    "vehicle_type": "3-Wheeler",
-    "forms": ["1A"]
-  },
-  {
     "component": "Seating Dimension",
     "vehicle_type": "3-Wheeler",
     "forms": ["1A"]

@@ -35,10 +35,12 @@ const DriveTrainSystemSchema = mongoose.Schema({
       Test_Voltage_of_motor: {
         value: { type: String, default: "" },
         label: { type: String, default: "Test Voltage of motor" },
+        units: {type: String, default: "Volts"}
       },
       Nominal_speed_of_motor: {
         value: { type: String, default: "" },
         label: { type: String, default: "Nominal speed of motor" },
+        units: {type: String, default: "Rpm"}
       },
       Motor_Maximum_Speed: {
         value: { type: String, default: "" },
@@ -46,6 +48,7 @@ const DriveTrainSystemSchema = mongoose.Schema({
           type: String,
           default: "Motor Maximum Speed, Min –1 or by default  reducer outlet shaft / gear box speed (specify gear engaged)",
         },
+        units: {type: String, default: "Rpm"}
       },
       Maximum_Power_Speed: {
         value: { type: String, default: "" },
@@ -53,14 +56,17 @@ const DriveTrainSystemSchema = mongoose.Schema({
           type: String,
           default: "Maximum Power Speed  (min –1) and (km/h)",
         },
+        units: {type: String, default: "Rpm & Km/h"}
       },
       Maximum_Power_kW: {
         value: { type: String, default: "" },
         label: { type: String, default: "Maximum Power (kW)" },
+        units: {type: String, default: "KW"}
       },
       Maximum_Thirty_Minutes_Power: {
         value: { type: String, default: "" },
         label: { type: String, default: "Maximum Thirty Minutes Power (kW)" },
+        units: {type: String, default: "KW"}
       },
       Maximum_Thirty_Minutes_speed: {
         value: { type: String, default: "" },
@@ -68,10 +74,12 @@ const DriveTrainSystemSchema = mongoose.Schema({
           type: String,
           default: "Maximum Thirty Minutes speed km/h (Reference in AIS-039 (Rev.1) and AIS-040 (Rev.2)",
         },
+        units: {type: String, default: "KW"}
       },
       Range_as_per_AIS: {
         value: { type: String, default: "" },
         label: { type: String, default: "Range as per AIS 040 (Rev.1) (km)" },
+        units: {type: String, default: "Km"}
       },
       Speed_at_the_beginning: {
         value: { type: String, default: "" },
@@ -79,6 +87,7 @@ const DriveTrainSystemSchema = mongoose.Schema({
           type: String,
           default: "Speed at the beginning of the range (min –1)",
         },
+        units: {type: String, default: "Km/h"}
       },
       Speed_at_the_end: {
         value: { type: String, default: "" },
@@ -86,6 +95,7 @@ const DriveTrainSystemSchema = mongoose.Schema({
           type: String,
           default: "Speed at the end of the range (min –1 )",
         },
+        units: {type: String, default: "Km/h"}
       },
       Make_of_Traction_motor: {
         value: { type: String, default: "" },
@@ -131,14 +141,14 @@ const DriveTrainSystemSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Number of Poles of the Motor" },
       },
-      Motor_power_curve: {
-        value: { type: String, default: "" },
-        label: {
-          type: String,
-          default: "Upload Graph showing the Motor power curve (kW) with motor RPM (min-1) / vehicle speed in (km/h)",
-        },
-        display: { type: Boolean, default: false },
-      },
+      // Motor_power_curve: {
+      //   value: { type: String, default: "" },
+      //   label: {
+      //     type: String,
+      //     default: "Upload Graph showing the Motor power curve (kW) with motor RPM (min-1) / vehicle speed in (km/h)",
+      //   },
+      //   display: { type: Boolean, default: false },
+      // },
       
     },
   },
@@ -192,14 +202,14 @@ const generalArrangementOfTheVehicleSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Vehicle Type" },
       },
-      upload_drawing_showing_Different_views_of_the_vehicle: {
-        value: { type: String, default: "" },
-        label: {
-          type: String,
-          default: "Upload Drawing showing Different views of the vehicle",
-        },
-        display: { type: Boolean, default: false },
-      },
+      // upload_drawing_showing_Different_views_of_the_vehicle: {
+      //   value: { type: String, default: "" },
+      //   label: {
+      //     type: String,
+      //     default: "Upload Drawing showing Different views of the vehicle",
+      //   },
+      //   display: { type: Boolean, default: false },
+      // },
     },
   },
 })
@@ -244,15 +254,15 @@ const coolingSystemSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Thermostat : setting" },
       },
-      Radiator_drawing_or_make_and_type: {
-        value: { type: String, default: "" },
-        label: {
-          type: String,
-          // default: "Radiator : drawing(s) or make(s) and type(s)",
-          default: "Description of the normal profile of charging system",
-        },
-        display: { type: Boolean, default: false },
-      },
+      // Radiator_drawing_or_make_and_type: {
+      //   value: { type: String, default: "" },
+      //   label: {
+      //     type: String,
+      //     // default: "Radiator : drawing(s) or make(s) and type(s)",
+      //     default: "Description of the normal profile of charging system",
+      //   },
+      //   display: { type: Boolean, default: false },
+      // },
       Relief_valve_pressure_setting: {
         value: { type: String, default: "" },
         label: { type: String, default: "Relief valve : pressure setting" },
@@ -341,14 +351,17 @@ const TractionBatterypackSchema = mongoose.Schema({
       Nominal_Voltage_at_Pack_level: {
         value: { type: String, default: "" },
         label: { type: String, default: "Nominal Voltage (V) at Pack level" },
+        units: { type: String, default: "V" },
       },
       Nominal_Voltage_at_Cell_Level: {
         value: { type: String, default: "" },
         label: { type: String, default: "Nominal Voltage (V) at Cell Level" },
+        units: { type: String, default: "V" },
       },
       Nominal_Voltage_at_Cell_Level: {
         value: { type: String, default: "" },
         label: { type: String, default: "Nominal Voltage (V) at Cell Level" },
+        units: { type: String, default: "V" },
       },
       Number_of_Cells_Modules_Configuration: {
         value: { type: String, default: "" },
@@ -357,24 +370,27 @@ const TractionBatterypackSchema = mongoose.Schema({
       Battery_Energy: {
         value: { type: String, default: "" },
         label: { type: String, default: "Battery Energy (kWh)" },
+        units: { type: String, default: "kwh" },
       },
       Battery_Capacity: {
         value: { type: String, default: "" },
         label: { type: String, default: "Battery Capacity (C5)" },
+        units: { type: String, default: "kwh" },
       },
       End_of_Discharge_Voltage_Value_Pack_Level: {
         value: { type: String, default: "" },
         label: { type: String, default: "End of Discharge Voltage Value (V) at Pack Level" },
+        units: { type: String, default: "V" },
       },
       Provision_of_ventilation_for_battery: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Provision of ventilation for battery Yes / No" },
+        label: { type: String, default: "Provision of ventilation for battery Yes / No " },
       },
-      Brief_description_of_the_battery_pack_ventilation: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Brief description of the battery pack ventilation. Provide drawing if necessary." },
-        display: { type: Boolean, default: false },
-      },
+      // Brief_description_of_the_battery_pack_ventilation: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Brief description of the battery pack ventilation. Provide drawing if necessary." },
+      //   display: { type: Boolean, default: false },
+      // },
       Type_approval_Certififcate_number: {
         value: { type: String, default: "" },
         label: { type: String, default: "Type approval Certififcate number as per applicable standard" },
@@ -382,6 +398,7 @@ const TractionBatterypackSchema = mongoose.Schema({
       Battery_Mass: {
         value: { type: String, default: "" },
         label: { type: String, default: "Battery Mass (kg)" },
+        units: { type: String, default: "Kg" },
       },
       Brief_description_of_maintenance_procedure: {
         value: { type: String, default: "" },
@@ -439,11 +456,11 @@ const InstrumentClusterSchema = mongoose.Schema({
   Instrument_Cluster: {
     label: { type: String, default: "Instrument Cluster" },
     properties: {
-      Make_of_the_Instrument_Cluster: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Make of the Instrument Cluster" },
-        display: { type: Boolean, default: false },
-      },
+      // Make_of_the_Instrument_Cluster: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Make of the Instrument Cluster" },
+      //   display: { type: Boolean, default: false },
+      // },
       Model_of_the_Instrument_Cluster: {
         value: { type: String, default: "" },
         label: { type: String, default: "Model of the Instrument Cluster" },
@@ -459,6 +476,10 @@ const InstrumentClusterSchema = mongoose.Schema({
       State_of_Charge_indication_format: {
         value: { type: String, default: "" },
         label: { type: String, default: "State of Charge indication format" },
+      },
+      State_of_Charge_indication_format_battry: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "State of Charge indication format at lower battery charge" },
       },
       Relationship_of_state_of_charge_indicator: {
         value: { type: String, default: "" },
@@ -502,10 +523,12 @@ const DCDCConverterSchema = mongoose.Schema({
       Input_Voltage_range: {
         value: { type: String, default: "" },
         label: { type: String, default: "Input Voltage range of DC-DC Converter" },
+        units: { type: String, default: "Volts" },
       },
       Output_Voltage_range: {
         value: { type: String, default: "" },
         label: { type: String, default: "Output Voltage range of DC-DC Converter" },
+        units: { type: String, default: "Volts" },
       },
     },
   },
@@ -563,11 +586,11 @@ const ChargerSpecificationSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Charger's Standard Protocol" },
       },
-      Normal_Charging_Profile: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Normal Charging Profile " },
-        display: { type: Boolean, default: false },
-      },
+      // Normal_Charging_Profile: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Normal Charging Profile " },
+      //   display: { type: Boolean, default: false },
+      // },
     },
   },
   Specifications: {
@@ -580,10 +603,12 @@ const ChargerSpecificationSchema = mongoose.Schema({
       Input_Nominal_Voltage: {
         value: { type: String, default: "" },
         label: { type: String, default: "Input Nominal Voltage (V) & frequency (Hz) with tolerances." },
+        units: { type: String, default: "Volts & Hertz" },
       },
       Output_Voltage_Range: {
         value: { type: String, default: "" },
         label: { type: String, default: "Output Voltage Range (V) and Current Range (A)" },
+        units: { type: String, default: "Volts & Amps" },
       },
       Reset_period_recommended: {
         value: { type: String, default: "" },
@@ -592,10 +617,12 @@ const ChargerSpecificationSchema = mongoose.Schema({
           default:
             "Reset period recommended between the end of the discharge and the start of  the charge                                                  ",
         },
+        units: { type: String, default: "Minutes/Hours" },
       },
       Recommended_duration_of_a_complete_charge: {
         value: { type: String, default: "" },
         label: { type: String, default: "Recommended duration of a complete charge  " },
+        units: { type: String, default: "Minutes/Hours" },
       },
     },
   },
@@ -605,6 +632,7 @@ const ChargerSpecificationSchema = mongoose.Schema({
       Continuous_rating_of_charger_socket: {
         value: { type: String, default: "" },
         label: { type: String, default: "Continuous rating of charger socket (A)" },
+        units: { type: String, default: "Amps" },
       },
       Time_rating_charger_socket_if_any: {
         value: { type: String, default: "" },
@@ -617,19 +645,20 @@ const ChargerSpecificationSchema = mongoose.Schema({
       Maximum_initial_in_rush_current: {
         value: { type: String, default: "" },
         label: { type: String, default: "Maximum initial in-rush current (A)" },
+        units: { type: String, default: "Amps" },
       },
     },
   },
-  Electrical_details_of_vehicle: {
-    label: { type: String, default: "Electrical details of vehicle for functional safety " },
-    properties: {
-      Upload_Schematic_Drawing: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload Schematic Drawing highlighting all the major Electrical  devices in the vehicle" },
-        display: { type: Boolean, default: false },
-      },
-    },
-  },
+  // Electrical_details_of_vehicle: {
+  //   label: { type: String, default: "Electrical details of vehicle for functional safety " },
+  //   properties: {
+  //     Upload_Schematic_Drawing: {
+  //       value: { type: String, default: "" },
+  //       label: { type: String, default: "Upload Schematic Drawing highlighting all the major Electrical  devices in the vehicle" },
+  //       display: { type: Boolean, default: false },
+  //     },
+  //   },
+  // },
 })
 
 const ElectricalSafetyDeviceSchema = mongoose.Schema({
@@ -637,7 +666,7 @@ const ElectricalSafetyDeviceSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "supplier",
   },
-  Specifications_of_circuit_breakers: {
+  Specifications_of_circuit_breakers_or_fuses_used_for_protection_of_batteries_or_power_train: {
     label: { type: String, default: "Specifications of circuit breakers/ fuses used for protection of batteries / power-train " },
     properties: {
       IS_IEC_specifications: {
@@ -647,10 +676,12 @@ const ElectricalSafetyDeviceSchema = mongoose.Schema({
       Rating: {
         value: { type: String, default: "" },
         label: { type: String, default: "Rating (A)" },
+        units: { type: String, default: "Amps" },
       },
       Opening_time: {
         value: { type: String, default: "" },
         label: { type: String, default: "Opening time (ms)" },
+        units: { type: String, default: "ms" },
       },
     },
   },
@@ -667,15 +698,16 @@ const VehicleElectricalSpecificationSchema = mongoose.Schema({
       Working_voltage_Operating_Voltage: {
         value: { type: String, default: "" },	
         label: { type: String, default: "Working voltage/ Operating Voltage of Electrical System / Traction System" },
+        units: { type: String, default: "Volts" },
       },
-      Schematic_highlighting_physical_location: {
-        value: { type: String, default: "" },
-        label: {
-          type: String,
-          default: "Schematic highlighting physical location of live parts having working voltage greater than 60 V DC or 25 V AC",
-        },
-        display: { type: Boolean, default: false },
-      },
+      // Schematic_highlighting_physical_location: {
+      //   value: { type: String, default: "" },
+      //   label: {
+      //     type: String,
+      //     default: "Schematic highlighting physical location of live parts having working voltage greater than 60 V DC or 25 V AC",
+      //   },
+      //   display: { type: Boolean, default: false },
+      // },
     },
   },
   Electric_harness: {
@@ -693,11 +725,11 @@ const VehicleElectricalSpecificationSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Is Conduits provided?" },
       },
-      List_of_exposed_conductive: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "List of exposed conductive / Live parts of on-board equipment." },
-        display: { type: Boolean, default: false },
-      },
+      // List_of_exposed_conductive: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "List of exposed conductive / Live parts of on-board equipment." },
+      //   display: { type: Boolean, default: false },
+      // },
       Any_potential_equalization_resistance: {
         value: { type: String, default: "" },
         label: { type: String, default: "Any potential equalization resistance used to electrically connect these parts" },
@@ -758,10 +790,12 @@ const PowerControllerSchema = mongoose.Schema({
       Maximum_effective_current: {
         value: { type: String, default: "" },
         label: { type: String, default: "Maximum effective current supplied to the Motor (A)" },
+        units: { type: String, default: "Amps" },
       },
       Voltage_Utilization: {
         value: { type: String, default: "" },
         label: { type: String, default: "Voltage Utilization range of Controller" },
+        units: { type: String, default: "Volts" },
       },
     },
   },

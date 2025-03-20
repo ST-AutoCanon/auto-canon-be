@@ -502,7 +502,7 @@ const RearRegistrationPlatelampSchema = mongoose.Schema({
       },
       TAC_Validity: {
         value: { type: String, default: "" },
-        label: { type: String, default: "TAC VAlidity" },
+        label: { type: String, default: "TAC Validity" },
       },
       Possible_date_of_submission_of_required_approval: {
         value: { type: String, default: "" },
@@ -649,10 +649,11 @@ const DirectionIndicatorLampSchema = mongoose.Schema({
       },
       TAC_Number: {
         value: { type: String, default: "" },
-        label: {
-          type: String,
-          default: "TAC number of Rear Registration Plate Lamp",
-        },
+        // label: {
+        //   type: String,
+        //   default: "TAC number of Rear Direction Indicator",
+        // },
+        label: { type: String, default: "TAC No. of Rear Direction Indicator" },
       },
       TAC_Validity: {
         value: { type: String, default: "" },

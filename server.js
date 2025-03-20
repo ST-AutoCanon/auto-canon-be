@@ -25,14 +25,9 @@ app.use('/footerUploads', express.static(path.join(__dirname, 'footerUploads')))
 
 //
 app.get("/api", async (req, res) => {
-  console.log(`welcome to nodejs tutorial`)
   res.status(200).json({'message': `node-app running on port ${port}`})
 });
 
 getMongoConnection()
 registerRoutes(app)
-// // Use form routes for barrels
-// app.use("/barrels", barrelRoutes);
 app.listen(port, () => console.log(`server started on port ${port}`))
-
-

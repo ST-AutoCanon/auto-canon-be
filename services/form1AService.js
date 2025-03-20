@@ -330,12 +330,12 @@ const Brakes = async (supplierId, form1A) => {
     Brief_Brake_Information: {},
     Parts_of_Brake_System: {},
     ABS: {},
-    Drawing: {},
+    // Drawing: {},
     ECU: {},
     BrakeTypes: {},
     Service_Brake_Controls: {},
     Free_Play_Ratio: {},
-    Wheel_Cyclinders: {},
+    Wheel_Cylinders: {},
     Parking_Brake: {},
     Re_Generative_Brake:{},
   }
@@ -583,7 +583,9 @@ const Payload = async (supplierId, form1A) => {
 const WindscreenWipingSystem = async (supplierId, form1A, requestId) => {
   const WindscreenWipingSystem = {
     supplier: supplierId,
+    Other_Glazing: {},
     Windscreen_and_Wiping_System: {},
+   
   }
   console.log(`creating data: ${JSON.stringify(WindscreenWipingSystem)} data for form1A: ${form1A._id}`)
   const updateform1AData = await form1ASchema.findByIdAndUpdate(
@@ -626,25 +628,26 @@ const SeatingArrangement = async (supplierId, form1A) => {
   return updateform1AData
 }
 
-const RPoint = async (supplierId, form1A) => {
-  const RPoint = {
-    supplier: supplierId,
-    R_Point: {},
-  }
-  console.log(`creating data: ${JSON.stringify(RPoint)} data for form1A: ${form1A._id}`)
-  const updateform1AData = await form1ASchema.findByIdAndUpdate(
-    form1A._id,
-    { $push: { "RPoint.RPointData": RPoint } },
-    { returnDocument: "after" }
-  )
-  console.log(`updateform1AData: ${updateform1AData}`)
-  return updateform1AData
-}
+// const RPoint = async (supplierId, form1A) => {
+//   const RPoint = {
+//     supplier: supplierId,
+//     R_Point: {},
+//   }
+//   console.log(`creating data: ${JSON.stringify(RPoint)} data for form1A: ${form1A._id}`)
+//   const updateform1AData = await form1ASchema.findByIdAndUpdate(
+//     form1A._id,
+//     { $push: { "RPoint.RPointData": RPoint } },
+//     { returnDocument: "after" }
+//   )
+//   console.log(`updateform1AData: ${updateform1AData}`)
+//   return updateform1AData
+// }
 
 const SeatingDimension = async (supplierId, form1A) => {
   const SeatingDimension = {
     supplier: supplierId,
     SeatingDimension: {},
+    R_Point: {},
   }
   console.log(`creating data: ${JSON.stringify(SeatingDimension)} data for form1A: ${form1A._id}`)
   const updateform1AData = await form1ASchema.findByIdAndUpdate(
@@ -757,7 +760,7 @@ exports.getForm1AForRequestId = async (requestId) => {
     .populate({path:"Payload.PayloadData.supplier"})
     .populate({path:"Windscreen_and_Wiping_System.WindscreenAndWipingSystem.supplier"})
     .populate({path:"Seating_Arrangement.SeatingArrangementData.supplier"})
-    .populate({path:"RPoint.RPointData.supplier"})
+    // .populate({path:"RPoint.RPointData.supplier"})
     .populate({path:"SeatingDimension.SeatingDimensionData.supplier"})
     .populate({path:"H_Point.HPointData.supplier"})
     .populate({path:"Rear_Entry_Provision.RearEntryProvision.supplier"})
@@ -854,8 +857,8 @@ exports.createEmptyForm1AComponentDataForSupplier = async (component, supplierId
         return await WindscreenWipingSystem(supplierId, form1A, requestId)
       case "Seating Arrangement":
         return await SeatingArrangement(supplierId, form1A)
-      case "R Point":
-        return await RPoint(supplierId, form1A)
+      // case "R Point":
+      //   return await RPoint(supplierId, form1A)
       case "Seating Dimension":
         return await SeatingDimension(supplierId, form1A)
       case "H Point":
@@ -1805,17 +1808,17 @@ if (data.ABS) {
     }
   }
 }
-if (data.Drawing) {
-  updatedform1AData = await form1ASchema.findByIdAndUpdate(
-    form1A._id,
-    {
-      $set: {
-        "Brakes.BrakesData.$[brakesData].Drawing": data.Drawing,
-      },
-    },
-    { arrayFilters: [{ "brakesData._id": data._id }], returnDocument: "after" }
-  )
-}
+// if (data.Drawing) {
+//   updatedform1AData = await form1ASchema.findByIdAndUpdate(
+//     form1A._id,
+//     {
+//       $set: {
+//         "Brakes.BrakesData.$[brakesData].Drawing": data.Drawing,
+//       },
+//     },
+//     { arrayFilters: [{ "brakesData._id": data._id }], returnDocument: "after" }
+//   )
+// }
 if (data.ECU) {
   updatedform1AData = await form1ASchema.findByIdAndUpdate(
     form1A._id,
@@ -1870,12 +1873,12 @@ if (data.Free_Play_Ratio) {
     { arrayFilters: [{ "brakesData._id": data._id }], returnDocument: "after" }
   )
 }
-if (data.Wheel_Cyclinders) {
+if (data.Wheel_Cylinders) {
   updatedform1AData = await form1ASchema.findByIdAndUpdate(
     form1A._id,
     {
       $set: {
-        "Brakes.BrakesData.$[brakesData].Wheel_Cyclinders": data.Wheel_Cyclinders,
+        "Brakes.BrakesData.$[brakesData].Wheel_Cylinders": data.Wheel_Cylinders,
       },
     },
     { arrayFilters: [{ "brakesData._id": data._id }], returnDocument: "after" }
@@ -2135,6 +2138,17 @@ if (data.Payload) {
     { arrayFilters: [{ "payloadData._id": data._id }], returnDocument: "after" }
   )
 }
+if (data.Other_Glazing) {
+  updatedform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    {
+      $set: {
+        "Windscreen_and_Wiping_System.WindscreenAndWipingSystem.$[windscreenAndWipingSystem].Other_Glazing": data.Other_Glazing,
+      },
+    },
+    { arrayFilters: [{ "windscreenAndWipingSystem._id": data._id }], returnDocument: "after" }
+  )
+}
 if (data.Windscreen_and_Wiping_System) {
   updatedform1AData = await form1ASchema.findByIdAndUpdate(
     form1A._id,
@@ -2168,23 +2182,34 @@ if (data.Seating_Arrangement) {
     { arrayFilters: [{ "seatingArrangementData._id": data._id }], returnDocument: "after" }
   )
 }
-if (data.R_Point) {
-  updatedform1AData = await form1ASchema.findByIdAndUpdate(
-    form1A._id,
-    {
-      $set: {
-        "RPoint.RPointData.$[rPointData].R_Point": data.R_Point,
-      },
-    },
-    { arrayFilters: [{ "rPointData._id": data._id }], returnDocument: "after" }
-  )
-}
+// if (data.R_Point) {
+//   updatedform1AData = await form1ASchema.findByIdAndUpdate(
+//     form1A._id,
+//     {
+//       $set: {
+//         "RPoint.RPointData.$[rPointData].R_Point": data.R_Point,
+//       },
+//     },
+//     { arrayFilters: [{ "rPointData._id": data._id }], returnDocument: "after" }
+//   )
+// }
 if (data.SeatingDimension) {
   updatedform1AData = await form1ASchema.findByIdAndUpdate(
     form1A._id,
     {
       $set: {
         "SeatingDimension.SeatingDimensionData.$[seatingDimensionData].SeatingDimension": data.SeatingDimension,
+      },
+    },
+    { arrayFilters: [{ "seatingDimensionData._id": data._id }], returnDocument: "after" }
+  )
+}
+if (data.R_Point) {
+  updatedform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    {
+      $set: {
+        "SeatingDimension.SeatingDimensionData.$[seatingDimensionData].R_Point": data.R_Point,
       },
     },
     { arrayFilters: [{ "seatingDimensionData._id": data._id }], returnDocument: "after" }
@@ -2363,8 +2388,8 @@ const findOrCreateForm1A = async (requestId) => {
         await WindscreenWipingSystem(defaultSupplier._id, form1A)
         console.log(`adding defaultSupplier for SeatingArrangement of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
         await SeatingArrangement(defaultSupplier._id, form1A)
-        console.log(`adding defaultSupplier for RPoint of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
-        await RPoint(defaultSupplier._id, form1A)
+        // console.log(`adding defaultSupplier for RPoint of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
+        // await RPoint(defaultSupplier._id, form1A)
         console.log(`adding defaultSupplier for SeatingDimension of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
         await SeatingDimension(defaultSupplier._id, form1A)
         console.log(`adding defaultSupplier for HPoint of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)

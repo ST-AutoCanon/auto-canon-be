@@ -22,7 +22,7 @@ function defaultSupplierModel(){
 
 exports.getMongoConnection = async () => {
   try {
-    const mongoConnectionURL = `mongodb://${MONGO_USER}:${MONGO_PWD}@${MONGO_IP}:${MONGO_PORT}/sukalpadb?authSource=admin`;
+    const mongoConnectionURL =`mongodb://${MONGO_USER}:${MONGO_PWD}@${MONGO_IP}:${MONGO_PORT}/sukalpadb?authSource=admin`;
     mongoose.set("strictQuery", true)
     const mongoConnection = await mongoose.connect(`${mongoConnectionURL}`)
     if (mongoConnection){
@@ -55,4 +55,3 @@ async function processDefaultSupplier() {
     console.log(`exception occured: ${error}`);
   }
 }
-

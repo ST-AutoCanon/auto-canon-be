@@ -8,11 +8,11 @@ const TyresSchema = mongoose.Schema({
   Tyre_Description: {
     label: { type: String, default: "Tyre Description" },
     properties: {
-      Laden: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Laden" },
-        display: {type: Boolean, default: false}
-      },
+      // Laden: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Laden" },
+      //   display: {type: Boolean, default: false}
+      // },
       Tyre_size_designation_including_ply_rating: {
         value: { type: String, default: "" },
         label: {
@@ -63,6 +63,7 @@ const TractionBatterypackSchema = mongoose.Schema({
       Battery_rating: {
         value: { type: String, default: "" },
         label: { type: String, default: "Battery rating (Ah)" },
+        units: { type: String, default: "Ah" },
       },
     },
   },
@@ -104,28 +105,28 @@ const VehicleGeneralInformationScehma = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Type Of Vehicle" },
       },
-      Vehicle_category: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Vehicle category (IS 14272)" },
-        display: { type: Boolean, default: false },
-      },
+      // Vehicle_category: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Vehicle category (IS 14272) " },
+      //   display: { type: Boolean, default: false },
+      // },
       Manufacturer_name_and_address: {
         value: { type: String, default: "" },
         label: { type: String, default: "Manufacturer’s name and address" },
       },
-      Name_and_address_of_the_vehicle_importer: {
-        value: { type: String, default: "" },
-        label: {
-          type: String,
-          default: "Name and address of the vehicle importer",
-        },
-        display: { type: Boolean, default: false },
-      },
-      variant: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "variant(s)" },
-        display: { type: Boolean, default: false },
-      },
+      // Name_and_address_of_the_vehicle_importer: {
+      //   value: { type: String, default: "" },
+      //   label: {
+      //     type: String,
+      //     default: "Name and address of the vehicle importer",
+      //   },
+      //   display: { type: Boolean, default: false },
+      // },
+      // variant: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "variant(s)" },
+      //   display: { type: Boolean, default: false },
+      // },
     },
   },
 })
@@ -158,43 +159,43 @@ const Vehicle_DimensionsSchema = mongoose.Schema({
       Wheel_base: {
         value: { type: String, default: "" },
         label: { type: String, default: "Wheel base (mm)" },
-        units: {type: String, default: "mm"},
+        units: { type: String, default: "mm" },
         display: { type: Boolean, default: false },
       },
       Overall_width: {
         value: { type: String, default: "" },
         label: { type: String, default: "Overall width (mm)" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
       Overall_length: {
         value: { type: String, default: "" },
         label: { type: String, default: "Overall length (mm)" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
       Overall_height: {
         value: { type: String, default: "" },
         label: { type: String, default: "Overall height (mm)" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
       Front_track: {
         value: { type: String, default: "" },
         label: { type: String, default: "Front track (mm)" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
       Rear_track: {
         value: { type: String, default: "" },
         label: { type: String, default: "Rear track (mm)" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
       Min_ground_clearance: {
         value: { type: String, default: "" },
         label: { type: String, default: "Min. ground clearance (mm)" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
       Cargo_box_dimensions_if_fitted: {
         value: { type: String, default: "" },
         label: { type: String, default: "Cargo box dimensions (mm) if fitted" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
     },
   },
@@ -204,21 +205,21 @@ const Vehicle_DimensionsSchema = mongoose.Schema({
       Front_Body_Overhang: {
         value: { type: String, default: "" },
         label: { type: String, default: "Front Body Overhang (mm)" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
       Rear_Body_Overhang: {
         value: { type: String, default: "" },
         label: { type: String, default: "Rear Body Overhang (mm)" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
-      Upload_drawing_showing_the_seating_layout_of_the_vehicle: {
-        value: { type: String, default: "" },
-        label: {
-          type: String,
-          default: "Upload drawing showing the seating layout of the vehicle",
-        },
-        display: { type: Boolean, default: false },
-      },
+      // Upload_drawing_showing_the_seating_layout_of_the_vehicle: {
+      // value: { type: String, default: "" },
+      // label: {
+      //   type: String,
+      //  default: "Upload drawing showing the seating layout of the vehicle",
+      //   },
+      // display: { type: Boolean, default: false },
+      //  },
     },
   },
   Frame: {
@@ -227,7 +228,7 @@ const Vehicle_DimensionsSchema = mongoose.Schema({
       Frames_Long_member_size: {
         value: { type: String, default: "" },
         label: { type: String, default: "Frames Long member size(mm)" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
       Number_of_cross_members_if_any: {
         value: { type: String, default: "" },
@@ -241,16 +242,17 @@ const Vehicle_DimensionsSchema = mongoose.Schema({
       Frames_overhang_at_front: {
         value: { type: String, default: "" },
         label: { type: String, default: "Frames overhang at front" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
       Frames_overhang_at_rear_end: {
         value: { type: String, default: "" },
         label: { type: String, default: "Frames overhang at rear end" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
       Load_body_platform_area: {
         value: { type: String, default: "" },
         label: { type: String, default: "Load body platform area" },
+        units: { type: String, default: "mm Sq" },
       },
     },
   },
@@ -267,7 +269,7 @@ const WeightsSchema = mongoose.Schema({
       Vehicle_kerb_weight: {
         value: { type: String, default: "" },
         label: { type: String, default: "Vehicle kerb weight" },
-        units: {type: String, default: "Kg"},
+        units: { type: String, default: "Kg" },
         display: { type: Boolean, default: false },
       },
     },
@@ -278,16 +280,18 @@ const WeightsSchema = mongoose.Schema({
       Gross_Vehicle_Weight: {
         value: { type: String, default: "" },
         label: { type: String, default: "Gross Vehicle Weight" },
-        units: {type: String, default: "Kg"},
+        units: { type: String, default: "Kg" },
         display: { type: Boolean, default: false },
       },
       GVW_Distribution_on_front_axle: {
         value: { type: String, default: "" },
         label: { type: String, default: "GVW Distribution on front axle" },
+        units: { type: String, default: "Kg" }
       },
       GVW_Distribution_on_rear_axle: {
         value: { type: String, default: "" },
         label: { type: String, default: "GVW Distribution on rear axle" },
+        units: { type: String, default: "Kg" }
       },
     },
   },
@@ -297,31 +301,31 @@ const WeightsSchema = mongoose.Schema({
       Maximum_gradeability: {
         value: { type: String, default: "" },
         label: { type: String, default: "Maximum gradeability" },
-        units: {type: String, default: "% or °(Degree)"}
+        units: { type: String, default: "% or °(Degree)" }
       },
     },
   },
   Maximum_Carrying_capacity: {
     label: { type: String, default: "Maximum Carrying capacity" },
     properties: {
-      Max_permissible_weight: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Maximum technically permissible  weight  (maximum permissible axle weight) on each of the axles" },
-        units: { type: String, default: "Kg" },
-        display: { type: Boolean, default: false },
-      },
-      Max_permissible_weight_front_axle: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Maximum technically permissible  weight distribution on front axle" },
-        units: { type: String, default: "Kg" },
-        display: { type: Boolean, default: false },
-      },
-      Max_permissible_weight_rear_axle: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Maximum technically permissible  weight distribution on rear axle" },
-        units: { type: String, default: "Kg" },
-        display: { type: Boolean, default: false },
-      },
+      // Max_permissible_weight: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Maximum technically permissible  weight  (maximum permissible axle weight) on each of the axles" },
+      //   units: { type: String, default: "Kg" },
+      //   display: { type: Boolean, default: false },
+      // },
+      // Max_permissible_weight_front_axle: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Maximum technically permissible  weight distribution on front axle" },
+      //   units: { type: String, default: "Kg" },
+      //   display: { type: Boolean, default: false },
+      // },
+      // Max_permissible_weight_rear_axle: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Maximum technically permissible  weight distribution on rear axle" },
+      //   units: { type: String, default: "Kg" },
+      //   display: { type: Boolean, default: false },
+      // },
       Max_GCW_kg: {
         value: { type: String, default: "" },
         label: { type: String, default: "Maximum GCW kg (for articulated or combination vehicles)" },
@@ -347,6 +351,7 @@ const SteeringSuspensionSchema = mongoose.Schema({
         },
         display: { type: Boolean, default: false },
       },
+
       Specify_steering_gear_ratio: {
         value: { type: String, default: "" },
         label: { type: String, default: "Specify steering gear ratio" },
@@ -355,7 +360,7 @@ const SteeringSuspensionSchema = mongoose.Schema({
       Steering_wheel_diameter: {
         value: { type: String, default: "" },
         label: { type: String, default: "Steering wheel diameter mm" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
     },
   },
@@ -431,6 +436,14 @@ const BrakesSchema = mongoose.Schema({
       Select_Type_of_Braking_System: {
         value: { type: String, default: "" },
         label: { type: String, default: "Select Type of Braking System" },
+        display: { type: Boolean, default: false },
+      },
+      Type_of_Shock_absorbers_provided_at_the_front_and_Rear: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Type of Shock absorbers provided at the front and Rear",
+        },
         display: { type: Boolean, default: false },
       },
     },
@@ -532,7 +545,7 @@ const SteeringSchema = mongoose.Schema({
       Steering_wheel_diameter: {
         value: { type: String, default: "" },
         label: { type: String, default: "Steering wheel diameter mm" },
-        units: {type: String, default: "mm"}
+        units: { type: String, default: "mm" }
       },
     },
   },
@@ -546,12 +559,20 @@ const VehiclePerformanceSchema = mongoose.Schema({
   Performance: {
     label: { type: String, default: "Performance" },
     properties: {
-      Select_Type_Steering_control_provided: {
+      // Select_Type_Steering_control_provided: {
+      //   value: { type: String, default: "" },
+      //   label: {
+      //     type: String,
+      //     default: "Select Type Steering control provided",
+      //   },
+      // },
+      Electrical_energy_consumption: {
         value: { type: String, default: "" },
         label: {
           type: String,
-          default: "Select Type Steering control provided",
-        },
+          default: "Electrical energy consumption of Vehicle in W-h/km, as per AIS-040",          
+        },   
+        units: { type: String, default: "W/Km" },     
       },
       Vehicle_Max_Speed_in_unladen_condition: {
         value: { type: String, default: "" },
@@ -559,6 +580,7 @@ const VehiclePerformanceSchema = mongoose.Schema({
           type: String,
           default: "Vehicle Max Speed in unladen condition",
         },
+        units: { type: String, default: "Km/h" },
       },
       Vehicle_Max_Speed_in_laden_condition: {
         value: { type: String, default: "" },
@@ -566,6 +588,7 @@ const VehiclePerformanceSchema = mongoose.Schema({
           type: String,
           default: "Vehicle Max Speed in laden condition",
         },
+        units: { type: String, default: "Km/h" },
       },
     },
   },

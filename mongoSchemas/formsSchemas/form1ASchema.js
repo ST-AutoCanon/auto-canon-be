@@ -106,10 +106,12 @@ const TyresSchema = mongoose.Schema({
       Laden: {
         value: { type: String, default: "" },
         label: { type: String, default: "Laden" },
+        units: { type: String, default: "Kg/cm2 /kpa /psi" },
       },
       Unladen_Driver: {
         value: { type: String, default: "" },
         label: { type: String, default: "Unladen(Driver)" },
+        units: { type: String, default: "Kg/cm2 /kpa /psi" },
       },
       Tyre_wheel_combinations_Sizes: {
         value: { type: String, default: "" },
@@ -154,6 +156,7 @@ const WheelRimSchema = mongoose.Schema({
       Size: {
         value: { type: String, default: "" },
         label: { type: String, default: "Size" },
+        units: { type: String, default: "Inch/mm" }
       },
       Rim_Type: {
         value: { type: String, default: "" },
@@ -179,6 +182,7 @@ const WheelRimSchema = mongoose.Schema({
       Size: {
         value: { type: String, default: "" },
         label: { type: String, default: "Size" },
+        units: { type: String, default: "Inch/mm" }
       },
       Rim_Type: {
         value: { type: String, default: "" },
@@ -202,28 +206,29 @@ const HornSchema = mongoose.Schema({
       },
       Select_Horn_Type: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Select Horn Type" },
+        label: { type: String, default: "Select Horn Type " },
       },
       Operating_voltage_of_Horn: {
         value: { type: String, default: "" },
         label: { type: String, default: "Operating voltage of the Horn" },
+        units: { type: String, default: "V" },
       },
       No_of_Horns: {
         value: { type: String, default: "" },
-        label: { type: String, default: "No. of Horns used in the vehicle" },
+        label: { type: String, default: "No. of Horns used in the vehicle " },
       },
       TAC_Number_Validity: {
         value: { type: String, default: "" },
         label: { type: String, default: "TAC Number & Its Validity" },
       },
-      Drawing_showing_location: {
-        value: { type: String, default: "" },
-        label: {
-          type: String,
-          default: "Drawing(s) showing the location of the audible warning device(s) in relation to the structure of the vehicle",
-        },
-        display: { type: Boolean, default: false },
-      },
+      // Drawing_showing_location: {
+      //   value: { type: String, default: "" },
+      //   label: {
+      //     type: String,
+      //     default: "Drawing(s) showing the location of the audible warning device(s) in relation to the structure of the vehicle",
+      //   },
+      //   display: { type: Boolean, default: false },
+      // },
       Dimensional_material_Details: {
         value: { type: String, default: "" },
         label: { type: String, default: "Dimensional & material Details of the part in front of the Horn(s)  which may obstruct audibility" },
@@ -343,7 +348,7 @@ const HeadLampSchema = mongoose.Schema({
       },
       Select_Type_led_dipped_beam_headlamp: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Select Type of lens used in the Dipped Beam headlamp" },
+        label: { type: String, default: "Select Type of lens used in the Dipped Beam headlamp " },
       },
       TAC_Number: {
         value: { type: String, default: "" },
@@ -669,39 +674,39 @@ const HazardWarningLampSchema = mongoose.Schema({
     },
   },
   Front_Dir_indicator_Bulb_Type: {
-    label: { type: String, default: "Front Direction indicator Bulb Type" },
+    label: { type: String, default: "Hazard warning Lamp LED Type" },
     properties: {
       Make_Front_Dir_Indicators: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Make of Front Direction Indicators" },
+        label: { type: String, default: "Make" },
       },
       Category_per_AIS_035: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Category as per AIS-035" },
-      },
-      TAC_Dir_Indicator: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "TAC Number of Direction Indicator" },
-      },
-    },
-  },
-  Hazard_warning_Lamp_LED_Type: {
-    label: { type: String, default: "Hazard warning Lamp LED Type" },
-    properties: {
-      Make: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Make" },
-      },
-      Category_per_AIS_034: {
-        value: { type: String, default: "" },
         label: { type: String, default: "Category as per AIS-034" },
       },
-      TAC_BIS_EMarking_num: {
+      TAC_Dir_Indicator: {
         value: { type: String, default: "" },
         label: { type: String, default: "Identification: TAC No. or BIS License No. or E- Marking" },
       },
     },
   },
+  // Hazard_warning_Lamp_LED_Type: {
+  //   label: { type: String, default: "Hazard warning Lamp LED Type" },
+  //   properties: {
+  //     Make: {
+  //       value: { type: String, default: "" },
+  //       label: { type: String, default: "Make" },
+  //     },
+  //     Category_per_AIS_034: {
+  //       value: { type: String, default: "" },
+  //       label: { type: String, default: "Category as per AIS-034" },
+  //     },
+  //     TAC_BIS_EMarking_num: {
+  //       value: { type: String, default: "" },
+  //       label: { type: String, default: "Identification: TAC No. or BIS License No. or E- Marking" },
+  //     },
+  //   },
+  // },
   Rear_Hazard_Lamp: {
     label: { type: String, default: "Rear Hazard Lamp" },
     properties: {
@@ -738,15 +743,15 @@ const HazardWarningLampSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Maximum intensity of Head lamp" },
       },
-      Diagram_location_lighting: {
-        value: { type: String, default: "" },
-        label: {
-          type: String,
-          default: "Diagram showing the location of the lighting and light-signaling devices on vehicle with relevant dimensions (see AIS-009)",
-          
-        },
-        display: { type: Boolean, default: false },
-      },
+      // Diagram_location_lighting: {
+      //   value: { type: String, default: "" },
+      //   label: {
+      //     type: String,
+      //     default: "Diagram showing the location of the lighting and light-signaling devices on vehicle with relevant dimensions (see AIS-009)",
+
+      //   },
+      //   display: { type: Boolean, default: false },
+      // },
     },
   },
 })
@@ -914,15 +919,15 @@ const RearViewMirrorSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Select the Mirror Class" },
       },
-      Drawing_Installation_Dimension: {
-        value: { type: String, default: "" },
-        label: {
-          type: String,
-          default:
-            "Drawing(s) showing the location & Installation Dimension Details of the rear-view mirror(s) in relation to the structure of the vehicle",
-          },
-          display: { type: Boolean, default: false },
-      },
+      // Drawing_Installation_Dimension: {
+      //   value: { type: String, default: "" },
+      //   label: {
+      //     type: String,
+      //     default:
+      //       "Drawing(s) showing the location & Installation Dimension Details of the rear-view mirror(s) in relation to the structure of the vehicle",
+      //   },
+      //   display: { type: Boolean, default: false },
+      // },
       Precise_vehicle_structure: {
         value: { type: String, default: "" },
         label: {
@@ -1048,16 +1053,16 @@ const GeneralArrangementVehicleSchema = mongoose.Schema({
   General_arrangement_vehicle: {
     label: { type: String, default: "General arrangement of the vehicle" },
     properties: {
-      Upload_Drawing_Vehicle: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload Drawing Showing Typical Vehicle" },
-        display: { type: Boolean, default: false },
-      },
-      Upload_Drawing_complete_Vehicle: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload Drawing of the complete Vehicle indicating overall length, width and height." },
-        display: { type: Boolean, default: false },
-      },
+      // Upload_Drawing_Vehicle: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Upload Drawing Showing Typical Vehicle" },
+      //   display: { type: Boolean, default: false },
+      // },
+      // Upload_Drawing_complete_Vehicle: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Upload Drawing of the complete Vehicle indicating overall length, width and height." },
+      //   display: { type: Boolean, default: false },
+      // },
       Number_of_axles_and_Wheels: {
         value: { type: String, default: "" },
         label: { type: String, default: "Number of axles and Wheels" },
@@ -1119,6 +1124,7 @@ const WeightsSchema = mongoose.Schema({
       Distribution_weight_between_axles: {
         value: { type: String, default: "" },
         label: { type: String, default: "Distribution of that weight between the axles" },
+        units: { type: String, default: "Kg" },
       },
       Reference_weight: {
         value: { type: String, default: "" },
@@ -1138,6 +1144,7 @@ const WeightsSchema = mongoose.Schema({
       Division_of_weight_between_axles: {
         value: { type: String, default: "" },
         label: { type: String, default: "Division of that weight  between the axles" },
+        units: { type: String, default: "Kg" }
       },
     },
   },
@@ -1162,6 +1169,7 @@ const WeightsSchema = mongoose.Schema({
       Max_GCW_kg: {
         value: { type: String, default: "" },
         label: { type: String, default: "Maximum GCW kg (for articulated or combination vehicles)" },
+        units: { type: String, default: "Kg" },
       },
     },
   },
@@ -1175,11 +1183,11 @@ const SuspensionSchema = mongoose.Schema({
   Suspension: {
     label: { type: String, default: "Suspension" },
     properties: {
-      Upload_Drawing_Suspension: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload Drawing Suspension arrangement" },
-        display: { type: Boolean, default: false },
-      },
+      // Upload_Drawing_Suspension: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Upload Drawing Suspension arrangement" },
+      //   display: { type: Boolean, default: false },
+      // },
       Brief_desc_ECUs: {
         value: { type: String, default: "" },
         label: { type: String, default: "Brief description of the ECUs if any used in the suspension" },
@@ -1208,11 +1216,11 @@ const BrakesSchema = mongoose.Schema({
   Brief_Brake_Information: {
     label: { type: String, default: "Brief Brake Information" },
     properties: {
-      Drawing_Braking_System: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload Drawing showing the Schematic Layout of Braking System" },
-        display: { type: Boolean, default: false },
-      },
+      // Drawing_Braking_System: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Upload Drawing showing the Schematic Layout of Braking System" },
+      //   display: { type: Boolean, default: false },
+      // },
       Make_of_Brake: {
         value: { type: String, default: "" },
         label: { type: String, default: "Make of Brake system" },
@@ -1261,6 +1269,7 @@ const BrakesSchema = mongoose.Schema({
       Front_rear_braking: {
         value: { type: String, default: "" },
         label: { type: String, default: "Front and rear braking area" },
+        units: { type: String, default: "CM Sq." },
       },
       Diameter_front_rear_disc_drum: {
         value: { type: String, default: "" },
@@ -1284,20 +1293,20 @@ const BrakesSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Make of the Sensors used in each Wheel to detect wheel lockup" },
       },
-      ID_SensorsHydraulic_Reservoir: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Identification number(ID) or  Part No. of Sensors" },
-        display: { type: Boolean, default: false },
-      },
+      // ID_SensorsHydraulic_Reservoir: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Identification number(ID) or  Part No. of Sensors" },
+      //   display: { type: Boolean, default: false },
+      // },
       ABS_Modulator_front_Rear_Wheel: {
         value: { type: String, default: "" },
         label: { type: String, default: "make of ABS Modulator used for front and Rear Wheel" },
       },
-      ID_Modulator_Each_wheel: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Identification number(ID) or  Part No of Modulator of Each wheel" },
-        display: { type: Boolean, default: false },
-      },
+      // ID_Modulator_Each_wheel: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Identification number(ID) or  Part No of Modulator of Each wheel" },
+      //   display: { type: Boolean, default: false },
+      // },
       Make_of_ABS_ECU: {
         value: { type: String, default: "" },
         label: { type: String, default: "Make of ABS ECU" },
@@ -1312,16 +1321,16 @@ const BrakesSchema = mongoose.Schema({
       },
     },
   },
-  Drawing: {
-    label: { type: String, default: "Drawing" },
-    properties: {
-      Drawing_parking_brake_and_mechanism: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload drawing showing details of parking brake and its mechanism" },
-        display: { type: Boolean, default: false },
-      },
-    },
-  },
+  // Drawing: {
+  //   label: { type: String, default: "Drawing" },
+  //   properties: {
+  //     Drawing_parking_brake_and_mechanism: {
+  //       value: { type: String, default: "" },
+  //       label: { type: String, default: "Upload drawing showing details of parking brake and its mechanism" },
+  //       display: { type: Boolean, default: false },
+  //     },
+  //   },
+  // },
   ECU: {
     label: { type: String, default: "ECU" },
     properties: {
@@ -1387,10 +1396,11 @@ const BrakesSchema = mongoose.Schema({
       Nominal_Size_master_cylinder: {
         value: { type: String, default: "" },
         label: { type: String, default: "Nominal Size of master cylinder (Dia. & stroke), mm" },
+        // units: { type: String, default: "Minutes/Hours" },
       },
     },
   },
-  Wheel_Cyclinders: {
+  Wheel_Cylinders: {
     label: { type: String, default: "Wheel Cylinder" },
     properties: {
       Front_Wheel_Cylinder_Dia: {
@@ -1429,7 +1439,7 @@ const BrakesSchema = mongoose.Schema({
     properties: {
       On_which_wheel_Parking_Brake_is_Acting: {
         value: { type: String, default: "" },
-        label: { type: String, default: "On which wheel Parking Brake is Acting " },
+        label: { type: String, default: "On which wheel Parking Brake is Acting? " },
       },
       Type_parking_brake_Friction_member: {
         value: { type: String, default: "" },
@@ -1442,6 +1452,10 @@ const BrakesSchema = mongoose.Schema({
       Type_of_locking_device_used_for_parking_brake: {
         value: { type: String, default: "" },
         label: { type: String, default: "Type of locking device used for parking brake" },
+      },
+      Parking_Brake: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Parking Brake" },
       },
     },
   },
@@ -1478,27 +1492,27 @@ const VehicleControlsLocationSchema = mongoose.Schema({
       },
       Front_Fog_Lamp_Control: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Select where the Front Fog Lamp Control is Given " },
+        label: { type: String, default: "Select where the Front Fog Lamp Control is Given" },
       },
       Rear_Fog_Lamp_Control: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Select where the Rear Fog Lamp Control is Given " },
+        label: { type: String, default: "Select where the Rear Fog Lamp Control is Given" },
       },
       Direction_indicators: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Select where the Direction Indicator Control is Provided " },
+        label: { type: String, default: "Select where the Direction Indicator Control is Provided" },
       },
       Hazard_warning_signal: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Select Where the Hazard warning signal control is provided " },
+        label: { type: String, default: "Select Where the Hazard warning signal control is provided" },
       },
       Position_Lamp: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Select where the Position Lamps control is Provided " },
+        label: { type: String, default: "Select where the Position Lamps control is Provided" },
       },
       Parking_Lamps: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Select where the Parking  Lamps control is Provided  " },
+        label: { type: String, default: "Select where the Parking  Lamps control is Provided" },
       },
       Front_brake_control: {
         value: { type: String, default: "" },
@@ -1506,11 +1520,11 @@ const VehicleControlsLocationSchema = mongoose.Schema({
       },
       Rear_brake_control: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Select the Foot Rear Brake Control " },
+        label: { type: String, default: "Select the Foot Rear Brake Control" },
       },
       Hand_Rear_Wheel_Brake: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Select Hand Rear Wheel Brake Control " },
+        label: { type: String, default: "Select Hand Rear Wheel Brake Control" },
       },
       parking_brake: {
         value: { type: String, default: "" },
@@ -1550,7 +1564,7 @@ const TellTalesSchema = mongoose.Schema({
       },
       Direction_indicators: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Direction indicators " },
+        label: { type: String, default: "Direction indicators" },
       },
       Hazard_warning_signal: {
         value: { type: String, default: "" },
@@ -1608,22 +1622,24 @@ const VehicleIdentificationNumberSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Specify the Location of VIN on Chassis " },
       },
-      Method_inscription_VIN_chassis: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Method of inscription of VIN on the chassis" },
-      },
+     
       Seria_number_type: {
         value: { type: String, default: "" },
         label: { type: String, default: "The serial numbering (of production vehicles) of the type begins with No" },
       },
-      Photo_location_VIN: {
+       Method_inscription_VIN_Chassis: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Photographs or drawings showing the location of VIN." },
-        display: { type: Boolean, default: false },
+        label: { type: String, default: "Method of inscription of VIN on the Chassis" },
       },
+      // Photo_location_VIN: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Photographs or drawings showing the location of VIN." },
+      //   display: { type: Boolean, default: false },
+      // },
       Height_VIN_characters: {
         value: { type: String, default: "" },
         label: { type: String, default: "Height of VIN characters. " },
+        units: { type: String, default: "mm" },
       },
     },
   },
@@ -1662,7 +1678,7 @@ const SteeringSuspensionAntiTheftSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Maximum No. of rotation of steering wheel from lock to lock" },
       },
-      Brief_desc_ECUs: {
+      Brief_desc_ECUs_Steering: {
         value: { type: String, default: "" },
         label: { type: String, default: "Brief description of the ECUs if used in the steering system" },
       },
@@ -1671,11 +1687,11 @@ const SteeringSuspensionAntiTheftSchema = mongoose.Schema({
   Suspension: {
     label: { type: String, default: "Suspension" },
     properties: {
-      Upload_Drawing_Suspension: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload Drawing Suspension arrangement" },
-        display: { type: Boolean, default: false },
-      },
+      // Upload_Drawing_Suspension: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Upload Drawing Suspension arrangement" },
+      //   display: { type: Boolean, default: false },
+      // },
       Brief_desc_ECUs: {
         value: { type: String, default: "" },
         label: { type: String, default: "Brief description of the ECUs if any used in the suspension" },
@@ -1736,19 +1752,26 @@ const TwoWheelerAggregatesSchema = mongoose.Schema({
   Grab_handle_Straps: {
     label: { type: String, default: "Grab Handle" },
     properties: {
+      Make: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Make of the Pillion Hand Hold",
+        },
+      },
       Handholds_pillion_Rider: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Nos of Handholds for pillion Rider " },
+        label: { type: String, default: "Nos of Handholds for pillion Rider" },
       },
       Type_Handhold_Pillion_rider: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Select of Type of Handhold provided for Pillion rider " },
+        label: { type: String, default: "Select of Type of Handhold provided for Pillion rider" },
       },
-      Drawing_handhold_Strap: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload the drawing showing the details of handhold or Strap " },
-        display: { type: Boolean, default: false },
-      },
+      // Drawing_handhold_Strap: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Upload the drawing showing the details of handhold or Strap " },
+      //   display: { type: Boolean, default: false },
+      // },
       Handholds_passenger_3_wheeler: {
         value: { type: String, default: "" },
         label: { type: String, default: "No of Handholds provided for passenger on 3 wheeler" },
@@ -1762,27 +1785,29 @@ const TwoWheelerAggregatesSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Select No of Foot Rests or Floor Boards Provided" },
       },
-      Drawing_Footrest_Floor_Boards: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload Drawing showing the Footrest or Floor Boards details" },
-        display: { type: Boolean, default: false },
-      },
+      // Drawing_Footrest_Floor_Boards: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Upload Drawing showing the Footrest or Floor Boards details" },
+      //   display: { type: Boolean, default: false },
+      // },
     },
   },
   Spray_Suppression_Rear_Mud_Gaurd: {
     label: { type: String, default: "Spray Suppression or Rear Mud Gaurd" },
     properties: {
-      Diagram_spray_suppression: {
-        value: { type: String, default: "" },
-        label: {
-          type: String,
-          default: "Diagram showing general arrangement of spray suppression system, Angle θ and relevant dimensions as specified in AIS-103 :2009",
-          display: { type: Boolean, default: false },
-        },
-      },
+      // Diagram_spray_suppression: {
+      //   value: { type: String, default: "" },
+      //   label: {
+      //     type: String,
+      //     default: "Diagram showing general arrangement of spray suppression system, Angle θ and relevant dimensions as specified in AIS-103 :2009",
+
+      //   },
+      //   display: { type: Boolean, default: false },
+      // },
       Tyre_max_Width: {
         value: { type: String, default: "" },
         label: { type: String, default: "Tyre Overall Width (Maximum of variants and tyre makes)" },
+        units: {type: String, default: "mm"}
       },
     },
   },
@@ -1834,11 +1859,11 @@ const TwoWheelerAggregatesSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Specify Spring Materialgram" },
       },
-      Diagram_Stands_installation: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload the Diagram showing the Stands installation" },
-        display: { type: Boolean, default: false },
-      },
+      // Diagram_Stands_installation: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Upload the Diagram showing the Stands installation" },
+      //   display: { type: Boolean, default: false },
+      // },
     },
   },
 })
@@ -1851,11 +1876,11 @@ const GrabHandleSchema = mongoose.Schema({
   Grab_handle_Straps: {
     label: { type: String, default: "Grab handle or Straps" },
     properties: {
-      Drawing_handhold_Strap: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload the drawing showing the details of handhold  or Strap " },
-        display: { type: Boolean, default: false },
-      },
+      // Drawing_handhold_Strap: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Upload the drawing showing the details of handhold  or Strap " },
+      //   display: { type: Boolean, default: false },
+      // },
       Handholds_passenger_3_wheeler: {
         value: { type: String, default: "" },
         label: { type: String, default: "No of Handholds provided for passenger on 3 wheeler" },
@@ -1900,11 +1925,11 @@ const DriveTrainSystemSchema = mongoose.Schema({
   Transmission: {
     label: { type: String, default: "Transmission" },
     properties: {
-      Drawing_transmission_arrangement: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload Drawing showing the transmission arrangement" },
-        display: { type: Boolean, default: false },
-      },
+      // Drawing_transmission_arrangement: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Upload Drawing showing the transmission arrangement" },
+      //   display: { type: Boolean, default: false },
+      // },
       type_Transmission_arrangement: {
         value: { type: String, default: "" },
         label: { type: String, default: "Select the type of Transmission arrangement" },
@@ -1928,6 +1953,7 @@ const DriveTrainSystemSchema = mongoose.Schema({
       Max_Design_speed_of_vehicle: {
         value: { type: String, default: "" },
         label: { type: String, default: "Maximum Design speed of the vehicle" },
+        units: {type: String, default: "Km/h"}
       },
     },
   },
@@ -1949,7 +1975,7 @@ const FireFightingSystemSchema = mongoose.Schema({
     properties: {
       Make: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Make" },
+        label: { type: String, default: "Make of Fire Fighting System" },
       },
       Weight: {
         value: { type: String, default: "" },
@@ -1964,11 +1990,11 @@ const FireFightingSystemSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Details of the alterations done on original vehicle (separate Annexure can be enclosed)" },
       },
-      Photo_fire_fighting_system: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Photograph of vehicle with fire fighting system" },
-        display: { type: Boolean, default: false },
-      },
+      // Photo_fire_fighting_system: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Photograph of vehicle with fire fighting system" },
+      //   display: { type: Boolean, default: false },
+      // },
     },
   },
 })
@@ -1985,8 +2011,9 @@ const VehiclePerformanceSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: {
           type: String,
-          default: "Maximum hill-starting ability (Gradeability) at the maximum technically permissible mass declared by the manufacturer",
+          default: "Maximum hill-starting ability (Gradeability) at the maximum technically permissible mass declared by the manufacturer",  
         },
+        units: { type: String, default: "Degrees" },
       },
     },
   },
@@ -2027,6 +2054,11 @@ const DimensionSchema = mongoose.Schema({
         label: { type: String, default: "Front overhang" },
         units: { type: String, default: "mm" }
       },
+      Rear_overhang: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Rear overhang" },
+        units: { type: String, default: "mm" }
+      },
     },
   },
 })
@@ -2041,6 +2073,7 @@ const PayloadSchema = mongoose.Schema({
       Maximum_payload_declared_by_manufacturer: {
         value: { type: String, default: "" },
         label: { type: String, default: "Maximum payload declared by manufacturer" },
+        units: { type: String, default: "Kg" },
       },
     },
   },
@@ -2062,25 +2095,41 @@ const WindscreenWipingSystemSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "BIS License Number of Windscreen " },
       },
-      Make_and_Materials_used: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Make and Materials used" },
-      },
-      BIS_license_number: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "BIS license number:" },
-      },
-      Upload_Drawing: {
-        value: { type: String, default: "" },
-        label: {
-          type: String,
-          default: "Upload Drawing showing the 'H' and 'R' Point , Wiping area, Dimension of wiper arm and Co-ordinates of mounting ",
-          
-        },
-        display: { type: Boolean, default: false },
-      },
+      // Make_and_Materials_used: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Make and Materials used" },
+      // },
+      // BIS_license_number: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "BIS license number:" },
+      // },
+      // Upload_Drawing: {
+      //   value: { type: String, default: "" },
+      //   label: {
+      //     type: String,
+      //     default: "Upload Drawing showing the 'H' and 'R' Point , Wiping area, Dimension of wiper arm and Co-ordinates of mounting ",
+
+      //   },
+      //   display: { type: Boolean, default: false },
+      // },
     },
   },
+Other_Glazing:{
+  label: { type: String, default: "Other glazing" },  
+  properties:{
+    Make_and_Materials_used: {
+      value: { type: String, default: "" },
+      label: { type: String, default: "Make and Materials used" },
+    },
+    BIS_license_number: {
+      value: { type: String, default: "" },
+      label: { type: String, default: "BIS license number:" },
+    },
+  }
+}
+
+
+
 })
 
 const SeatingArrangementSchema = mongoose.Schema({
@@ -2103,26 +2152,27 @@ const SeatingArrangementSchema = mongoose.Schema({
   },
 })
 
-const RPointSchema = mongoose.Schema({
-  supplier: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "supplier",
-  },
-  R_Point: {
-    label: { type: String, default: "R Point" },
-    properties: {
-      Coordinates_of_drawing: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Coordinates or drawing of the R point declared by manufacturer for Driver seat" },
-        display: { type: Boolean, default: false },
-      },
-      Intended_seat_back_inclination_Driving_seat: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Intended seat-back inclination Driving seat" },
-      },
-    },
-  },
-})
+// const RPointSchema = mongoose.Schema({
+//   supplier: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: "supplier",
+//   },
+//   R_Point: {
+//     label: { type: String, default: "R Point" },
+//     properties: {
+//       Coordinates_of_drawing: {
+//         value: { type: String, default: "" },
+//         label: { type: String, default: "Coordinates or drawing of the R point declared by manufacturer for Driver seat" },
+//         display: { type: Boolean, default: false },
+//       },
+//       Intended_seat_back_inclination_Driving_seat: {
+//         value: { type: String, default: "" },
+//         label: { type: String, default: "Intended seat-back inclination Driving seat" },
+//         units: { type: String, default: "Degrees" },///
+//       },
+//     },
+//   },
+// })
 
 const SeatingDimensionSchema = mongoose.Schema({
   supplier: {
@@ -2168,10 +2218,28 @@ const SeatingDimensionSchema = mongoose.Schema({
       Seat_base_height_of_driver_seat: {
         value: { type: String, default: "" },
         label: { type: String, default: "Seat base height of driver seat" },
+        units: { type: String, default: "mm" },
       },
       Seat_base_height_og_passenger_seat: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Seat base height og passenger seat" },
+        label: { type: String, default: "Seat base height of passenger seat" },
+        units: { type: String, default: "mm" },
+      },
+    },
+  },
+
+   R_Point: {
+    label: { type: String, default: "R Point" },
+    properties: {
+      // Coordinates_of_drawing: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Coordinates or drawing of the R point declared by manufacturer for Driver seat" },
+      //   display: { type: Boolean, default: false },
+      // },
+      Intended_seat_back_inclination_Driving_seat: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Intended seat-back inclination Driving seat" },
+        units: { type: String, default: "Degrees" },
       },
     },
   },
@@ -2202,7 +2270,7 @@ const HPointSchema = mongoose.Schema({
       },
       Seat_back_height_of_Passenger_seat: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Seat bacck height of Passenger seat " },
+        label: { type: String, default: "Seat back height of Passenger seat " },
         units: { type: String, default: "mm" }
       },
       Free_height_Driver_Seat: {
@@ -2212,7 +2280,7 @@ const HPointSchema = mongoose.Schema({
       },
       Free_height_Passenger_Seat: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Free height over seating position (Head Room) from H poin for Passenger Seat" },
+        label: { type: String, default: "Free height over seating position (Head Room) from H point for Passenger Seat" },
         units: { type: String, default: "mm" }
       },
     },
@@ -2230,6 +2298,7 @@ const RearEntryProvisionSchema = mongoose.Schema({
       Upload_drawing_showing_rear_of_vehicle: {
         value: { type: String, default: "" },
         label: { type: String, default: "Upload  drawing showing the dimesnions showing the Steps if Entry provided form rear of vehicle" },
+        units: { type: String, default: "mm" }
       },
       Maximum_height_from_ground: {
         value: { type: String, default: "" },
@@ -2305,11 +2374,11 @@ const InstrumentClusterSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Overall transmission ratio of the drive mechanism or pulse or wheel revolution " },
       },
-      Drawing_showing_the_Complete_Instrument_Cluster: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Upload the drawing showing the Complete Instrument Cluster " },
-        display: { type: Boolean, default: false },
-      },
+      // Drawing_showing_the_Complete_Instrument_Cluster: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Upload the drawing showing the Complete Instrument Cluster " },
+      //   display: { type: Boolean, default: false },
+      // },
     },
   },
 })
@@ -2349,13 +2418,17 @@ const CriticalElectricalDevicesSchema = mongoose.Schema({
           default: "List of all Electrical components, which include Broadband EMI sources (like HVAC Motor, Wiper Motor and Horn etc.)",
         },
       },
-      Device_Name: {
+      Device_Name_Electrical_Components: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Device Name" },
+        label: { type: String, default: "Device Name of Electrical Components" },
       },
-      Make: {
+      Make_Electrical_Components: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Make" },
+        label: { type: String, default: "Make of Electrical Components" },
+      },
+      Identification_number_or_PartNo_or_DrawingNo_Electrical_Components: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Identification number(ID) or Part No. or Drawing No.(Electrical Components)" },
       },
     },
   },
@@ -2512,10 +2585,10 @@ const form1ASchema = mongoose.Schema(
       label: { type: String, default: "Seating Arrangement" },
       SeatingArrangementData: [SeatingArrangementSchema],
     },
-    RPoint: {
-      label: { type: String, default: "R Point" },
-      RPointData: [RPointSchema],
-    },
+    // RPoint: {
+    //   label: { type: String, default: "R Point" },
+    //   RPointData: [RPointSchema],
+    // },
     SeatingDimension: {
       label: { type: String, default: "Seating Dimension" },
       SeatingDimensionData: [SeatingDimensionSchema],

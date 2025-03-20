@@ -206,7 +206,8 @@ const ChargerSpecification = async (supplierId, form13) => {
 const ElectricalSafetyDevice = async (supplierId, form13) => {
   const ElectricalSafetyDevice = {
     supplier: supplierId,
-    Specifications_of_circuit_breakers: {},
+    // Specifications_of_circuit_breakers: {},
+    Specifications_of_circuit_breakers_or_fuses_used_for_protection_of_batteries_or_power_train: {},
   }
   console.log(`creating data: ${JSON.stringify(ElectricalSafetyDevice)} data for form13: ${form13._id}`)
   const updateform13Data = await form13Schema.findByIdAndUpdate(
@@ -526,13 +527,13 @@ exports.updateform13Data = async (requestId, data) => {
         { arrayFilters: [{ "chargerSpecification._id": data._id }], returnDocument: "after" }
       )
     }
-    if (data.Specifications_of_circuit_breakers) {
+    if (data.Specifications_of_circuit_breakers_or_fuses_used_for_protection_of_batteries_or_power_train) {
       updatedform13Data = await form13Schema.findByIdAndUpdate(
         form13._id,
         {
           $set: {
-            "Electrical_Safety_Device.ElectricalSafetyDevice.$[electricalSafetyDevice].Specifications_of_circuit_breakers":
-              data.Specifications_of_circuit_breakers,
+            "Electrical_Safety_Device.ElectricalSafetyDevice.$[electricalSafetyDevice].Specifications_of_circuit_breakers_or_fuses_used_for_protection_of_batteries_or_power_train":
+              data.Specifications_of_circuit_breakers_or_fuses_used_for_protection_of_batteries_or_power_train,
           },
         },
         { arrayFilters: [{ "electricalSafetyDevice._id": data._id }], returnDocument: "after" }

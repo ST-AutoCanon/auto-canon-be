@@ -34,11 +34,12 @@ const VehicleIdentificationNumber = async (supplierId, form11) => {
 const codeForMonthOfProduction = async (supplierId, form11) => {
   const codeForMonthOfProduction = {
     supplier: supplierId,
-    Month_of_Production: {},
-    Year_of_Production: {},
     Code_for_Year: {},
-    chessy_Number:{},
+    Year_of_Production: {},    
+   
+    chassis_Number: {},
     vds_Sequence:{},
+    Month_of_Production1: {}
   }
   console.log(`creating data: ${JSON.stringify(codeForMonthOfProduction)} data for form11: ${form11._id}`)
   const updateform11Data = await form11Schema.findByIdAndUpdate(
@@ -121,17 +122,6 @@ exports.updateForm11Data = async (requestId, data) => {
         { arrayFilters: [{ "vehicleIdentificationNumber._id": data._id }], returnDocument: "after" }
       )
     }
-    if (data.Month_of_Production) {
-      updatedform11Data = await form11Schema.findByIdAndUpdate(
-        form11._id,
-        {
-          $set: {
-            "Month_of_Production.codeForMonthOfProduction.$[codeForMonthOfProduction].Month_of_Production": data.Month_of_Production,
-          },
-        },
-        { arrayFilters: [{ "codeForMonthOfProduction._id": data._id }], returnDocument: "after" }
-      )
-    }
     if (data.Year_of_Production) {
       updatedform11Data = await form11Schema.findByIdAndUpdate(
         form11._id,
@@ -154,12 +144,16 @@ exports.updateForm11Data = async (requestId, data) => {
         { arrayFilters: [{ "codeForMonthOfProduction._id": data._id }], returnDocument: "after" }
       )
     }
-    if (data.chessy_Number) {
+
+   
+   
+  
+    if (data.chassis_Number) {
       updatedform11Data = await form11Schema.findByIdAndUpdate(
         form11._id,
         {
           $set: {
-            "Month_of_Production.codeForMonthOfProduction.$[codeForMonthOfProduction].chessy_Number": data.chessy_Number,
+            "Month_of_Production.codeForMonthOfProduction.$[codeForMonthOfProduction].chassis_Number": data.chassis_Number,
           },
         },
         { arrayFilters: [{ "codeForMonthOfProduction._id": data._id }], returnDocument: "after" }
@@ -171,6 +165,17 @@ exports.updateForm11Data = async (requestId, data) => {
         {
           $set: {
             "Month_of_Production.codeForMonthOfProduction.$[codeForMonthOfProduction].vds_Sequence": data.vds_Sequence,
+          },
+        },
+        { arrayFilters: [{ "codeForMonthOfProduction._id": data._id }], returnDocument: "after" }
+      )
+    }
+    if (data.Month_of_Production1) {
+      updatedform11Data = await form11Schema.findByIdAndUpdate(
+        form11._id,
+        {
+          $set: {
+            "Month_of_Production.codeForMonthOfProduction.$[codeForMonthOfProduction].Month_of_Production1": data.Month_of_Production1,
           },
         },
         { arrayFilters: [{ "codeForMonthOfProduction._id": data._id }], returnDocument: "after" }

@@ -1,4 +1,6 @@
-const mongoose = require("mongoose");
+
+
+const mongoose = require('mongoose');
 
 const barrelSchema = new mongoose.Schema({
   barrel1: { type: String, required: true },
@@ -8,8 +10,20 @@ const barrelSchema = new mongoose.Schema({
   barrel4: { type: String, required: true },
   serialNumber: { type: String, required: true },
   finalOutput: { type: String, required: true, unique: true },
+  submittedBy: { type: String, required: true },
+  submittedAt: { type: Date, required: true },
+  description: { type: String },
+  partNumbers: [{ type: String }],
+  descriptions: [{ type: String }], 
+  angleA: [{ type: Number }],
+  angleB: [{ type: Number }],
+  length: [{ type: Number }],
+  distA: [{ type: Number }],
+  distB: [{ type: Number }],
+  designer: [{ type: String }],
+  date: [{ type: String }],
+  applicable: [{ type: String }] // Changed to string
 });
 
-const Barrel = mongoose.model("Barrel", barrelSchema);
 
-module.exports = Barrel;
+module.exports = mongoose.model('Barrel', barrelSchema);

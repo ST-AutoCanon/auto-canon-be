@@ -2,6 +2,7 @@ const fs = require('fs');
 const { uploadFileUploadRequestId, updateFooterData } = require('../services/fileUploadService');
 
 exports.fileUpload = async (req) => {
+
     try {
         const headerName = req.body.headerName;
         const form = req.body.form
@@ -10,8 +11,6 @@ exports.fileUpload = async (req) => {
         const requestId = req.params.requestId.replace(/\//g, '');    
         const propertyName = req.body.propertyName || 'default';
         const filename = `${requestId}-${originalname}`;
-        /// filename1 is for demo created by vinayak
-        const filename1=originalname;
 
         console.log(`adding image: ${filename} for property: ${propertyName}`)
 
@@ -25,8 +24,10 @@ exports.fileUpload = async (req) => {
 
   exports.footerDataUpdate = async (req, res, next) => {
     try {
+      console.log('req.body:',req)
       const requestId = req.params.requestId
       const { data } = req.body
+      console.log(' footerDataupdate data:',data)
       if (!requestId || !data ) {
         throw new Error(`Request footerDataUpdate doesnt contain required parameters: requestId: "${requestId}" , data: "${data}"`)
       }
@@ -45,16 +46,16 @@ exports.fileUpload = async (req) => {
       .json({status: "failure",body: error})
     }
   }
-// Updated the file path to ensure it points to the correct directory for file downloads
+
   exports.fileDownload = async (req, res, next) => {
     try {
         const filename = req.params.filename;
-        // const filePath = `/app/uploads/${filename}`;    
-        //file stored location is in home->auto-canon-be->uploads
-        // const filePath = `/home/auto-canon-be/uploads/${filename}`;   
-        const filePath = `/home/ubuntu/Bv-reg(new)/neww/auto-canon-FE-master/src/footerUploads/${filename}`;  
-
-        console.log(`looking for file: ${filePath}`)
+        // const filePath = `../uploads/${filename}`;
+        // const filePath = `/home/vinayak/uploads/${filename}`;
+        // const filePath = `/home/auto-canon-be/uploads/${filename}`;
+        // const filePath = `/home/vinayak/Desktop/new/auto-canon-FE-master/src/assets/uploads/${filename}`;    
+        const filePath = `/home/ubuntu/Bv-reg(new)/neww/auto-canon-FE-master/src/footerUploads/${filename}`;     
+        console.log(`looking for file: ${filePath}`)  
         // Check if the file exists
         if (fs.existsSync(filePath)) {
             res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
@@ -73,31 +74,34 @@ exports.fileUpload = async (req) => {
       });
     }
   }
-  // Updated the file path to ensure it points to the correct directory for file downloads
-  exports.fileDownloads = async (req, res, next) => {
+
+
+
+
+  exports.fileDownloads = (req, res) => {
     try {
-        const filename = req.params.filename;
-        // const filePath = `/app/uploads/${filename}`;    
-        //file stored location is in home->auto-canon-be->uploads
-        // const filePath = `/home/auto-canon-be/uploads/${filename}`;   
-        const filePath = `/home/ubuntu/Bv-reg(new)/neww/auto-canon-FE-master/src/footerUploads/${filename}`;  
-
-        console.log(`looking for file: ${filePath}`)
-        // Check if the file exists
-        if (fs.existsSync(filePath)) {
-            res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
-            res.setHeader('Content-Type', 'application/pdf/image/*');
-    
-            const fileStream = fs.createReadStream(filePath);
-            fileStream.pipe(res);
-        } else {
-            res.status(404).send('File not found.');
-        }
-    } catch (error) {
-      console.log(`Exception occured: ${error}`);
-      res.status(200).json({
-        status: "failure",
-        body: error,
-      });
-    }
+      const filename = req.params.filename;
+      // const filePath = `../uploads/${filename}`;
+      // const filePath = `/home/vinayak/uploads/${filename}`;
+      // const filePath = `/home/auto-canon-be/uploads/${filename}`;
+      // const filePath = `/home/vinayak/Desktop/new/auto-canon-FE-master/src/assets/uploads/${filename}`;   
+      const filePath = `/home/ubuntu/Bv-reg(new)/neww/auto-canon-FE-master/src/footerUploads/${filename}`;     
+      console.log(`looking for file: ${filePath}`)  
+      // Check if the file exists
+      if (fs.existsSync(filePath)) {
+          res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+          res.setHeader('Content-Type', 'application/pdf/image/*');
+  
+          const fileStream = fs.createReadStream(filePath);
+          fileStream.pipe(res);
+      } else {
+          res.status(404).send('File not found.');
+      }
+  } catch (error) {
+    console.log(`Exception occured: ${error}`);
+    res.status(200).json({
+      status: "failure",
+      body: error,
+    });
   }
+  };
