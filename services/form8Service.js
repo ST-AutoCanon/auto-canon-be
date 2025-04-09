@@ -24,7 +24,17 @@ const HornData = async (supplierId, form8) => {
   console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
-
+const TyresData = async (supplierId, form8) => {
+  const TyreData = {
+    supplier: supplierId,
+    Front_tyre: {},
+    Rear_tyre: {},
+  }
+  console.log(`creating data: ${JSON.stringify(TyreData)} data for form8: ${form8._id}`)
+  const updateform8Data = await form8Schema.findByIdAndUpdate(form8._id, { $push: { "Tyres.TyresData": TyreData } }, { returnDocument: "after" })
+  console.log(`updateform8Data: ${updateform8Data}`)
+  return updateform8Data
+}
 const TractionBatterypackData = async (supplierId, form8) => {
   const TractionBatterypack = {
     supplier: supplierId,
@@ -313,6 +323,7 @@ exports.getForm8ForRequestId = async (requestId) => {
     }).lean()
     .populate({path: "Wheel_Rim.WheelRim.supplier"})
     .populate({path:"Horn.Horn.supplier"} )
+    .populate({path: "Tyres.TyresData.supplier"})
     .populate({path:"Traction_Battery_Pack.TractionBatterypack.supplier"} )
     .populate({path:"Head_Lamp.HeadLamp.supplier"})
     .populate({path:"Daytime_Running_Lamp.DaytimeRunningLamp.supplier"} )
@@ -353,6 +364,8 @@ exports.createEmptyForm8ComponentDataForSupplier = async (component, supplierId,
         return await WheelRimData(supplierId, form8)
       case "Horn":
         return await HornData(supplierId, form8)
+        case "Tyres":
+          return await TyresData(supplierId, form8)
       case "Traction Battery Pack":
         return await TractionBatterypackData(supplierId, form8)
       case "Head Lamp":
@@ -440,7 +453,28 @@ exports.updateForm8Data = async (requestId, data) => {
         { arrayFilters: [{ "horn._id": data._id }], returnDocument: "after" }
       )
     }
-
+    if (data.Front_tyre) {
+      updatedform8Data = await form8Schema.findByIdAndUpdate(
+        form8._id,
+          {
+            $set: {
+              "Tyres.TyresData.$[tyresData].Front_tyre": data.Front_tyre,
+            },
+          },
+          { arrayFilters: [{ "tyresData._id": data._id }], returnDocument: "after" }
+        )
+      }
+      if (data.Rear_tyre) {
+        updatedform8Data = await form8Schema.findByIdAndUpdate(
+          form8._id,
+            {
+              $set: {
+                "Tyres.TyresData.$[tyresData].Rear_tyre": data.Rear_tyre,
+              },
+            },
+            { arrayFilters: [{ "tyresData._id": data._id }], returnDocument: "after" }
+          )
+        }
     if (data.Traction_Battery_Pack) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,

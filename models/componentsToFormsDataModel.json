@@ -1,6 +1,6 @@
 [
-  { "component": "Tyres", "vehicle_type": "3-Wheeler", "forms": ["1A", "7"] },
-  { "component": "Tyres", "vehicle_type": "2-Wheeler", "forms": ["1A", "7"] },
+  { "component": "Tyres", "vehicle_type": "3-Wheeler", "forms": ["1A", "7", "8"] },
+  { "component": "Tyres", "vehicle_type": "2-Wheeler", "forms": ["1A", "7", "8"] },
   {
     "component": "Wheel Rim",
     "vehicle_type": "2-Wheeler",

@@ -8,11 +8,11 @@ const TyresSchema = mongoose.Schema({
   Tyre_Description: {
     label: { type: String, default: "Tyre Description" },
     properties: {
-      // Laden: {
-      //   value: { type: String, default: "" },
-      //   label: { type: String, default: "Laden" },
-      //   display: {type: Boolean, default: false}
-      // },
+      Laden: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Laden" },
+        display: {type: Boolean, default: false}
+      },
       Tyre_size_designation_including_ply_rating: {
         value: { type: String, default: "" },
         label: {
@@ -105,28 +105,28 @@ const VehicleGeneralInformationScehma = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Type Of Vehicle" },
       },
-      // Vehicle_category: {
-      //   value: { type: String, default: "" },
-      //   label: { type: String, default: "Vehicle category (IS 14272) " },
-      //   display: { type: Boolean, default: false },
-      // },
+      Vehicle_category: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Vehicle category (IS 14272) " },
+        display: { type: Boolean, default: false },
+      },
       Manufacturer_name_and_address: {
         value: { type: String, default: "" },
         label: { type: String, default: "Manufacturer’s name and address" },
       },
-      // Name_and_address_of_the_vehicle_importer: {
-      //   value: { type: String, default: "" },
-      //   label: {
-      //     type: String,
-      //     default: "Name and address of the vehicle importer",
-      //   },
-      //   display: { type: Boolean, default: false },
-      // },
-      // variant: {
-      //   value: { type: String, default: "" },
-      //   label: { type: String, default: "variant(s)" },
-      //   display: { type: Boolean, default: false },
-      // },
+      Name_and_address_of_the_vehicle_importer: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Name and address of the vehicle importer",
+        },
+        display: { type: Boolean, default: false },
+      },
+      variant: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "variant(s)" },
+        display: { type: Boolean, default: false },
+      },
     },
   },
 })

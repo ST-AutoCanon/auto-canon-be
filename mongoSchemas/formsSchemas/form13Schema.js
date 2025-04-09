@@ -456,11 +456,11 @@ const InstrumentClusterSchema = mongoose.Schema({
   Instrument_Cluster: {
     label: { type: String, default: "Instrument Cluster" },
     properties: {
-      // Make_of_the_Instrument_Cluster: {
-      //   value: { type: String, default: "" },
-      //   label: { type: String, default: "Make of the Instrument Cluster" },
-      //   display: { type: Boolean, default: false },
-      // },
+      Make_of_the_Instrument_Cluster: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Make of the Instrument Cluster" },
+        display: { type: Boolean, default: false },
+      },
       Model_of_the_Instrument_Cluster: {
         value: { type: String, default: "" },
         label: { type: String, default: "Model of the Instrument Cluster" },

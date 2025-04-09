@@ -38,7 +38,7 @@ exports.registerRoutes = async (app) => {
   app.use("/api/barrels", barrelRoutes); // Add the barrelRoutes here
   const upload = multer({
     storage: storage,
-    limits: { fileSize: 20 * 1024 * 1024 } // Set fileSize limit to 10MB
+    // limits: { fileSize: 50 * 1024 * 1024 } // Set fileSize limit to 10MB
   });
 
   app.post('/api/files/upload/:requestId/', authenticateTokenMiddleWare, upload.single('image'), async (req, res) => {

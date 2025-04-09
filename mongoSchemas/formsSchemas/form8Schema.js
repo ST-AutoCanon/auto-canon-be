@@ -97,6 +97,64 @@ const HornSchema = mongoose.Schema({
   },
 })
 
+const TyresSchema = mongoose.Schema({
+  supplier: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "supplier",
+  },
+  Front_tyre: {
+    label: { type: String, default: "Front Tyre" },
+    properties: {
+      Make: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Make of the Tyre" },
+        
+      },
+      TAC_Number_Its_Validity: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "TAC Number / BIS License and its Validity" },
+      
+      },
+      Possible_date_of_submission_of_required_approval: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Possible date of submission of required approval, if the Certification is in process",
+        },
+      },
+      CoP_Cert_No_with_validity_date: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "CoP Cert No. with validity date" },
+      },
+    },
+  },
+  Rear_tyre: {
+    label: { type: String, default: "Rear Tyre" },
+    properties: {
+      Make: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Make of the Tyre" },
+        
+      },
+      TAC_Number_Its_Validity: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "TAC Number / BIS License and its Validity" },
+      
+      },
+      Possible_date_of_submission_of_required_approval: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Possible date of submission of required approval, if the Certification is in process",
+        },
+      },
+      CoP_Cert_No_with_validity_date: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "CoP Cert No. with validity date" },
+      },
+    },
+  },
+})
 const TractionBatterypackSchema = mongoose.Schema({
   supplier: {
     type: mongoose.Schema.Types.ObjectId,
@@ -1217,6 +1275,10 @@ const form8Schema = mongoose.Schema(
     Horn: {
       label: { type: String, default: "Horn" },
       Horn: [HornSchema],
+    },
+    Tyres: {
+      label: { type: String, default: "Tyres" },
+      TyresData: [TyresSchema],
     },
     Traction_Battery_Pack: {
       label: { type: String, default: "Traction Battery Pack" },

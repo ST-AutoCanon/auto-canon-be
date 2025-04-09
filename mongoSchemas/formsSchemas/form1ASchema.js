@@ -1453,10 +1453,10 @@ const BrakesSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Type of locking device used for parking brake" },
       },
-      Parking_Brake: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Parking Brake" },
-      },
+      // Parking_Brake: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Parking Brake" },
+      // },
     },
   },
   Re_Generative_Brake: {
