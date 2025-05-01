@@ -36,6 +36,11 @@ const TyresSchema = mongoose.Schema({
         label: { type: String, default: "Dynamic rolling" },
         units: { type: String, default: "mm" }
       },
+      tyre_vehicle_type:{
+        value: { type: String, default: "" },
+        label: { type: String, default: "Tyre Vehicle Type" },
+        display: { type: Boolean, default: false },
+      }
     },
   },
   Rear_Tyre: {
@@ -436,6 +441,27 @@ const PositionLampsSchema = mongoose.Schema({
       TAC_No_Front_Parking_lamp: {
         value: { type: String, default: "" },
         label: { type: String, default: "TAC number of Front Parking lamp" },
+      },
+    },
+  },
+  Parking_Lamp_Led_Rear: {
+    label: { type: String, default: "Parking Lamp LED Rear" },
+    properties: {
+      // Parking_Lamp_led_Rear: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Parking Lamp LED – Rear" },
+      // },
+      Make_of_Parking_lamp_led_rear: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Make of Parking LED bulb rear" },
+      },
+      Category_as_per_AIS035: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Category as per AIS-035" },
+      },
+      TAC_Number: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "TAC Number of Rear Parking Lamp LED" },
       },
     },
   },
@@ -855,6 +881,39 @@ const RetroReflectorsSchema = mongoose.Schema({
       },
     },
   },
+  Reflective_Tape: {
+    label: { type: String, default: "Reflective Tape" },
+    properties: {
+      Front_Make: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Front Make" },
+      },
+      Front_Width: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Front Width of tape(s)" },
+        units: {type: String, default: "Kg"}
+      },
+      TAC_NO_BIS_License_NO: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Identification: TAC No. / BIS License No. / E- Marking" },
+      },
+      Rear_Make: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Rear Make" },
+      },
+      Rear_Width: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Rear Width of tape(s)" },
+        units: {type: String, default: "Kg"}
+      },
+      Rear_TAC_NO_BIS_License_NO: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Rear Identification: TAC No. / BIS License No. / E- Marking" },
+      },
+   
+    },
+  },
+  
 })
 
 const HydraulicBrakeHoseSchema = mongoose.Schema({
@@ -888,6 +947,10 @@ const BrakeFluidSchema = mongoose.Schema({
       Make_of_Brake_Fluid: {
         value: { type: String, default: "" },
         label: { type: String, default: "Make of Brake Fluid" },
+      },
+      Type_of_Brake_Fluid: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Type of Brake Fluid" },
       },
     },
   },
@@ -1534,6 +1597,27 @@ const VehicleControlsLocationSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "Any other control" },
       },
+
+      Supplemental_engine_stop: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Supplemental engine stop" },
+      },
+      Ignition_Switch: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Ignition Switch" },
+      },
+      Electric_Starter: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Electric Starter" },
+      },
+      Manual_Choke: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Manual Choke" },
+      },
+      Fuel_Tank_Shutoff_Valve: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Fuel Tank Shutoff Valve" },
+      },
     },
   },
 })
@@ -1601,6 +1685,22 @@ const IndicatorsSchema = mongoose.Schema({
       Speedometer: {
         value: { type: String, default: "" },
         label: { type: String, default: "Speedometer" },
+      },
+      Fuel_Indicator: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Fuel Indicator" },
+      },
+      Engine_coolant_temperature: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Engine coolant temperature" },
+      },
+      Electrical_Charging: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Electrical Charging" },
+      },
+      Engine_Oil: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Engine Oil" },
       },
       Any_other_Indicator: {
         value: { type: String, default: "" },

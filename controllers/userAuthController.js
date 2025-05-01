@@ -229,10 +229,10 @@ exports.signin = async (req, res) => {
 
   try {
     // Find user by username or username1
-    const user = await User.findOne({
-      $or: [{ username }, { username1: username }],
-    });
-
+    // const user = await User.findOne({
+    //   $or: [{ username }, { username1: username }],
+    // });
+    const user = await User.findOne({ username });
     if (!user) {
       console.error(`Could not find the user with username: ${username}`);
       return res.status(200).json({
@@ -242,16 +242,18 @@ exports.signin = async (req, res) => {
     }
 
     // Determine which username matched
-    const matchedUsername = user.username === username ? user.username : user.username1;
+    // const matchedUsername = user.username === username ? user.username : user.username1;
 
     // Compare the provided password with the stored hashed password
     const passwordMatched = await bcrypt.compare(password, user.password);
     if (passwordMatched) {
-      console.log(`User sign-in success with username: ${matchedUsername}`);
+      // console.log(`User sign-in success with username: ${matchedUsername}`);
+      console.log(`User sign-in success with username: ${username}`);
       const { _id, role, status, businessName } = user;
       const tokenBody = {
         _id,
-        username: matchedUsername, // Use only the matched username
+        // username: matchedUsername, // Use only the matched username
+        username,
         role,
         status,
         businessName,
@@ -266,7 +268,8 @@ exports.signin = async (req, res) => {
     } else {
       return res.status(200).json({
         status: "failure",
-        body: `Incorrect password for username: ${matchedUsername}`,
+        // body: `Incorrect password for username: ${matchedUsername}`,
+        body: `Incorrect password for username: ${username}`,
       });
     }
   } catch (error) {

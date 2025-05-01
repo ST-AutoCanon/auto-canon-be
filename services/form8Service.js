@@ -1,6 +1,11 @@
-  const form8Schema = require("../mongoSchemas/formsSchemas/form8Schema");
-const {getSupplierByKey} = require('../controllers/supplierController')
-
+const form8Schema = require("../mongoSchemas/formsSchemas/form8Schema");
+const form1ASchema = require("../mongoSchemas/formsSchemas/form1ASchema");
+const form7Schema = require("../mongoSchemas/formsSchemas/form7Schema")
+const form11Schema = require("../mongoSchemas/formsSchemas/form11Schema")
+const form13Schema = require("../mongoSchemas/formsSchemas/form13Schema")
+const { getSupplierByKey } = require('../controllers/supplierController')
+const homologationRequestSchema = require("../mongoSchemas/homologationRequestSchema");
+let vehicle_type;
 
 const WheelRimData = async (supplierId, form8) => {
   const WheelRim = {
@@ -27,7 +32,16 @@ const HornData = async (supplierId, form8) => {
 const TyresData = async (supplierId, form8) => {
   const TyreData = {
     supplier: supplierId,
-    Front_tyre: {},
+    // Front_tyre: {},
+    Front_tyre: {
+      properties: {
+        Make: { value:'' },
+        TAC_Number_Its_Validity: { value:'' },
+        Possible_date_of_submission_of_required_approval: { value: '' },
+        CoP_Cert_No_with_validity_date: { value:'' },
+        tyre_vehicle_type: { value: vehicle_type === '2-Wheeler' ? '2-Wheeler' : '3-Wheeler' },
+      },
+    },
     Rear_tyre: {},
   }
   console.log(`creating data: ${JSON.stringify(TyreData)} data for form8: ${form8._id}`)
@@ -84,7 +98,8 @@ const PositionLampsData = async (supplierId, form8) => {
     supplier: supplierId,
     Front_Position_Lamp_LED_Type: {},
     Front_Position_Lamp_Bulb_Type: {},
-    Parking_Lamp_Bulb_Rear: {},
+    Parking_Lamp_Led_Rear:{},
+    Parking_Lamp_Bulb_Rear: {},   
     Stop_Lamp_LED_Type: {},
     Stop_lamp_bulb_Filament_Type: {},
   }
@@ -321,27 +336,27 @@ exports.getForm8ForRequestId = async (requestId) => {
     const form8Data = await form8Schema.findOne({
       homologationRequest: requestId,
     }).lean()
-    .populate({path: "Wheel_Rim.WheelRim.supplier"})
-    .populate({path:"Horn.Horn.supplier"} )
-    .populate({path: "Tyres.TyresData.supplier"})
-    .populate({path:"Traction_Battery_Pack.TractionBatterypack.supplier"} )
-    .populate({path:"Head_Lamp.HeadLamp.supplier"})
-    .populate({path:"Daytime_Running_Lamp.DaytimeRunningLamp.supplier"} )
-    .populate({path:"Position_Lamps.PositionLamps.supplier"})
-    .populate({path:"Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.supplier"})
-    .populate({path:"Direction_Indicator_Lamp.DirectionIndicatorLamp.supplier"} )
-    .populate({path:"Retro_Reflectors.RetroReflectors.supplier"})
-    .populate({path:"Hydraulic_Brake_Hose.HydraulicBrakeHose.supplier"} )
-    .populate({path:"Brake_Fluid.BrakeFluid.supplier"})
-    .populate({path:"Spray_Suppression.SpraySuppression.supplier"})
-    .populate({path:"Handle_Lock.HandleLock.supplier"})
-    .populate({path:"Rear_View_Mirror.RearViewMirror.supplier"} )
-    .populate({path:"Wind_screen.Windscreen.supplier"})
-    .populate({path:"Side_glass.Sideglass.supplier"})
-    .populate({path:"Rear_glass.Rearglass.supplier"})
-    .populate({path:"Windscreen_wiping.Windscreenwiping.supplier"})
-    .populate({path:"Reversing_Lamp.ReversingLamp.supplier"})
-    .populate({path:"Grab_handle.Grabhandle.supplier"})
+      .populate({ path: "Wheel_Rim.WheelRim.supplier" })
+      .populate({ path: "Horn.Horn.supplier" })
+      .populate({ path: "Tyres.TyresData.supplier" })
+      .populate({ path: "Traction_Battery_Pack.TractionBatterypack.supplier" })
+      .populate({ path: "Head_Lamp.HeadLamp.supplier" })
+      .populate({ path: "Daytime_Running_Lamp.DaytimeRunningLamp.supplier" })
+      .populate({ path: "Position_Lamps.PositionLamps.supplier" })
+      .populate({ path: "Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.supplier" })
+      .populate({ path: "Direction_Indicator_Lamp.DirectionIndicatorLamp.supplier" })
+      .populate({ path: "Retro_Reflectors.RetroReflectors.supplier" })
+      .populate({ path: "Hydraulic_Brake_Hose.HydraulicBrakeHose.supplier" })
+      .populate({ path: "Brake_Fluid.BrakeFluid.supplier" })
+      .populate({ path: "Spray_Suppression.SpraySuppression.supplier" })
+      .populate({ path: "Handle_Lock.HandleLock.supplier" })
+      .populate({ path: "Rear_View_Mirror.RearViewMirror.supplier" })
+      .populate({ path: "Wind_screen.Windscreen.supplier" })
+      .populate({ path: "Side_glass.Sideglass.supplier" })
+      .populate({ path: "Rear_glass.Rearglass.supplier" })
+      .populate({ path: "Windscreen_wiping.Windscreenwiping.supplier" })
+      .populate({ path: "Reversing_Lamp.ReversingLamp.supplier" })
+      .populate({ path: "Grab_handle.Grabhandle.supplier" })
     if (form8Data != null) {
       return form8Data
     }
@@ -364,8 +379,8 @@ exports.createEmptyForm8ComponentDataForSupplier = async (component, supplierId,
         return await WheelRimData(supplierId, form8)
       case "Horn":
         return await HornData(supplierId, form8)
-        case "Tyres":
-          return await TyresData(supplierId, form8)
+      case "Tyres":
+        return await TyresData(supplierId, form8)
       case "Traction Battery Pack":
         return await TractionBatterypackData(supplierId, form8)
       case "Head Lamp":
@@ -415,6 +430,10 @@ exports.createEmptyForm8ComponentDataForSupplier = async (component, supplierId,
 exports.updateForm8Data = async (requestId, data) => {
   try {
     const form8 = await form8Schema.findOne({ homologationRequest: requestId })
+    const form1A = await form1ASchema.findOne({ homologationRequest: requestId })
+     const form7 = await form7Schema.findOne({ homologationRequest: requestId })     
+        const form11 = await form11Schema.findOne({ homologationRequest: requestId })
+        const form13 = await form13Schema.findOne({ homologationRequest: requestId })
     if (form8 == null) {
       throw new Error(`form8 doesnt exist with id: ${requestId}`)
     }
@@ -454,27 +473,52 @@ exports.updateForm8Data = async (requestId, data) => {
       )
     }
     if (data.Front_tyre) {
+
+      // if(vehicle_type==='2-Wheeler'){   
+      //   data.Front_tyre.properties.tyre_vehicle_type.value='2-Wheeler'
+      // }
+      // else{
+      //    data.Front_tyre.properties.tyre_vehicle_type.value='3-Wheeler'
+      // }
+      
+     
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
-          {
-            $set: {
-              "Tyres.TyresData.$[tyresData].Front_tyre": data.Front_tyre,
-            },
+        {
+          $set: {
+            // "Tyres.TyresData.$[tyresData].Front_tyre": data.Front_tyre,
+            "Tyres.TyresData.$[tyresData].Front_tyre.properties.Make.value": data.Front_tyre.properties.Make.value,
+            "Tyres.TyresData.$[tyresData].Front_tyre.properties.TAC_Number_Its_Validity.value": data.Front_tyre.properties.TAC_Number_Its_Validity.value,
+            "Tyres.TyresData.$[tyresData].Front_tyre.properties.Possible_date_of_submission_of_required_approval.value": data.Front_tyre.properties.Possible_date_of_submission_of_required_approval.value,
+            "Tyres.TyresData.$[tyresData].Front_tyre.properties.CoP_Cert_No_with_validity_date.value": data.Front_tyre.properties.CoP_Cert_No_with_validity_date.value,
+            "Tyres.TyresData.$[tyresData].Front_tyre.properties.tyre_vehicle_type.value": data.Front_tyre.properties.tyre_vehicle_type.value,
           },
-          { arrayFilters: [{ "tyresData._id": data._id }], returnDocument: "after" }
-        )
-      }
-      if (data.Rear_tyre) {
-        updatedform8Data = await form8Schema.findByIdAndUpdate(
-          form8._id,
-            {
-              $set: {
-                "Tyres.TyresData.$[tyresData].Rear_tyre": data.Rear_tyre,
-              },
-            },
-            { arrayFilters: [{ "tyresData._id": data._id }], returnDocument: "after" }
-          )
-        }
+        },
+        { arrayFilters: [{ "tyresData._id": data._id }], returnDocument: "after" }
+      )
+        // if (form1A != null) {
+          if (form1A ) {
+              const item = form1A.Tyres.TyresData.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+            if(item != null) {await form1ASchema.findByIdAndUpdate(form8._id,
+                {$set: {
+            
+      "Tyres.TyresData.$[item].Front_Tyre.properties.tyre_vehicle_type.value": data.Front_Tyre.properties.tyre_vehicle_type.value,
+                  },
+                },{ arrayFilters: [{ "item._id": item._id }]})
+            }
+            }
+    }
+    if (data.Rear_tyre) {
+      updatedform8Data = await form8Schema.findByIdAndUpdate(
+        form8._id,
+        {
+          $set: {
+            "Tyres.TyresData.$[tyresData].Rear_tyre": data.Rear_tyre,
+          },
+        },
+        { arrayFilters: [{ "tyresData._id": data._id }], returnDocument: "after" }
+      )
+    }
     if (data.Traction_Battery_Pack) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
@@ -560,6 +604,17 @@ exports.updateForm8Data = async (requestId, data) => {
         {
           $set: {
             "Position_Lamps.PositionLamps.$[positionLamps].Front_Position_Lamp_Bulb_Type": data.Front_Position_Lamp_Bulb_Type,
+          },
+        },
+        { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
+      )
+    }
+    if (data.Parking_Lamp_Led_Rear) {
+      updatedform8Data = await form8Schema.findByIdAndUpdate(
+        form8._id,
+        {
+          $set: {
+            "Position_Lamps.PositionLamps.$[positionLamps].Parking_Lamp_Led_Rear": data.Parking_Lamp_Led_Rear,
           },
         },
         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
@@ -800,11 +855,22 @@ exports.updateForm8Data = async (requestId, data) => {
       )
     }
     if (data.Windscreen) {
+      // if (vehicle_type = '2-Wheeler') {
+      //   data.Windscreen.properties.Make.value = 'NA';
+      //   data.Windscreen.properties.BIS_License_Number_Validity.value = 'NA';
+      //   data.Windscreen.properties.Possible_date_of_submission_of_required_approval.value = 'NA';
+      //   data.Windscreen.properties.CoP_Cert_No_with_validity_date.value = 'NA';
+      // }
+
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Wind_screen.Windscreen.$[windscreen].Windscreen": data.Windscreen,
+            // "Wind_screen.Windscreen.$[windscreen].Windscreen": data.Windscreen,
+            "Wind_screen.Windscreen.$[windscreen].Windscreen.properties.Make.value": data.Windscreen.properties.Make.value,
+            "Wind_screen.Windscreen.$[windscreen].Windscreen.properties.BIS_License_Number_Validity.value": data.Windscreen.properties.BIS_License_Number_Validity.value,
+            "Wind_screen.Windscreen.$[windscreen].Windscreen.properties.Possible_date_of_submission_of_required_approval.value": data.Windscreen.properties.Possible_date_of_submission_of_required_approval.value,
+            "Wind_screen.Windscreen.$[windscreen].Windscreen.properties.CoP_Cert_No_with_validity_date.value": data.Windscreen.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         {
@@ -912,22 +978,30 @@ exports.updateForm8Data = async (requestId, data) => {
 const findOrCreateForm8 = async (requestId) => {
   console.log(`inside findOrCreateForm8`)
   let form8 = await form8Schema.findOne({ homologationRequest: requestId })
-    if (form8 == null) {
-      console.log(`creatng new form8 collection for requestId: ${requestId}`)
-      form8 = await form8Schema.create({
-        homologationRequest: requestId,
-      })
-      const defaultSupplier = await getSupplierByKey();
-      if(defaultSupplier){
-        console.log(`adding defaultSupplier for GrabhandleData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
-        await GrabhandleData(defaultSupplier._id, form8)
-       
+  if (form8 == null) {
+    console.log(`creatng new form8 collection for requestId: ${requestId}`)
+    form8 = await form8Schema.create({
+      homologationRequest: requestId,
+    })
+    const defaultSupplier = await getSupplierByKey();
+    if (defaultSupplier) {
+      const requestData = await homologationRequestSchema.findById(requestId)
 
-      } else{  
-        console.log(`inside findOrCreateForm8 :defaultSupplier is not found`)
+      console.log(`adding defaultSupplier for GrabhandleData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
+      await GrabhandleData(defaultSupplier._id, form8)
+
+      if (requestData.vehicle_type.value === '2-Wheeler') {
+        vehicle_type = '2-Wheeler';
+
+      } else {
+        vehicle_type = '3-Wheeler';
+
       }
+    } else {
+      console.log(`inside findOrCreateForm8 :defaultSupplier is not found`)
     }
-    return form8
+  }
+  return form8
 }
 
 exports.findOrCreateForm8 = findOrCreateForm8

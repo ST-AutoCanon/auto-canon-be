@@ -11,18 +11,20 @@ const {getSupplierByKey, createMongoSupplier} = require('./supplierController')
 function defaultSupplierModel(){
   return {
     nameOfSupplier: "In House Production",
-    copCertificationNumber: "213213123",
-    copCertificationValidityDate: "02-11-2022",
+    copCertificationNumber: "***",
+    copCertificationValidityDate: "",
+    // copCertificationValidityDate: "02-11-2022",
     licenceType: "BIS License No",
-    licenceNumber: "12334343",
-    licenceValidityDate: "24 June 2023",
+    licenceNumber: "***",
+    licenceValidityDate: "",
+    // licenceValidityDate: "24 June 2023",
     supplierKey: "vehical_ok_default_supplier"
   }
 }
 
 exports.getMongoConnection = async () => {
   try {
-    const mongoConnectionURL =`mongodb://${MONGO_USER}:${MONGO_PWD}@${MONGO_IP}:${MONGO_PORT}/sukalpadb?authSource=admin`;
+    const mongoConnectionURL =`mongodb://${MONGO_USER}:${MONGO_PWD}@${MONGO_IP}:${MONGO_PORT}/sukalpanew?authSource=admin`;
     mongoose.set("strictQuery", true)
     const mongoConnection = await mongoose.connect(`${mongoConnectionURL}`)
     if (mongoConnection){

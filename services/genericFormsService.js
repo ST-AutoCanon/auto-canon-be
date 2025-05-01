@@ -7,51 +7,115 @@ const fileUploadService = require("./fileUploadService");
 
 const loadash = require("lodash")
 
+// const calculateFormPercentage = async (formDataObj) => {
+//   delete formDataObj['homologationRequest'];
+//   delete formDataObj['createdAt'];
+//   delete formDataObj['updatedAt'];
+//   delete formDataObj['__v'];
+//   delete formDataObj['_id'];
+//   const totalComponents = Object.keys(formDataObj).length
+//   if(totalComponents <= 0) {
+//     return 0
+//   }
+//   let allComponentsPerceSummation = 0
+//   for (const component of Object.keys(formDataObj)) {
+//     let percentFilled = 0
+//     let totalProps = 0
+//     let filledProps = 0;
+
+//     const componentData = formDataObj[component];
+//     delete componentData['label'];
+//     const componentDataKey = Object.keys(componentData)
+//     const componentDataArr = componentData[componentDataKey]
+
+//     if(componentDataArr.length == 0){
+//       percentFilled = 0
+//     } else {
+//       for (const data of componentDataArr) {
+//           if(data.supplier && data.supplier.active){
+//               delete data['supplier'];
+//               delete data['_id'];
+//               for (const subSectionData of Object.keys(data)) {
+//                   const properties = data[subSectionData].properties
+//                   totalProps = totalProps + Object.keys(properties).length
+//                   Object.keys(properties).forEach(prop => {
+//                       if(properties[prop]['value'] !== ''){
+//                           filledProps++
+//                       }
+//                   })
+//               }
+//           }
+//         }
+//         percentFilled = (filledProps / totalProps) * 100;
+//         allComponentsPerceSummation = allComponentsPerceSummation + percentFilled
+//     }
+//   }
+//   return (allComponentsPerceSummation/totalComponents).toFixed(2)
+// }
 const calculateFormPercentage = async (formDataObj) => {
   delete formDataObj['homologationRequest'];
   delete formDataObj['createdAt'];
   delete formDataObj['updatedAt'];
   delete formDataObj['__v'];
   delete formDataObj['_id'];
-  const totalComponents = Object.keys(formDataObj).length
-  if(totalComponents <= 0) {
-    return 0
+
+  const totalComponents = Object.keys(formDataObj).length;
+  if (totalComponents <= 0) {
+    return 0;
   }
-  let allComponentsPerceSummation = 0
+
+  let allComponentsPerceSummation = 0;
+
   for (const component of Object.keys(formDataObj)) {
-    let percentFilled = 0
-    let totalProps = 0
+    let percentFilled = 0;
+    let totalProps = 0;
     let filledProps = 0;
 
     const componentData = formDataObj[component];
     delete componentData['label'];
-    const componentDataKey = Object.keys(componentData)
-    const componentDataArr = componentData[componentDataKey]
 
-    if(componentDataArr.length == 0){
-      percentFilled = 0
+    const componentDataKey = Object.keys(componentData)[0];
+    const componentDataArr = componentData[componentDataKey];
+
+    if (!Array.isArray(componentDataArr) || componentDataArr.length === 0) {
+      percentFilled = 0;
     } else {
-      for (const data of componentDataArr) {
-          if(data.supplier && data.supplier.active){
-              delete data['supplier'];
-              delete data['_id'];
-              for (const subSectionData of Object.keys(data)) {
-                  const properties = data[subSectionData].properties
-                  totalProps = totalProps + Object.keys(properties).length
-                  Object.keys(properties).forEach(prop => {
-                      if(properties[prop]['value'] !== ''){
-                          filledProps++
-                      }
-                  })
-              }
+      for (const entry of componentDataArr) {
+        if (entry.supplier && entry.supplier.active) {
+          const clonedEntry = { ...entry };
+          delete clonedEntry['supplier'];
+          delete clonedEntry['_id'];
+
+          for (const subSectionDataKey of Object.keys(clonedEntry)) {
+            const subData = clonedEntry[subSectionDataKey];
+
+            if (
+              subData &&
+              typeof subData === 'object' &&
+              subData.properties &&
+              typeof subData.properties === 'object'
+            ) {
+              const properties = subData.properties;
+              const propKeys = Object.keys(properties);
+              totalProps += propKeys.length;
+
+              propKeys.forEach((prop) => {
+                if (properties[prop].value !== '') {
+                  filledProps++;
+                }
+              });
+            }
           }
         }
-        percentFilled = (filledProps / totalProps) * 100;
-        allComponentsPerceSummation = allComponentsPerceSummation + percentFilled
+      }
+
+      percentFilled = totalProps > 0 ? (filledProps / totalProps) * 100 : 0;
+      allComponentsPerceSummation += percentFilled;
     }
   }
-  return (allComponentsPerceSummation/totalComponents).toFixed(2)
-}
+
+  return (allComponentsPerceSummation / totalComponents).toFixed(2);
+};
 
 exports.getFormsData = async (requestId) => {
     console.log(`fetching forms for requestId: ${requestId}`)
@@ -69,6 +133,7 @@ exports.getFormsData = async (requestId) => {
       const form8ForRequestcp = loadash.cloneDeep(form8ForRequest)
       const percentageFilled = await calculateFormPercentage(form8ForRequestcp)
       formsData.form8Data.percentageFilled = percentageFilled
+      console.log('percentageFilled form8Data :',percentageFilled)
     }
     const form11ForRequest = await form11Service.getForm11ForRequestId(requestId)
     if (form11ForRequest != null) {

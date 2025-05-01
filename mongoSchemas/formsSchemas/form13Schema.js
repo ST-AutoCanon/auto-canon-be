@@ -647,6 +647,14 @@ const ChargerSpecificationSchema = mongoose.Schema({
         label: { type: String, default: "Maximum initial in-rush current (A)" },
         units: { type: String, default: "Amps" },
       },
+      Charger_Power_ratings: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Charger Power ratings" },    
+      },
+      Charger_Connector_type: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Charger Connector type" }, 
+      },
     },
   },
   // Electrical_details_of_vehicle: {
@@ -801,6 +809,30 @@ const PowerControllerSchema = mongoose.Schema({
   },
 })
 
+const VehiclePerformanceSchema = mongoose.Schema({
+  supplier: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "supplier",
+  },
+  Performance: {
+    label: { type: String, default: "Performance" },
+    properties: {
+  
+      Electrical_energy_consumption: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Electrical energy consumption of Vehicle in W-h/km, as per AIS-040",          
+        },   
+        units: { type: String, default: "W/Km" },     
+      },
+     
+    
+    },
+  },
+});
+
+
 const form13Schema = mongoose.Schema(
   {
     Drive_Train_System: {
@@ -858,6 +890,10 @@ const form13Schema = mongoose.Schema(
     Controller: {
       label: { type: String, default: "Controller" },
       PowerController: [PowerControllerSchema],
+    },
+    Vehicle_Performance: {
+      label: { type: String, default: "Vehicle Performance" },
+      VehiclePerformance: [VehiclePerformanceSchema],
     },
     homologationRequest: {
       type: mongoose.Schema.Types.ObjectId,

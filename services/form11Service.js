@@ -105,7 +105,9 @@ exports.updateForm11Data = async (requestId, data) => {
         form11._id,
         {
           $set: {
-            "Vehicle_General_Information.vehicleGeneralInformation.$[vehicleGeneralInformation].Manufacturer_Details": data.Manufacturer_Details,
+            // "Vehicle_General_Information.vehicleGeneralInformation.$[vehicleGeneralInformation].Manufacturer_Details": data.Manufacturer_Details,
+            "Vehicle_General_Information.vehicleGeneralInformation.$[vehicleGeneralInformation].Manufacturer_Details.properties.Basic_model.value": data.Manufacturer_Details.properties.Basic_model.value,
+            "Vehicle_General_Information.vehicleGeneralInformation.$[vehicleGeneralInformation].Manufacturer_Details.properties.variant.value": data.Manufacturer_Details.properties.variant.value,
           },
         },
         { arrayFilters: [{ "vehicleGeneralInformation._id": data._id }], returnDocument: "after" }

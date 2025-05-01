@@ -329,12 +329,12 @@
   {
     "component": "Vehicle Performance",
     "vehicle_type": "3-Wheeler",
-    "forms": ["7", "1A"]
+    "forms": ["7", "1A","13"]
   },
   {
     "component": "Vehicle Performance",
     "vehicle_type": "2-Wheeler",
-    "forms": ["7", "1A"]
+    "forms": ["7", "1A" ,"13"]
   },
   {
     "component": "Dimension",

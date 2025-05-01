@@ -3,15 +3,26 @@ const form7Schema = require("../mongoSchemas/formsSchemas/form7Schema")
 const form8Schema = require("../mongoSchemas/formsSchemas/form8Schema")
 const form11Schema = require("../mongoSchemas/formsSchemas/form11Schema")
 const form13Schema = require("../mongoSchemas/formsSchemas/form13Schema")
-const homologationRequestSchema = require("../mongoSchemas/homologationRequestSchema");``
-
+const homologationRequestSchema = require("../mongoSchemas/homologationRequestSchema");
+let vehicle_type;
 const {getSupplierByKey} = require('../controllers/supplierController')
 
 
 const Tyres = async (supplierId, form1A) => {
   const Tyres = {
     supplier: supplierId,
-    Front_Tyre: {},
+    // Front_Tyre: {},
+    Front_Tyre: {
+      properties: {
+        Variant: { value:'' },
+        Type: { value:'' },
+        Size: { value: '' },
+        Make: { value:'' },
+        TAC: { value:'' },
+        Dynamic_rolling: { value:'' },     
+        tyre_vehicle_type: { value: vehicle_type === '2-Wheeler' ? '2-Wheeler' : '3-Wheeler' },
+      },
+    },
     Rear_Tyre:{},
     Any_other_Tyre:{},
     Tyre_Description:{},
@@ -114,6 +125,7 @@ const PositionLamps = async (supplierId, form1A) => {
     Front_Position_Lamp_Bulb_Type: {},
     Front_Parking_Lamp_LED_Type: {},
     Front_Parking_Lamp_Bulb_type: {},
+    Parking_Lamp_Led_Rear: {},
     Parking_Lamp_Bulb_Rear: {},
     Stop_Lamp_LED_Type: {},
     Stop_Lamp_bulb_Type: {},
@@ -188,8 +200,9 @@ const RetroReflectors = async (supplierId, form1A) => {
     Front_White_Reflector: {},
     Rear_Red_Reflector: {},
     Side_Amber_Reflector: {},
-    Rear_Hazard_Lamp: {},
-    Side_Hazard_Lamp: {},
+    // Rear_Hazard_Lamp: {},
+    // Side_Hazard_Lamp: {},
+    Reflective_Tape: {},
   }
   console.log(`creating data: ${JSON.stringify(RetroReflectors)} data for form1A: ${form1A._id}`)
   const updateform1AData = await form1ASchema.findByIdAndUpdate(
@@ -896,7 +909,20 @@ exports.updateform1AData = async (requestId, data) => {
         form1A._id,
         {
           $set: {
-            "Tyres.TyresData.$[tyres].Front_Tyre": data.Front_Tyre,
+            // "Tyres.TyresData.$[tyres].Front_Tyre": data.Front_Tyre,
+
+          
+
+
+              "Tyres.TyresData.$[tyres].Front_Tyre.properties.Variant.value": data.Front_Tyre.properties.Variant.value,
+              "Tyres.TyresData.$[tyres].Front_Tyre.properties.Type.value": data.Front_Tyre.properties.Type.value,
+              "Tyres.TyresData.$[tyres].Front_Tyre.properties.Size.value": data.Front_Tyre.properties.Size.value,
+              "Tyres.TyresData.$[tyres].Front_Tyre.properties.Make.value": data.Front_Tyre.properties.Make.value,
+              "Tyres.TyresData.$[tyres].Front_Tyre.properties.TAC.value": data.Front_Tyre.properties.TAC.value,
+              "Tyres.TyresData.$[tyres].Front_Tyre.properties.Dynamic_rolling.value": data.Front_Tyre.properties.Dynamic_rolling.value,
+              // "Tyres.TyresData.$[tyres].Front_Tyre.properties.tyre_vehicle_type.value": data.Front_Tyre.properties.tyre_vehicle_type.value,
+          
+
           },
         },
         { arrayFilters: [{ "tyres._id": data._id }], returnDocument: "after" }
@@ -1217,6 +1243,31 @@ exports.updateform1AData = async (requestId, data) => {
               "Position_Lamps.PositionLamps.$[item].Parking_Lamp_Bulb_Rear.properties.Make.value": data.Parking_Lamp_Bulb_Rear.properties.Make_of_Parking_lamp_bulb_rear.value,
               "Position_Lamps.PositionLamps.$[item].Parking_Lamp_Bulb_Rear.properties.Category_as_per_AIS_035.value": data.Parking_Lamp_Bulb_Rear.properties.Category_as_per_AIS035.value,
               "Position_Lamps.PositionLamps.$[item].Parking_Lamp_Bulb_Rear.properties.TAC_Number.value": data.Parking_Lamp_Bulb_Rear.properties.TAC_Number.value,
+
+            },
+          },{ arrayFilters: [{ "item._id": item._id }]})
+      }
+      }
+    }
+    if (data.Parking_Lamp_Led_Rear) {
+      updatedform1AData = await form1ASchema.findByIdAndUpdate(
+        form1A._id,
+        {
+          $set: {
+            "Position_Lamps.PositionLamps.$[positionLamps].Parking_Lamp_Led_Rear": data.Parking_Lamp_Led_Rear,
+          },
+        },
+        { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
+      )
+
+      if (form8 != null) {
+        const item = form8.Position_Lamps.PositionLamps.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+      if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
+          {$set: {
+      
+              "Position_Lamps.PositionLamps.$[item].Parking_Lamp_Led_Rear.properties.Make_of_Parking_lamp_led_rear.value": data.Parking_Lamp_Led_Rear.properties.Make_of_Parking_lamp_led_rear.value,
+              "Position_Lamps.PositionLamps.$[item].Parking_Lamp_Led_Rear.properties.Category_as_per_AIS035.value": data.Parking_Lamp_Led_Rear.properties.Category_as_per_AIS035.value,
+              "Position_Lamps.PositionLamps.$[item].Parking_Lamp_Led_Rear.properties.TAC_Number.value": data.Parking_Lamp_Led_Rear.properties.TAC_Number.value,
             },
           },{ arrayFilters: [{ "item._id": item._id }]})
       }
@@ -1602,7 +1653,8 @@ if (data.Manufacturer_Details) {
     { arrayFilters: [{ "vehicleGeneralInformation._id": data._id }], returnDocument: "after" }
   )
 
-  if (form7 != null) {
+  // if (form7 != null) {
+    if (form7 ) {
     const item = form7.Vehicle_General_Information.VehicleGeneralInformation.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
   if(item != null) {await form7Schema.findByIdAndUpdate(form7._id,
       {$set: {
@@ -2071,6 +2123,15 @@ if (data.Grab_handle_Straps) {
     },
     { arrayFilters: [{ "grabHandle._id": data._id }], returnDocument: "after" }
   )
+  if (form8 != null) {
+    const item = form8.Grab_handle.Grabhandle.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+    if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
+        {$set: {
+            "Grab_handle.Grabhandle.$[item].Grab_handle_Straps.properties.Make.value": data.Grab_handle_Straps.properties.Make.value
+          },
+        },{ arrayFilters: [{ "item._id": item._id }]})
+    }
+  }
 }
 if (data.External_Projection_Details) {
   updatedform1AData = await form1ASchema.findByIdAndUpdate(
@@ -2340,6 +2401,18 @@ if (data.Side_Amber_Reflector) {
       }
     }
   }
+  
+  if (data.Reflective_Tape) {
+    updatedform1AData = await form1ASchema.findByIdAndUpdate(
+      form1A._id,
+      {
+        $set: {
+          "Retro_Reflectors.RetroReflectors.$[retroReflectors].Reflective_Tape": data.Reflective_Tape,
+        },
+      },
+      { arrayFilters: [{ "retroReflectors._id": data._id }], returnDocument: "after" }
+    )
+  }
 
   return updatedform1AData
   } catch (error) {
@@ -2407,7 +2480,7 @@ const findOrCreateForm1A = async (requestId) => {
         
         if (requestData) {  
           if(requestData.vehicle_type.value === '2-Wheeler'){
-
+            vehicle_type = '2-Wheeler';
             console.log(`adding defaultSupplier for Suspension of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
             await Suspension(defaultSupplier._id, form1A)
             console.log(`adding defaultSupplier for TwoWheelerAggregates of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
@@ -2415,7 +2488,7 @@ const findOrCreateForm1A = async (requestId) => {
             console.log(`adding defaultSupplier for TwoWheelerExternalProjection of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
             await TwoWheelerExternalProjection(defaultSupplier._id, form1A)
           } else{
-
+            vehicle_type = '3-Wheeler';
             console.log(`adding defaultSupplier for GrabHandle of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
             await GrabHandle(defaultSupplier._id, form1A)
             console.log(`adding defaultSupplier for SteeringSuspensionAntiTheft of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)

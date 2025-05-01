@@ -249,6 +249,24 @@ const Controller = async (supplierId, form13) => {
   console.log(`updateform13Data: ${updateform13Data}`)
   return updateform13Data
 }
+const VehiclePerformanceData = async (supplierId, form13) => {
+  const VehiclePerformanceData = {
+    supplier: supplierId,
+    Performance: {},
+  }
+  console.log(`creating data: ${JSON.stringify(VehiclePerformanceData)} data for form13: ${form13._id}`)
+  const updateform13Data = await form13Schema.findByIdAndUpdate(
+    form13._id,
+    {
+      $push: {
+        "Vehicle_Performance.VehiclePerformance": VehiclePerformanceData,
+      },
+    },
+    { returnDocument: "after" }
+  )
+  console.log(`updateform13Data: ${updateform13Data}`)
+  return updateform13Data
+}
 
 exports.getForm13ForRequestId = async (requestId) => {
   try {
@@ -269,6 +287,7 @@ exports.getForm13ForRequestId = async (requestId) => {
     .populate({path:"Electrical_Safety_Device.ElectricalSafetyDevice.supplier"} )
     .populate({path:"Vehicle_Electrical_Specification.VehicleElectricalSpecification.supplier"} )
     .populate({path:"Controller.PowerController.supplier"})    
+    .populate({path: "Vehicle_Performance.VehiclePerformance.supplier"})
     if (form13Data != null) {
       return form13Data
     }
@@ -319,7 +338,8 @@ exports.createEmptyForm13ComponentDataForSupplier = async (component, supplierId
         return await VehicleElectricalSpecification(supplierId, form13)
       case "Controller":
         return await Controller(supplierId, form13)
-
+        case "Vehicle Performance":
+          return await VehiclePerformanceData(supplierId, form13)
       default:
         break
     }
@@ -584,6 +604,18 @@ exports.updateform13Data = async (requestId, data) => {
         { arrayFilters: [{ "powerController._id": data._id }], returnDocument: "after" }
       )
     }
+       if (data.Performance) {
+        updatedform13Data = await form13Schema.findByIdAndUpdate(
+          form13._id,
+          {
+            $set: {
+              "Vehicle_Performance.VehiclePerformance.$[vehiclePerformance].Performance": data.Performance,
+            },
+          },
+          { arrayFilters: [{ "vehiclePerformance._id": data._id }], returnDocument: "after" }
+        )
+        }
+
     return updatedform13Data
   } catch (error) {
     console.log(`Exception occured: ${error}`)
@@ -628,6 +660,8 @@ const findOrCreateForm13 = async (requestId) => {
         await VehicleElectricalSpecification(defaultSupplier._id, form13)
         console.log(`adding defaultSupplier for Controller of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
         await Controller(defaultSupplier._id, form13)
+        console.log(`adding defaultSupplier for VehiclePerformanceData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
+        await VehiclePerformanceData(defaultSupplier._id, form13)  
       } else{       
         console.log(`inside findOrCreateForm13 :defaultSupplier is not found`)
       }

@@ -67,6 +67,7 @@ const VehicleGeneralInformationData = async (supplierId, form7) => {
   const VehicleGeneralInformationData = {
     supplier: supplierId,
     Manufacturer_Details: {},
+    Variants: {},
   }
   console.log(`creating data: ${JSON.stringify(VehicleGeneralInformationData)} data for form7: ${form7._id}`)
   const updateForm7Data = await form7Schema.findByIdAndUpdate(
@@ -370,6 +371,7 @@ exports.updateForm7Data = async (requestId, data) => {
         { arrayFilters: [{ "vehicleGeneralInformation._id": data._id }], returnDocument: "after" }
       )
       if (form11 != null) {
+        // if (form11 ) {
         const item = form11.Vehicle_General_Information.vehicleGeneralInformation.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
         if(item != null) {await form11Schema.findByIdAndUpdate(form11._id,
             {$set: {
@@ -379,6 +381,16 @@ exports.updateForm7Data = async (requestId, data) => {
         }
       }
     }
+    if (data.Variants) {
+      updatedForm7Data = await form7Schema.findByIdAndUpdate(
+        form7._id,
+        {
+          $set: {
+            "Vehicle_General_Information.VehicleGeneralInformation.$[vehicleGeneralInformation].Variants": data.Variants,
+          },
+        },
+        { arrayFilters: [{ "vehicleGeneralInformation._id": data._id }], returnDocument: "after" }
+      )}
     if (data.General_arrangement_of_the_vehicle) {
       updatedForm7Data = await form7Schema.findByIdAndUpdate(
         form7._id,

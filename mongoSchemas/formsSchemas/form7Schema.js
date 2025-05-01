@@ -129,6 +129,23 @@ const VehicleGeneralInformationScehma = mongoose.Schema({
       },
     },
   },
+
+  Variants: {
+    label: { type: String, default: "Variants" },
+    properties: {
+     
+      Type_Of_Vehicle: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Type or Description" },
+      },
+      Vehicle_category: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Category of vehicle" },       
+      }, 
+   
+    },
+  },
+
 })
 
 const GeneralarrangementofthevehicleSchema = mongoose.Schema({

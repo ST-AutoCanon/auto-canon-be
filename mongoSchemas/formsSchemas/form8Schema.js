@@ -126,6 +126,11 @@ const TyresSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "CoP Cert No. with validity date" },
       },
+      tyre_vehicle_type:{
+        value: { type: String, default: "" },
+        label: { type: String, default: "Tyre Vehicle Type" },
+        display: { type: Boolean, default: false },
+      }
     },
   },
   Rear_tyre: {
@@ -418,6 +423,42 @@ const PositionLampsSchema = mongoose.Schema({
       TAC_Validity: {
         value: { type: String, default: "" },
         label: { type: String, default: "TAC Validity" },
+      },
+      Possible_date_of_submission_of_required_approval: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Possible date of submission of required approval, if the Certification is in process",
+        },
+      },
+      CoP_Cert_No_with_validity_date: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "CoP Cert No. with validity date" },
+      },
+    },
+  },
+  Parking_Lamp_Led_Rear: {
+    label: { type: String, default: "Parking Lamp LED Rear" },
+    properties: {
+      // Parking_Lamp_led_Rear: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Parking Lamp LED – Rear" },
+      //   display: { type: Boolean, default: false },
+      // },
+      Make_of_Parking_lamp_led_rear: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Make of Parking LED bulb rear" },
+        display: { type: Boolean, default: false },
+      },
+      Category_as_per_AIS035: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Category as per AIS-035" },
+        display: { type: Boolean, default: false },
+      },
+      TAC_Number: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "TAC Number of Rear Parking Lamp LED" },
+        display: { type: Boolean, default: false },
       },
       Possible_date_of_submission_of_required_approval: {
         value: { type: String, default: "" },
@@ -1261,6 +1302,7 @@ const GrabhandleSchema = mongoose.Schema({
           type: String,
           default: "Make of the Pillion Hand Hold",
         },
+        display: { type: Boolean, default: false },
       },
     },
   },
@@ -1390,7 +1432,8 @@ const form8Schema = mongoose.Schema(
     Grab_handle: {
       label: {
         type: String,
-        default: "Grab handle",
+        // default: "Grab handle",
+        default: "Two Wheeler Aggregates",        
       },
       Grabhandle: [GrabhandleSchema],
     },
