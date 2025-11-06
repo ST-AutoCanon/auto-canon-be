@@ -38,12 +38,12 @@
   {
     "component": "Daytime Running Lamp",
     "vehicle_type": "3-Wheeler",
-    "forms": ["8"]
+    "forms": ["1A", "8"]
   },
   {
     "component": "Daytime Running Lamp",
     "vehicle_type": "2-Wheeler",
-    "forms": ["8"]
+    "forms": ["1A", "8"]
   },
   {
     "component": "Position Lamps",
@@ -212,6 +212,8 @@
   },
   { "component": "Indicators", "vehicle_type": "3-Wheeler", "forms": ["1A"] },
   { "component": "Indicators", "vehicle_type": "2-Wheeler", "forms": ["1A"] },
+  { "component": "Vehicle Control Unit", "vehicle_type": "3-Wheeler", "forms": ["1A","13"] },
+  { "component": "Vehicle Control Unit", "vehicle_type": "2-Wheeler", "forms": ["1A","13"] },
   {
     "component": "Pillion Foot rest",
     "vehicle_type": "2-Wheeler",
@@ -225,8 +227,8 @@
   { "component": "Tell Tales", "vehicle_type": "3-Wheeler", "forms": ["1A"] },
   { "component": "Tell Tales", "vehicle_type": "2-Wheeler", "forms": ["1A"] },
 
-  { "component": "Drive Train System", "vehicle_type": "3-Wheeler", "forms": ["13", "1A"] },
-  { "component": "Drive Train System", "vehicle_type": "2-Wheeler", "forms": ["13", "1A"] },
+  { "component": "Drive Train System", "vehicle_type": "3-Wheeler", "forms": ["13", "1A" ,"7"] },
+  { "component": "Drive Train System", "vehicle_type": "2-Wheeler", "forms": ["13", "1A" ,"7"] },
   {
     "component": "Two Wheeler External Projection",
     "vehicle_type": "2-Wheeler",

@@ -4,6 +4,11 @@ const { authenticateTokenMiddleWare } = require("../middleware/authMiddleware");
 const formController = require("../controllers/formController");
 const fileUploadController = require("../controllers/fileUploadController");
 
+// Clone route FIRST
+router
+  .route("/cloneForms")
+  .post(authenticateTokenMiddleWare, formController.cloneFormsForNewRequest);
+
 router
   .route("/:requestId")
   .get(authenticateTokenMiddleWare, formController.getFormsForRequest)

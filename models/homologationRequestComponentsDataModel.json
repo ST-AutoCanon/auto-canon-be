@@ -145,7 +145,7 @@
     "vehicle_type": "3-Wheeler"
   },
   {
-    "components": ["Lubrication", "Vehicle Performance", "Code for Month and Year of production"],
+    "components": ["Lubrication", "Vehicle Performance", "Code for Month and Year of production","Vehicle Control Unit"],
     "fuel_type": "Electric",
     "page": "miscellaneous",
     "vehicle_type": "2-Wheeler"
@@ -155,7 +155,8 @@
       "Fire Fighting System",
       "Lubrication",
       "Vehicle Performance",
-      "Code for Month and Year of production"
+      "Code for Month and Year of production",
+      "Vehicle Control Unit"
     ],
     "fuel_type": "Electric",
     "page": "miscellaneous",

@@ -1,7 +1,7 @@
 
 const homologationRequestSchema = require("../mongoSchemas/homologationRequestSchema");
 const componentsToFormsDataModel = require("../models/componentsToFormsDataModel.json");
-const { getFormsData, createFormsComponentDataForSupplier, updateFormsData, getFileUploadData} = require("../services/genericFormsService")
+const { getFormsData, createFormsComponentDataForSupplier, updateFormsData, getFileUploadData,cloneFormsAndFilesForRequest} = require("../services/genericFormsService")
 
 exports.getFormsForRequest = async (req, res, next) => {
   try {
@@ -83,3 +83,28 @@ exports.updateFormsData = async (req, res, next) => {
     .json({status: "failure",body: error})
   }
 }
+
+exports.cloneFormsForNewRequest = async (req, res) => {
+  try {
+    const { sourceRequestId, targetRequestId } = req.body;
+
+    if (!sourceRequestId || !targetRequestId) {
+      return res.status(400).json({ status: "error", message: "Missing request IDs" });
+    }
+
+    const clonedResult = await cloneFormsAndFilesForRequest(sourceRequestId, targetRequestId);
+
+    return res.status(200).json({
+      status: "success",
+      message: "Forms and files cloned successfully",
+      data: clonedResult,
+    });
+  } catch (error) {
+    console.error("Error cloning forms:", error);
+    return res.status(500).json({
+      status: "error",
+      message: "An error occurred during cloning",
+      error: error.message,
+    });
+  }
+};

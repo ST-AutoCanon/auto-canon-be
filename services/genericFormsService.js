@@ -250,3 +250,61 @@ exports.createFileUploadModelsForRequestId = async (requestId) => {
     })
   }
 }
+
+
+function cleanClonedDoc(doc, newRequestId) {
+  const cloned = JSON.parse(JSON.stringify(doc)); // deep copy
+  delete cloned._id;
+  delete cloned.createdAt;
+  delete cloned.updatedAt;
+  cloned.homologationRequest = newRequestId;
+  return cloned;
+}
+
+exports.cloneFormsAndFilesForRequest = async (oldRequestId, newRequestId) => {
+  const result = {};
+
+  // FORM 1A
+  const form1A = await form1AService.getForm1AForRequestId(oldRequestId);
+  if (form1A) {
+    const newForm = cleanClonedDoc(form1A, newRequestId);
+    result.form1AData = await form1AService.insertNewForm1A(newForm);
+  }
+
+  // FORM 7
+  const form7 = await form7Service.getForm7ForRequestId(oldRequestId);
+  if (form7) {
+    const newForm = cleanClonedDoc(form7, newRequestId);
+    result.form7Data = await form7Service.insertNewForm7(newForm);
+  }
+
+  // FORM 8
+  const form8 = await form8Service.getForm8ForRequestId(oldRequestId);
+  if (form8) {
+    const newForm = cleanClonedDoc(form8, newRequestId);
+    result.form8Data = await form8Service.insertNewForm8(newForm);
+  }
+
+  // FORM 11
+  const form11 = await form11Service.getForm11ForRequestId(oldRequestId);
+  if (form11) {
+    const newForm = cleanClonedDoc(form11, newRequestId);
+    result.form11Data = await form11Service.insertNewForm11(newForm);
+  }
+
+  // FORM 13
+  const form13 = await form13Service.getForm13ForRequestId(oldRequestId);
+  if (form13) {
+    const newForm = cleanClonedDoc(form13, newRequestId);
+    result.form13Data = await form13Service.insertNewForm13(newForm);
+  }
+
+  // FILE UPLOAD
+  const fileUploads = await fileUploadService.getFileUploadRequestId(oldRequestId);
+  if (fileUploads) {
+    const newUploads = cleanClonedDoc(fileUploads, newRequestId);
+    result.fileUploadData = await fileUploadService.insertNewFileUpload(newUploads);
+  }
+
+  return result;
+};

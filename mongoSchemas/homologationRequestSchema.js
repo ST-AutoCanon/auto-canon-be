@@ -7,6 +7,15 @@ const homologationRequestSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
+    clonedFrom: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "HomologationRequest",
+      default: null
+    },
+    version: {
+      type: Number,
+      default: 0,
+    },
     vehicle_type: {
       value: { type: String, required: true, enum: ["2-Wheeler", "3-Wheeler"] },
       label: { type: String, default: "Type of Vehicle" },

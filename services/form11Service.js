@@ -39,7 +39,7 @@ const codeForMonthOfProduction = async (supplierId, form11) => {
    
     chassis_Number: {},
     vds_Sequence:{},
-    Month_of_Production1: {}
+    Month_of_Production: {}
   }
   console.log(`creating data: ${JSON.stringify(codeForMonthOfProduction)} data for form11: ${form11._id}`)
   const updateform11Data = await form11Schema.findByIdAndUpdate(
@@ -113,17 +113,39 @@ exports.updateForm11Data = async (requestId, data) => {
         { arrayFilters: [{ "vehicleGeneralInformation._id": data._id }], returnDocument: "after" }
       )
     }
+    // if (data.VIN_Numbering) {
+    //   updatedform11Data = await form11Schema.findByIdAndUpdate(
+    //     form11._id,
+    //     {
+    //       $set: {
+    //         "Vehicle_Identification_Number.VehicleIdentificationNumber.$[vehicleIdentificationNumber].VIN_Numbering": data.VIN_Numbering,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "vehicleIdentificationNumber._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
+
     if (data.VIN_Numbering) {
       updatedform11Data = await form11Schema.findByIdAndUpdate(
         form11._id,
         {
           $set: {
-            "Vehicle_Identification_Number.VehicleIdentificationNumber.$[vehicleIdentificationNumber].VIN_Numbering": data.VIN_Numbering,
+            "Vehicle_Identification_Number.VehicleIdentificationNumber.$[vehicleIdentificationNumber].VIN_Numbering.properties.Position_of_the_code_for_month_in_the_Chassis_number.value":
+              data.VIN_Numbering.properties.Position_of_the_code_for_month_in_the_Chassis_number.value,
+            "Vehicle_Identification_Number.VehicleIdentificationNumber.$[vehicleIdentificationNumber].VIN_Numbering.properties.Position_of_the_code_for_year_in_the_Chassis_number.value":
+              data.VIN_Numbering.properties.Position_of_the_code_for_year_in_the_Chassis_number.value,
+            "Vehicle_Identification_Number.VehicleIdentificationNumber.$[vehicleIdentificationNumber].VIN_Numbering.properties.Example_of_Engine_Motor_No.value":
+              data.VIN_Numbering.properties.Example_of_Engine_Motor_No.value,
           },
         },
-        { arrayFilters: [{ "vehicleIdentificationNumber._id": data._id }], returnDocument: "after" }
-      )
+        { 
+          arrayFilters: [{ "vehicleIdentificationNumber._id": data._id }],
+          returnDocument: "after" 
+        }
+      );
     }
+    
+    
     if (data.Year_of_Production) {
       updatedform11Data = await form11Schema.findByIdAndUpdate(
         form11._id,
@@ -172,12 +194,12 @@ exports.updateForm11Data = async (requestId, data) => {
         { arrayFilters: [{ "codeForMonthOfProduction._id": data._id }], returnDocument: "after" }
       )
     }
-    if (data.Month_of_Production1) {
+    if (data.Month_of_Production) {
       updatedform11Data = await form11Schema.findByIdAndUpdate(
         form11._id,
         {
           $set: {
-            "Month_of_Production.codeForMonthOfProduction.$[codeForMonthOfProduction].Month_of_Production1": data.Month_of_Production1,
+            "Month_of_Production.codeForMonthOfProduction.$[codeForMonthOfProduction].Month_of_Production": data.Month_of_Production,
           },
         },
         { arrayFilters: [{ "codeForMonthOfProduction._id": data._id }], returnDocument: "after" }
@@ -213,3 +235,8 @@ const findOrCreateForm11 = async (requestId) => {
 }
 
 exports.findOrCreateForm11 = findOrCreateForm11
+
+exports.insertNewForm11 = async (form) => {
+  // const Form11Model = require("../mongoSchemas/form11Schema");
+  return await form11Schema.create(form);
+};

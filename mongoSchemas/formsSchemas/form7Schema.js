@@ -5,13 +5,48 @@ const TyresSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "supplier",
   },
-  Tyre_Description: {
-    label: { type: String, default: "Tyre Description" },
+  // Tyre_Description: {
+  //   label: { type: String, default: "Tyre Description" },
+  //   properties: {
+  //     Laden: {
+  //       value: { type: String, default: "" },
+  //       label: { type: String, default: "Laden" },
+  //       display: {type: Boolean, default: false}
+  //     },
+  //     Tyre_size_designation_including_ply_rating: {
+  //       value: { type: String, default: "" },
+  //       label: {
+  //         type: String,
+  //         default: "Tyre size designation including ply rating",
+  //       },
+  //     },
+  //     Speed_index: {
+  //       value: { type: String, default: "" },
+  //       label: { type: String, default: "Speed index" },
+  //     },
+  //     Load_index_Load_rating: {
+  //       value: { type: String, default: "" },
+  //       label: { type: String, default: "Load index / Load rating" },
+  //     },
+  //     Tyre_Type: {
+  //       value: { type: String, default: "" },
+  //       label: { type: String, default: "Tyre Type" },
+  //     },
+  //     tyre_vehicle_type:{
+  //       value: { type: String, default: "" },
+  //       label: { type: String, default: "Tyre Vehicle Type" },
+  //       display: { type: Boolean, default: false },
+  //     }
+  //   },
+  // },
+
+  Front_Tyre: {
+    label: { type: String, default: "Front Tyre" },
     properties: {
       Laden: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Laden" },
-        display: {type: Boolean, default: false}
+        label: { type: String, default: " Front Laden" },     
+        units: { type: String, default: "kg/cm2 /kPa/ psi" }, 
       },
       Tyre_size_designation_including_ply_rating: {
         value: { type: String, default: "" },
@@ -30,8 +65,43 @@ const TyresSchema = mongoose.Schema({
       },
       Tyre_Type: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Tyre Type" },
+        label: { type: String, default: "Front Tyre Type" },
       },
+      tyre_vehicle_type:{
+        value: { type: String, default: "" },
+        label: { type: String, default: "Tyre Vehicle Type" },
+        display: { type: Boolean, default: false },
+      }
+   
+    },
+  },
+  Rear_Tyre: {
+    label: { type: String, default: "Rear Tyre" },
+    properties: {
+      Laden: {
+        value: { type: String, default: "" },
+        label: { type: String, default: " Rear Laden" },    
+        units: { type: String, default: "kg/cm2 /kPa/ psi" },   
+      },
+      Tyre_size_designation_including_ply_rating: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Tyre size designation including ply rating",
+        },
+      },
+      Speed_index: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Speed index" },
+      },
+      Load_index_Load_rating: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Load index / Load rating" },
+      },
+      Tyre_Type: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Rear Tyre Type" },
+      },   
     },
   },
 });
@@ -47,6 +117,15 @@ const WheelRimSchema = mongoose.Schema({
       Wheel_rim_size: {
         value: { type: String, default: "" },
         label: { type: String, default: "Wheel rim size" },
+        display: { type: Boolean, default: false },
+      },
+      Front_Wheel_Rim_Size: {
+        value: { type: String, default: "" },
+        label: { type: String, default: " Front Wheel rim size" },
+      },
+      Rear_Wheel_Rim_Size: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Rear Wheel rim size" },
       },
     },
   },
@@ -140,7 +219,7 @@ const VehicleGeneralInformationScehma = mongoose.Schema({
       },
       Vehicle_category: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Category of vehicle" },       
+        label: { type: String, default: "Category of Variant(s)" },       
       }, 
    
     },
@@ -175,9 +254,9 @@ const Vehicle_DimensionsSchema = mongoose.Schema({
     properties: {
       Wheel_base: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Wheel base (mm)" },
+        label: { type: String, default: "Wheel base (mm) " },
         units: { type: String, default: "mm" },
-        display: { type: Boolean, default: false },
+        // display: { type: Boolean, default: false },
       },
       Overall_width: {
         value: { type: String, default: "" },
@@ -191,7 +270,7 @@ const Vehicle_DimensionsSchema = mongoose.Schema({
       },
       Overall_height: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Overall height (mm)" },
+        label: { type: String, default: "Overall height (Unladen) (mm)" },
         units: { type: String, default: "mm" }
       },
       Front_track: {
@@ -211,7 +290,7 @@ const Vehicle_DimensionsSchema = mongoose.Schema({
       },
       Cargo_box_dimensions_if_fitted: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Cargo box dimensions (mm) if fitted" },
+        label: { type: String, default: "Cargo box dimensions (l x b x h) (mm)" },
         units: { type: String, default: "mm" }
       },
     },
@@ -245,7 +324,7 @@ const Vehicle_DimensionsSchema = mongoose.Schema({
       Frames_Long_member_size: {
         value: { type: String, default: "" },
         label: { type: String, default: "Frames Long member size(mm)" },
-        units: { type: String, default: "mm" }
+        // units: { type: String, default: "mm" }
       },
       Number_of_cross_members_if_any: {
         value: { type: String, default: "" },
@@ -285,9 +364,24 @@ const WeightsSchema = mongoose.Schema({
     properties: {
       Vehicle_kerb_weight: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Vehicle kerb weight" },
+        label: { type: String, default: "Vehicle kerb weight " },
         units: { type: String, default: "Kg" },
         display: { type: Boolean, default: false },
+      },
+      Kerb_weight_front_axle: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Front axle" },
+        units: { type: String, default: "Kg" }
+      },
+      Kerb_weight_rear_axle: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Rear axle" },
+        units: { type: String, default: "Kg" }
+      },
+      Kerb_weight_Total: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Total" },
+        units: { type: String, default: "Kg" }
       },
     },
   },
@@ -296,20 +390,25 @@ const WeightsSchema = mongoose.Schema({
     properties: {
       Gross_Vehicle_Weight: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Gross Vehicle Weight" },
+        label: { type: String, default: "Gross Vehicle Weight " },
         units: { type: String, default: "Kg" },
         display: { type: Boolean, default: false },
       },
       GVW_Distribution_on_front_axle: {
         value: { type: String, default: "" },
-        label: { type: String, default: "GVW Distribution on front axle" },
+        label: { type: String, default: "GVW Permissible FAW" },
         units: { type: String, default: "Kg" }
       },
       GVW_Distribution_on_rear_axle: {
         value: { type: String, default: "" },
-        label: { type: String, default: "GVW Distribution on rear axle" },
+        label: { type: String, default: "GVW Permissible RAW" },
         units: { type: String, default: "Kg" }
       },
+      // Other_axle: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Other axle" },
+      //   units: { type: String, default: "Kg" }
+      // },
     },
   },
   Gradability: {
@@ -345,7 +444,7 @@ const WeightsSchema = mongoose.Schema({
       // },
       Max_GCW_kg: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Maximum GCW kg (for articulated or combination vehicles)" },
+        label: { type: String, default: "Maximum GCW kg (for articulated or combination vehicles) " },
         display: { type: Boolean, default: false },
       },
     },
@@ -381,29 +480,91 @@ const SteeringSuspensionSchema = mongoose.Schema({
       },
     },
   },
-  Suspension: {
-    label: { type: String, default: "Suspension" },
+  // Suspension: {
+  //   label: { type: String, default: "Suspension" },
+  //   properties: {
+  //     Type_of_springs_provided_at_front_and_Rear: {
+  //       value: { type: String, default: "" },
+  //       label: {
+  //         type: String,
+  //         default: "Type of springs provided at front and Rear",
+  //       },
+  //       display: { type: Boolean, default: false },
+  //     },
+  //     Antiroll_bar_if_provided: {
+  //       value: { type: String, default: "" },
+  //       label: { type: String, default: "Anti-roll bar if provided" },
+  //       display: { type: Boolean, default: false },
+  //     },
+  //     Type_of_Shock_absorbers_provided_at_the_front_and_Rear: {
+  //       value: { type: String, default: "" },
+  //       label: {
+  //         type: String,
+  //         default: "Type of Shock absorbers provided at the front and Rear",
+  //       },
+  //       display: { type: Boolean, default: false },
+  //     },
+  //   },
+  // },
+
+  Front_Suspension: {
+    label: { type: String, default: "Front Suspension" },
     properties: {
+      Front_Type_Description: {
+        value: { type: String, default: "" },
+        label: { type: String, default: " Front Type / Description" },       
+      },
       Type_of_springs_provided_at_front_and_Rear: {
         value: { type: String, default: "" },
         label: {
           type: String,
-          default: "Type of springs provided at front and Rear",
+          default: "Type of springs provided at front",
         },
-        display: { type: Boolean, default: false },
+        
       },
       Antiroll_bar_if_provided: {
         value: { type: String, default: "" },
         label: { type: String, default: "Anti-roll bar if provided" },
-        display: { type: Boolean, default: false },
+       
       },
       Type_of_Shock_absorbers_provided_at_the_front_and_Rear: {
         value: { type: String, default: "" },
         label: {
           type: String,
-          default: "Type of Shock absorbers provided at the front and Rear",
+          default: "Type of Shock absorbers provided at the front",
         },
-        display: { type: Boolean, default: false },
+       
+      },
+    },
+  },
+  Rear_Suspension: {
+    label: { type: String, default: "Rear Suspension" },
+    properties: {
+      Rear_Type_Description: {
+        value: { type: String, default: "" },
+        label: { type: String, default: " Rear Type / Description" },
+       
+      },
+      Type_of_springs_provided_at_front_and_Rear: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Type of springs provided at Rear",
+        },
+     
+      },
+      Antiroll_bar_if_provided: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Anti-roll bar if provided" },
+
+      },
+      Type_of_Shock_absorbers_provided_at_the_front_and_Rear: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Type of Shock absorbers provided at the Rear",
+        },
+
       },
     },
   },
@@ -414,21 +575,51 @@ const SuspensionSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "supplier",
   },
-  Suspension: {
-    label: { type: String, default: "Suspension" },
+  // Suspension: {
+  //   label: { type: String, default: "Suspension" },
+  //   properties: {
+  //     Type_of_springs_provided_at_front_and_Rear: {
+  //       value: { type: String, default: "" },
+  //       label: {
+  //         type: String,
+  //         default: "Type of springs provided at front and Rear",
+  //       },
+  //       display: { type: Boolean, default: false },
+  //     },
+  //     Antiroll_bar_if_provided: {
+  //       value: { type: String, default: "" },
+  //       label: { type: String, default: "Anti-roll bar if provided" },
+  //       display: { type: Boolean, default: false },
+  //     },
+  //     Type_of_Shock_absorbers_provided_at_the_front_and_Rear: {
+  //       value: { type: String, default: "" },
+  //       label: {
+  //         type: String,
+  //         default: "Type of Shock absorbers provided at the front and Rear",
+  //       },
+  //       display: { type: Boolean, default: false },
+  //     },
+  //   },
+  // },
+  Front_Suspension: {
+    label: { type: String, default: "Front Suspension" },
     properties: {
+      Front_Type_Description: {
+        value: { type: String, default: "" },
+        label: { type: String, default: " Front Type / Description" },       
+      },
       Type_of_springs_provided_at_front_and_Rear: {
         value: { type: String, default: "" },
         label: {
           type: String,
           default: "Type of springs provided at front and Rear",
         },
-        display: { type: Boolean, default: false },
+        
       },
       Antiroll_bar_if_provided: {
         value: { type: String, default: "" },
         label: { type: String, default: "Anti-roll bar if provided" },
-        display: { type: Boolean, default: false },
+       
       },
       Type_of_Shock_absorbers_provided_at_the_front_and_Rear: {
         value: { type: String, default: "" },
@@ -436,7 +627,38 @@ const SuspensionSchema = mongoose.Schema({
           type: String,
           default: "Type of Shock absorbers provided at the front and Rear",
         },
-        display: { type: Boolean, default: false },
+       
+      },
+    },
+  },
+  Rear_Suspension: {
+    label: { type: String, default: "Rear Suspension" },
+    properties: {
+      Rear_Type_Description: {
+        value: { type: String, default: "" },
+        label: { type: String, default: " Rear Type / Description" },
+       
+      },
+      Type_of_springs_provided_at_front_and_Rear: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Type of springs provided at front and Rear",
+        },
+     
+      },
+      Antiroll_bar_if_provided: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Anti-roll bar if provided" },
+
+      },
+      Type_of_Shock_absorbers_provided_at_the_front_and_Rear: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Type of Shock absorbers provided at the front and Rear",
+        },
+
       },
     },
   },
@@ -449,12 +671,7 @@ const BrakesSchema = mongoose.Schema({
   },
   Brief_Brake_Information: {
     label: { type: String, default: "Brief Brake Information" },
-    properties: {
-      Select_Type_of_Braking_System: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Select Type of Braking System" },
-        display: { type: Boolean, default: false },
-      },
+    properties: {    
       Type_of_Shock_absorbers_provided_at_the_front_and_Rear: {
         value: { type: String, default: "" },
         label: {
@@ -518,9 +735,13 @@ const BrakesSchema = mongoose.Schema({
   Parking_Brake: {
     label: { type: String, default: "Parking Brake" },
     properties: {
-      Parking_Brake: {
+      Parking_Brake1: {
         value: { type: String, default: "" },
         label: { type: String, default: "Parking Brake" },
+      },
+      Select_Type_of_Braking_System: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Select Type of Service Braking System" },       
       },
     },
   },
@@ -583,14 +804,14 @@ const VehiclePerformanceSchema = mongoose.Schema({
       //     default: "Select Type Steering control provided",
       //   },
       // },
-      Electrical_energy_consumption: {
-        value: { type: String, default: "" },
-        label: {
-          type: String,
-          default: "Electrical energy consumption of Vehicle in W-h/km, as per AIS-040",          
-        },   
-        units: { type: String, default: "W/Km" },     
-      },
+      // Electrical_energy_consumption: {
+      //   value: { type: String, default: "" },
+      //   label: {
+      //     type: String,
+      //     default: "Electrical energy consumption of Vehicle in W-h/km, as per AIS-040",          
+      //   },   
+      //   units: { type: String, default: "W/Km" },     
+      // },
       Vehicle_Max_Speed_in_unladen_condition: {
         value: { type: String, default: "" },
         label: {
@@ -627,6 +848,94 @@ const VehicleElectricalSpecificationSchema = mongoose.Schema({
     },
   },
 })
+
+
+
+
+const DriveTrainSystemSchema = mongoose.Schema({
+  supplier: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "supplier",
+  },
+  Transmission: {
+    label: { type: String, default: "Transmission" },
+    properties: {
+   
+      // type_Transmission_arrangement: {
+      //   value: { type: String, default: "" },
+      //   label: { type: String, default: "Select the type of Transmission arrangement" },
+      // },
+      Reverse_gear_max_speed: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Whether reverse gear or mode provided if yes specify max speed " },
+        display: { type: Boolean, default: false },
+      },
+      Type_Gear_box_vehicle: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Select Type of Gear box used in the vehicle" },
+        display: { type: Boolean, default: false },
+      },
+      Make_or_Model: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Make/Model" }
+      },
+      
+      Number_of_gears: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Number of gears" }
+      },    
+     
+      
+      First_gear_ratio: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "First gear ratio" },
+        display: { type: Boolean, default: false },
+      },
+      
+      Second_gear_ratio: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Second gear ratio" },
+        display: { type: Boolean, default: false },
+      },
+      
+      Third_gear_ratio: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Third gear ratio" },
+        display: { type: Boolean, default: false },
+      },
+      
+      Fourth_gear_ratio: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Fourth gear ratio" },
+        display: { type: Boolean, default: false },
+      },
+      
+      Fifth_gear_ratio: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Fifth gear ratio" },
+        display: { type: Boolean, default: false },
+      },
+      
+      Sixth_gear_ratio: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Sixth gear ratio" },
+        display: { type: Boolean, default: false },
+      }
+      
+    },
+  },
+  Clutch: {
+    label: { type: String, default: "Clutch" },
+    properties: {     
+      Type: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Type" },
+        display: { type: Boolean, default: false },
+      },
+    },
+  },
+})
+
 
 const form7Schema = mongoose.Schema(
   {
@@ -685,6 +994,10 @@ const form7Schema = mongoose.Schema(
     Vehicle_Electrical_Specification: {
       label: { type: String, default: "Vehicle Electrical Specification" },
       VehicleElectricalSpecification: [VehicleElectricalSpecificationSchema],
+    },
+    Drive_Train_System: {
+      label: { type: String, default: "Drive Train System" },
+      DriveTrainSystemData: [DriveTrainSystemSchema],
     },
     homologationRequest: {
       type: mongoose.Schema.Types.ObjectId,

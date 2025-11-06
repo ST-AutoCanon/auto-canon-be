@@ -19,6 +19,7 @@ exports.createUserProfile = async (userRegistrationReq) => {
     businessName: userRegistrationReq.businessName,
     registrationDate: userRegistrationReq.registrationDate,
     registrationNumber: userRegistrationReq.registrationNumber,
+    vehicleType: userRegistrationReq.vehicleType,
     businessDescription: userRegistrationReq.businessDescription,
     profileAddress: {
       address1: userRegistrationReq.profileAddress.address1,

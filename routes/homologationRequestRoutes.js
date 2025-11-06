@@ -10,6 +10,11 @@ router
   .get(authenticateTokenMiddleWare, homologationRequestController.getHomologationRequestsByUser)
   .post(authenticateTokenMiddleWare, homologationRequestController.createHomologationRequest);
 
+    // Clone route
+router
+.route("/cloneHomologationRequest/:id")
+.post(authenticateTokenMiddleWare, homologationRequestController.cloneHomologationRequest);
+
 router
   .route("/searchHomologationRequests")
   .post(adminAuthenticateTokenMiddleWare, homologationRequestController.searchHomologationRequests)

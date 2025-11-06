@@ -3,7 +3,7 @@ const express = require("express")
 const bodyParser = require('body-parser');
 const path = require('path'); 
 const cors = require("cors")
-const port = 3005;
+const port = process.env.PORT;
 const { getMongoConnection } = require("./controllers/mongoService")
 const { registerRoutes } = require("./routes/routesRegistry")
 

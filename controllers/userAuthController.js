@@ -223,10 +223,68 @@ exports.signUp = async (req, res) => {
 // }
 
 
-//add the username1 for alternative user of same id
-exports.signin = async (req, res) => {
-  const { username, password } = req.body;
 
+// exports.signin = async (req, res) => {
+//   const { username, password } = req.body;
+
+//   try {
+//     // Find user by username or username1
+//     // const user = await User.findOne({
+//     //   $or: [{ username }, { username1: username }],
+//     // });
+//     const user = await User.findOne({ username });
+//     if (!user) {
+//       console.error(`Could not find the user with username: ${username}`);
+//       return res.status(200).json({
+//         status: "failure",
+//         body: `Could not find the user with username: ${username}`,
+//       });
+//     }
+
+//     // Determine which username matched
+//     // const matchedUsername = user.username === username ? user.username : user.username1;
+
+//     // Compare the provided password with the stored hashed password
+//     const passwordMatched = await bcrypt.compare(password, user.password);
+//     if (passwordMatched) {
+//       // console.log(`User sign-in success with username: ${matchedUsername}`);
+//       console.log(`User sign-in success with username: ${username}`);
+//       const { _id, role, status, businessName } = user;
+//       const tokenBody = {
+//         _id,
+//         // username: matchedUsername, // Use only the matched username
+//         username,
+//         role,
+//         status,
+//         businessName,
+//       };
+//       const accessToken = jwt.sign({ tokenBody }, ACCESS_TOKEN_SECRET, { expiresIn: "30m" });
+
+//       return res.status(201).json({
+//         status: "success",
+//         accessToken,
+//         userStatus: status,
+//       });
+//     } else {
+//       return res.status(200).json({
+//         status: "failure",
+//         // body: `Incorrect password for username: ${matchedUsername}`,
+//         body: `Incorrect password for username: ${username}`,
+//       });
+//     }
+//   } catch (error) {
+//     console.error(`Error while signin: ${error}`);
+//     return res.status(200).json({
+//       status: "failure",
+//       body: `Error while signin: ${error}`,
+//     });
+//   }
+// };
+
+exports.signin = async (req, res) => {
+
+  const { username, password } = req.body;
+  console.log('req.body;;:',req.body);
   try {
     // Find user by username or username1
     // const user = await User.findOne({
@@ -249,7 +307,9 @@ exports.signin = async (req, res) => {
     if (passwordMatched) {
       // console.log(`User sign-in success with username: ${matchedUsername}`);
       console.log(`User sign-in success with username: ${username}`);
+     
       const { _id, role, status, businessName } = user;
+      console.log('user:',user.vehicleType);
       const tokenBody = {
         _id,
         // username: matchedUsername, // Use only the matched username
@@ -264,6 +324,7 @@ exports.signin = async (req, res) => {
         status: "success",
         accessToken,
         userStatus: status,
+        vehicleType: user.vehicleType,
       });
     } else {
       return res.status(200).json({

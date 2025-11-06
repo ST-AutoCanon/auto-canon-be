@@ -9,7 +9,7 @@ exports.sendUserRegistrationMail = async (emailId, username, tempPassword) => {
   console.log(`pwdResetLink: ${pwdResetLink}`)
   const msg = {
     to: emailId, // Change to your recipient
-    from: "info@sukalpatech.com", // Change to your verified sender
+    from: "hr@sukalpatechsolutions.com", // Change to your verified sender
     subject: "user registration confirmation",
     text: "reset password and login",
     html: `click <a href="${pwdResetLink}">here</a> to reset password and login`,
@@ -32,7 +32,7 @@ exports.sendForgotPasswordMail = async (emailId, username, tempPassword) => {
   console.log(`forgotPwdLink: ${forgotPwdLink}`)
   const msg = {
     to: emailId, // Change to your recipient
-    from: "info@sukalpatech.com", // Change to your verified sender
+    from: "hr@sukalpatechsolutions.com", // Change to your verified sender
     subject: "Your new password to login",
     text: "Here is your new password to Login. Also, you can use the below link to login back to the site.",
     html: `click <a href="${forgotPwdLink}">here</a> to reset password and login`,
