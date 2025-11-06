@@ -68,6 +68,22 @@ const HydraulicBrakeHose = async (supplierId, form1A) => {
   return updateform1AData
 }
 
+const DaytimeRunningLampData = async (supplierId, form1A) => {
+  const DaytimeRunningLamp = {
+    supplier: supplierId,
+    Daytime_Running_Lamp: {},
+    Daytime_Running_Lamp_Led: {},
+  }
+  console.log(`creating data: ${JSON.stringify(DaytimeRunningLamp)} data for form1A: ${form1A._id}`)
+  const updateform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    { $push: { "Daytime_Running_Lamp.DaytimeRunningLamp": DaytimeRunningLamp } },
+    { returnDocument: "after" }
+  )
+  console.log(`updateform1AData: ${updateform1AData}`)
+  return updateform1AData
+}
+
 const Horn = async (supplierId, form1A) => {
   const Horn = {
     supplier: supplierId,
@@ -125,8 +141,10 @@ const PositionLamps = async (supplierId, form1A) => {
     Front_Position_Lamp_Bulb_Type: {},
     Front_Parking_Lamp_LED_Type: {},
     Front_Parking_Lamp_Bulb_type: {},
-    Parking_Lamp_Led_Rear: {},
+    // Parking_Lamp_Led_Rear: {},
     Parking_Lamp_Bulb_Rear: {},
+    Rear_Position_Lamp_LED_Type:{},
+    Rear_Position_Lamp_Bulb_Type:{},
     Stop_Lamp_LED_Type: {},
     Stop_Lamp_bulb_Type: {},
   }
@@ -223,6 +241,21 @@ const BrakeFluid = async (supplierId, form1A) => {
   const updateform1AData = await form1ASchema.findByIdAndUpdate(
     form1A._id,
     { $push: { "Brake_Fluid.BrakeFluid": BrakeFluid } },
+    { returnDocument: "after" }
+  )
+  console.log(`updateform1AData: ${updateform1AData}`)
+  return updateform1AData
+}
+
+const VehicleControlUnit = async (supplierId, form1A) => {
+  const VehicleControlUnit = {
+    supplier: supplierId,
+    Vehicle_Control: {},
+  }
+  console.log(`creating data: ${JSON.stringify(VehicleControlUnit)} data for form1A: ${form1A._id}`)
+  const updateform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    { $push: { "Vehicle_Control_Unit.VehicleControlUnit": VehicleControlUnit } },
     { returnDocument: "after" }
   )
   console.log(`updateform1AData: ${updateform1AData}`)
@@ -522,6 +555,7 @@ const DriveTrainSystem = async (supplierId, form1A) => {
   const DriveTrainSystem = {
     supplier: supplierId,
     Transmission: {},
+    Clutch:{}
   }
   console.log(`creating data: ${JSON.stringify(DriveTrainSystem)} data for form1A: ${form1A._id}`)
   const updateform1AData = await form1ASchema.findByIdAndUpdate(
@@ -598,7 +632,13 @@ const WindscreenWipingSystem = async (supplierId, form1A, requestId) => {
     supplier: supplierId,
     Other_Glazing: {},
     Windscreen_and_Wiping_System: {},
-   
+    Wiper_Motor: {},
+    Windscreen_wiper: {},
+    Wiper_arm: {},
+    Wiper_Blade: {},
+    Washer_Tank: {},
+    Washer_tank_motor_or_Washer_Pump_if_provided: {},
+
   }
   console.log(`creating data: ${JSON.stringify(WindscreenWipingSystem)} data for form1A: ${form1A._id}`)
   const updateform1AData = await form1ASchema.findByIdAndUpdate(
@@ -748,7 +788,9 @@ exports.getForm1AForRequestId = async (requestId) => {
     .populate({path:"Hazard_Warning_Lamp.HazardWarningLamp.supplier"})
     .populate({path:"Retro_Reflectors.RetroReflectors.supplier"})
     .populate({path:"Hydraulic_Brake_Hose.HydraulicBrakeHose.supplier"})
+    .populate({ path: "Daytime_Running_Lamp.DaytimeRunningLamp.supplier" })
     .populate({path:"Brake_Fluid.BrakeFluid.supplier"})
+    .populate({path:"Vehicle_Control_Unit.VehicleControlUnit.supplier"})    
     .populate({path:"Rear_View_Mirror.RearViewMirror.supplier"})
     .populate({path:"Reversing_Lamp.ReversingLamp.supplier"})
     .populate({path:"Vehicle_General_Information.VehicleGeneralInformation.supplier"})
@@ -820,8 +862,12 @@ exports.createEmptyForm1AComponentDataForSupplier = async (component, supplierId
         return await RetroReflectors(supplierId, form1A)
       case "Hydraulic Brake Hose":
         return await HydraulicBrakeHose(supplierId, form1A)
+        case "Daytime Running Lamp":
+          return await DaytimeRunningLampData(supplierId, form1A)
       case "Brake Fluid":
         return await BrakeFluid(supplierId, form1A)
+        case "Vehicle Control Unit":
+          return await VehicleControlUnit(supplierId, form1A)        
       case "Rear View Mirror":
         return await RearViewMirror(supplierId, form1A)
       case "Reversing Lamp":
@@ -962,7 +1008,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "tyres._id": data._id }], returnDocument: "after" }
       )
 
-      if (form7 != null) {
+      // if (form7 != null) {
+        if (form7) {
         const item = form7.Tyres.TyresData.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
         if(item != null) {await form7Schema.findByIdAndUpdate(form7._id,
             {$set: {
@@ -983,11 +1030,13 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "wheelRim._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Wheel_Rim.WheelRim.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
               "Wheel_Rim.WheelRim.$[item].Front_Wheel_Rim.properties.Make.value": data.Front_Wheel_Rim.properties.Make_of_front_wheel_Rim.value,
+              "Wheel_Rim.WheelRim.$[item].Front_Wheel_Rim.properties.BIS_License_TAC_Number_with_its_Validity.value": data.Front_Wheel_Rim.properties.BIS_License_Number_validity.value,
             },
           },{ arrayFilters: [{ "item._id": item._id }]})
       }
@@ -1004,7 +1053,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "wheelRim._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Wheel_Rim.WheelRim.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1026,7 +1076,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "horn._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Horn.Horn.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1081,7 +1132,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "headLamp._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Head_Lamp.HeadLamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1103,7 +1155,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "headLamp._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Head_Lamp.HeadLamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1125,7 +1178,8 @@ exports.updateform1AData = async (requestId, data) => {
         },
         { arrayFilters: [{ "headLamp._id": data._id }], returnDocument: "after" }
       )
-        if (form8 != null) {
+        // if (form8 != null) {
+if (form8 ) {
           const item = form8.Head_Lamp.HeadLamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
         if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
             {$set: {
@@ -1146,7 +1200,8 @@ exports.updateform1AData = async (requestId, data) => {
         },
         { arrayFilters: [{ "headLamp._id": data._id }], returnDocument: "after" }
       )
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Head_Lamp.HeadLamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1169,7 +1224,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Position_Lamps.PositionLamps.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1191,7 +1247,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Position_Lamps.PositionLamps.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1236,7 +1293,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Position_Lamps.PositionLamps.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1249,30 +1307,82 @@ exports.updateform1AData = async (requestId, data) => {
       }
       }
     }
-    if (data.Parking_Lamp_Led_Rear) {
-      updatedform1AData = await form1ASchema.findByIdAndUpdate(
-        form1A._id,
-        {
-          $set: {
-            "Position_Lamps.PositionLamps.$[positionLamps].Parking_Lamp_Led_Rear": data.Parking_Lamp_Led_Rear,
-          },
-        },
-        { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
-      )
+//     if (data.Parking_Lamp_Led_Rear) {
+//       updatedform1AData = await form1ASchema.findByIdAndUpdate(
+//         form1A._id,
+//         {
+//           $set: {
+//             "Position_Lamps.PositionLamps.$[positionLamps].Parking_Lamp_Led_Rear": data.Parking_Lamp_Led_Rear,
+//           },
+//         },
+//         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
+//       )
 
-      if (form8 != null) {
-        const item = form8.Position_Lamps.PositionLamps.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
-      if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
-          {$set: {
+//       // if (form8 != null) {
+// if (form8 ) {
+//         const item = form8.Position_Lamps.PositionLamps.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+//       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
+//           {$set: {
       
-              "Position_Lamps.PositionLamps.$[item].Parking_Lamp_Led_Rear.properties.Make_of_Parking_lamp_led_rear.value": data.Parking_Lamp_Led_Rear.properties.Make_of_Parking_lamp_led_rear.value,
-              "Position_Lamps.PositionLamps.$[item].Parking_Lamp_Led_Rear.properties.Category_as_per_AIS035.value": data.Parking_Lamp_Led_Rear.properties.Category_as_per_AIS035.value,
-              "Position_Lamps.PositionLamps.$[item].Parking_Lamp_Led_Rear.properties.TAC_Number.value": data.Parking_Lamp_Led_Rear.properties.TAC_Number.value,
-            },
-          },{ arrayFilters: [{ "item._id": item._id }]})
-      }
-      }
-    }
+//               "Position_Lamps.PositionLamps.$[item].Parking_Lamp_Led_Rear.properties.Make_of_Parking_lamp_led_rear.value": data.Parking_Lamp_Led_Rear.properties.Make_of_Parking_lamp_led_rear.value,
+//               "Position_Lamps.PositionLamps.$[item].Parking_Lamp_Led_Rear.properties.Category_as_per_AIS035.value": data.Parking_Lamp_Led_Rear.properties.Category_as_per_AIS035.value,
+//               "Position_Lamps.PositionLamps.$[item].Parking_Lamp_Led_Rear.properties.TAC_Number.value": data.Parking_Lamp_Led_Rear.properties.TAC_Number.value,
+//             },
+//           },{ arrayFilters: [{ "item._id": item._id }]})
+//       }
+//       }
+//     }
+if (data.Rear_Position_Lamp_LED_Type) {
+  updatedform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    {
+      $set: {
+        "Position_Lamps.PositionLamps.$[positionLamps].Rear_Position_Lamp_LED_Type": data.Rear_Position_Lamp_LED_Type,
+      },
+    },
+    { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
+  )
+
+  // if (form8 != null) {
+// if (form8 ) {
+//     const item = form8.Position_Lamps.PositionLamps.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+//   if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
+//       {$set: {
+//           "Position_Lamps.PositionLamps.$[item].Rear_Position_Lamp_LED_Type.properties.Make_of_front_Position_lamp.value": data.Rear_Position_Lamp_LED_Type.properties.Make_of_front_Position_lamp.value,
+//           "Position_Lamps.PositionLamps.$[item].Rear_Position_Lamp_LED_Type.properties.Number_of_Rear_Position_lamps_and_Colour_of_light.value": data.Rear_Position_Lamp_LED_Type.properties.Number_of_Rear_Position_lamps_and_Colour_of_light.value,
+//           "Position_Lamps.PositionLamps.$[item].Rear_Position_Lamp_LED_Type.properties.TAC_Number_of_Rear_Position_Lamp.value": data.Rear_Position_Lamp_LED_Type.properties.TAC_Number_of_Rear_Position_Lamp.value,
+
+//         },
+//       },{ arrayFilters: [{ "item._id": item._id }]})
+//   }
+//   }
+}
+
+if (data.Rear_Position_Lamp_Bulb_Type) {
+  updatedform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    {
+      $set: {
+        "Position_Lamps.PositionLamps.$[positionLamps].Rear_Position_Lamp_Bulb_Type": data.Rear_Position_Lamp_Bulb_Type,
+      },
+    },
+    { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
+  )
+
+  // if (form8 != null) {
+// if (form8 ) {
+//     const item = form8.Position_Lamps.PositionLamps.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+//   if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
+//       {$set: {
+//           "Position_Lamps.PositionLamps.$[item].Rear_Position_Lamp_Bulb_Type.properties.Make_of_front_Position_lamp.value": data.Rear_Position_Lamp_Bulb_Type.properties.Make_of_front_Position_lamp.value,
+//           "Position_Lamps.PositionLamps.$[item].Rear_Position_Lamp_Bulb_Type.properties.Category_as_per_AIS034.value": data.Rear_Position_Lamp_Bulb_Type.properties.Category_as_per_AIS034.value,
+//           "Position_Lamps.PositionLamps.$[item].Rear_Position_Lamp_Bulb_Type.properties.TAC_Number_of_Rear_Position_Lamp.value": data.Rear_Position_Lamp_Bulb_Type.properties.TAC_Number_of_Rear_Position_Lamp.value,
+
+//         },
+//       },{ arrayFilters: [{ "item._id": item._id }]})
+//   }
+//   }
+}
     if (data.Stop_Lamp_LED_Type) {
       updatedform1AData = await form1ASchema.findByIdAndUpdate(
         form1A._id,
@@ -1284,7 +1394,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Position_Lamps.PositionLamps.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1306,7 +1417,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Position_Lamps.PositionLamps.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1329,7 +1441,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "rearRegistrationPlate._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1352,7 +1465,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "rearRegistrationPlate._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1376,7 +1490,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Direction_Indicator_Lamp.DirectionIndicatorLamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1398,7 +1513,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Direction_Indicator_Lamp.DirectionIndicatorLamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1422,7 +1538,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Direction_Indicator_Lamp.DirectionIndicatorLamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1444,7 +1561,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Direction_Indicator_Lamp.DirectionIndicatorLamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1467,7 +1585,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Direction_Indicator_Lamp.DirectionIndicatorLamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -1533,6 +1652,28 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "hazardWarningLamp._id": data._id }], returnDocument: "after" }
       )
     }
+    if (data.Daytime_Running_Lamp) {
+      updatedform1AData = await form1ASchema.findByIdAndUpdate(
+        form1A._id,
+          {
+            $set: {
+              "Daytime_Running_Lamp.DaytimeRunningLamp.$[daytimeRunningLamp].Daytime_Running_Lamp": data.Daytime_Running_Lamp,
+            },
+          },
+          { arrayFilters: [{ "daytimeRunningLamp._id": data._id }], returnDocument: "after" }
+        )
+      }
+      if (data.Daytime_Running_Lamp_Led) {
+        updatedform1AData = await form1ASchema.findByIdAndUpdate(
+          form1A._id,
+            {
+              $set: {
+                "Daytime_Running_Lamp.DaytimeRunningLamp.$[daytimeRunningLamp].Daytime_Running_Lamp_Led": data.Daytime_Running_Lamp_Led,
+              },
+            },
+            { arrayFilters: [{ "daytimeRunningLamp._id": data._id }], returnDocument: "after" }
+          )
+        }
     if (data.Hydraulic_Brake_Hose) {
       updatedform1AData = await form1ASchema.findByIdAndUpdate(
         form1A._id,
@@ -1544,7 +1685,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "hydraulicBrakeHose._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Hydraulic_Brake_Hose.HydraulicBrakeHose.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
         if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
             {$set: {
@@ -1566,7 +1708,8 @@ exports.updateform1AData = async (requestId, data) => {
         { arrayFilters: [{ "brakeFluid._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+if (form8 ) {
         const item = form8.Brake_Fluid.BrakeFluid.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
         if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
             {$set: {
@@ -1575,7 +1718,22 @@ exports.updateform1AData = async (requestId, data) => {
             },{ arrayFilters: [{ "item._id": item._id }]})
         }
       }
+    }  
+
+    
+    if (data.Vehicle_Control) {
+      updatedform1AData = await form1ASchema.findByIdAndUpdate(
+        form1A._id,
+        {
+          $set: {
+            "Vehicle_Control_Unit.VehicleControlUnit.$[vehicleControlUnit].Vehicle_Control": data.Vehicle_Control,
+          },
+        },
+        { arrayFilters: [{ "vehicleControlUnit._id": data._id }], returnDocument: "after" }
+      )
     }
+
+
  if (data.Rear_View_Mirror) {
   updatedform1AData = await form1ASchema.findByIdAndUpdate(
     form1A._id,
@@ -1586,7 +1744,8 @@ exports.updateform1AData = async (requestId, data) => {
     },
     { arrayFilters: [{ "rearViewMirror._id": data._id }], returnDocument: "after" }
   )
-  if (form8 != null) {
+  // if (form8 != null) {
+if (form8 ) {
     const item = form8.Rear_View_Mirror.RearViewMirror.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
     if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
         {$set: {
@@ -1608,7 +1767,8 @@ if (data.Reversing_Lamp) {
     { arrayFilters: [{ "reversingLamp._id": data._id }], returnDocument: "after" }
   )
 
-  if (form8 != null) {
+  // if (form8 != null) {
+if (form8 ) {
     const item = form8.Reversing_Lamp.ReversingLamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
     if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
         {$set: {
@@ -1630,7 +1790,8 @@ if (data.Reverse_Lamp_Bulb_Type) {
     { arrayFilters: [{ "reversingLamp._id": data._id }], returnDocument: "after" }
   )
 
-  if (form8 != null) {
+  // if (form8 != null) {
+if (form8 ) {
   const item = form8.Reversing_Lamp.ReversingLamp.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
     if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
         {$set: {
@@ -1665,6 +1826,38 @@ if (data.Manufacturer_Details) {
       },{ arrayFilters: [{ "item._id": item._id }]})
   }
   }
+
+  if (form13) {
+    const item = form13.Vehicle_General_Information.vehicleGeneralInformation.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+    console.log("Form13 item found:", item);
+
+    if(item != null) {await form13Schema.findByIdAndUpdate(form13._id,
+      {$set: {
+          "Vehicle_General_Information.vehicleGeneralInformation.$[item].Manufacturer_Details.properties.Vehicle_category.value": data.Manufacturer_Details.properties.Vehicle_category.value,         
+        },
+      },{ arrayFilters: [{ "item._id": item._id }]})
+  }
+  }
+  if (form11 ) {
+    const item = form11.Vehicle_General_Information.vehicleGeneralInformation.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+  if(item != null) {await form11Schema.findByIdAndUpdate(form11._id,
+      {$set: {
+          "Vehicle_General_Information.vehicleGeneralInformation.$[item].Manufacturer_Details.properties.Vehicle_category.value": data.Manufacturer_Details.properties.Vehicle_category.value,        
+        },
+      },{ arrayFilters: [{ "item._id": item._id }]})
+  }
+  }
+
+  // if (form8 != null) {
+if (form8 ) {
+    const item = form8.Handle_Lock.HandleLock.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+  if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
+      {$set: {
+          "Handle_Lock.HandleLock.$[item].Protective_Device_Handle_Lock.properties.Vehicle_category.value": data.Manufacturer_Details.properties.Vehicle_category.value,        
+        },
+      },{ arrayFilters: [{ "item._id": item._id }]})
+  }
+  }
 }
 
 if (data.General_arrangement_vehicle) {
@@ -1677,7 +1870,8 @@ if (data.General_arrangement_vehicle) {
     },
     { arrayFilters: [{ "generalArrangementVehicle._id": data._id }], returnDocument: "after" }
   )
-  if (form7 != null) {
+  // if (form7 != null) {
+    if (form7) {
     const item = form7.General_arrangement_of_the_vehicle.Generalarrangementofthevehicle.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
     if(item != null) {await form7Schema.findByIdAndUpdate(form7._id,
         {$set: {
@@ -1686,15 +1880,16 @@ if (data.General_arrangement_vehicle) {
         },{ arrayFilters: [{ "item._id": item._id }]})
     }
   }
-  if (form7 != null) {
-    const item = form7.Vehicle_Dimensions.VehicleDimensions.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
-    if(item != null) {await form7Schema.findByIdAndUpdate(form7._id,
-        {$set: {
-            "Vehicle_Dimensions.VehicleDimensions.$[item].General_arrangement_of_the_vehicle_dimension.properties.Wheel_base.value": data.General_arrangement_vehicle.properties.Wheel_base.value,
-          },
-        },{ arrayFilters: [{ "item._id": item._id }]})
-    }
-  }
+  // if (form7 != null) {
+  //   if (form7) {
+  //   const item = form7.Vehicle_Dimensions.VehicleDimensions.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+  //   if(item != null) {await form7Schema.findByIdAndUpdate(form7._id,
+  //       {$set: {
+  //           "Vehicle_Dimensions.VehicleDimensions.$[item].General_arrangement_of_the_vehicle_dimension.properties.Wheel_base.value": data.General_arrangement_vehicle.properties.Wheel_base.value,
+  //         },
+  //       },{ arrayFilters: [{ "item._id": item._id }]})
+  //   }
+  // }
 }
 
 if (data.Kerb_Weight) {
@@ -1747,7 +1942,8 @@ if (data.Maximum_Carrying_capacity) {
     },
     { arrayFilters: [{ "weightsData._id": data._id }], returnDocument: "after" }
   )
-  if (form7 != null) {
+  // if (form7 != null) {
+    if (form7) {
     const item = form7.Weights.Weights.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
     if(item != null) {await form7Schema.findByIdAndUpdate(form7._id,
         {$set: {
@@ -1810,7 +2006,8 @@ if (data.Brief_Brake_Information) {
     },
     { arrayFilters: [{ "brakesData._id": data._id }], returnDocument: "after" }
   )
-  if (form7 != null) {
+  // if (form7 != null) {
+    if (form7) {
     const item = form7.Brakes.Brakes.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
     if(item != null) {await form7Schema.findByIdAndUpdate(form7._id,
         {$set: {
@@ -1850,7 +2047,8 @@ if (data.ABS) {
     },
     { arrayFilters: [{ "brakesData._id": data._id }], returnDocument: "after" }
   )
-  if (form7 != null) {
+  // if (form7 != null) {
+    if (form7 ) {
     const item = form7.Brakes.Brakes.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
     if(item != null) {await form7Schema.findByIdAndUpdate(form7._id,
         {$set: {
@@ -2103,7 +2301,8 @@ if (data.Lock_Anti_theft_device) {
     { arrayFilters: [{ "handleLock._id": data._id }], returnDocument: "after" }
   )
 
-  if (form8 != null) {
+  // if (form8 != null) {
+if (form8 ) {
     const item = form8.Handle_Lock.HandleLock.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
     if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
         {$set: {
@@ -2123,7 +2322,8 @@ if (data.Grab_handle_Straps) {
     },
     { arrayFilters: [{ "grabHandle._id": data._id }], returnDocument: "after" }
   )
-  if (form8 != null) {
+  // if (form8 != null) {
+if (form8 ) {
     const item = form8.Grab_handle.Grabhandle.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
     if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
         {$set: {
@@ -2144,6 +2344,18 @@ if (data.External_Projection_Details) {
     { arrayFilters: [{ "twoWheelerExternalProjection._id": data._id }], returnDocument: "after" }
   )
 }
+// if (data.Transmission) {
+//   updatedform1AData = await form1ASchema.findByIdAndUpdate(
+//     form1A._id,
+//     {
+//       $set: {
+//         "Drive_Train_System.DriveTrainSystemData.$[driveTrainSystemData].Transmission": data.Transmission,
+//       },
+//     },
+//     { arrayFilters: [{ "driveTrainSystemData._id": data._id }], returnDocument: "after" }
+//   )
+// }
+
 if (data.Transmission) {
   updatedform1AData = await form1ASchema.findByIdAndUpdate(
     form1A._id,
@@ -2154,7 +2366,47 @@ if (data.Transmission) {
     },
     { arrayFilters: [{ "driveTrainSystemData._id": data._id }], returnDocument: "after" }
   )
+  if (form7 ) {
+    const item = form7.Drive_Train_System.DriveTrainSystemData.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+    if(item != null) {await form7Schema.findByIdAndUpdate(form7._id,
+        {$set: {
+          "Drive_Train_System.DriveTrainSystemData.$[item].Transmission.properties.First_gear_ratio.value": data.Transmission.properties.First_gear_ratio.value,
+          "Drive_Train_System.DriveTrainSystemData.$[item].Transmission.properties.Second_gear_ratio.value": data.Transmission.properties.Second_gear_ratio.value,
+          "Drive_Train_System.DriveTrainSystemData.$[item].Transmission.properties.Third_gear_ratio.value": data.Transmission.properties.Third_gear_ratio.value,
+          "Drive_Train_System.DriveTrainSystemData.$[item].Transmission.properties.Fourth_gear_ratio.value": data.Transmission.properties.Fourth_gear_ratio.value,
+          "Drive_Train_System.DriveTrainSystemData.$[item].Transmission.properties.Fifth_gear_ratio.value": data.Transmission.properties.Fifth_gear_ratio.value,
+          "Drive_Train_System.DriveTrainSystemData.$[item].Transmission.properties.Sixth_gear_ratio.value": data.Transmission.properties.Sixth_gear_ratio.value,          
+          "Drive_Train_System.DriveTrainSystemData.$[item].Transmission.properties.Type_Gear_box_vehicle.value": data.Transmission.properties.Type_Gear_box_vehicle.value,
+          "Drive_Train_System.DriveTrainSystemData.$[item].Transmission.properties.Reverse_gear_max_speed.value": data.Transmission.properties.Reverse_gear_max_speed.value,      
+
+         
+        },
+        },{ arrayFilters: [{ "item._id": item._id }]})
+    }
+  }
 }
+if (data.Clutch) {
+  updatedform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    {
+      $set: {
+        "Drive_Train_System.DriveTrainSystemData.$[driveTrainSystemData].Clutch": data.Clutch,
+      },
+    },
+    { arrayFilters: [{ "driveTrainSystemData._id": data._id }], returnDocument: "after" }
+  )
+
+  if (form7 ) {
+    const item = form7.Drive_Train_System.DriveTrainSystemData.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+    if(item != null) {await form7Schema.findByIdAndUpdate(form7._id,
+        {$set: {
+          "Drive_Train_System.DriveTrainSystemData.$[item].Clutch.properties.Type.value": data.Clutch.properties.Type.value,
+          },
+        },{ arrayFilters: [{ "item._id": item._id }]})
+    }
+  }
+}
+
 if (data.Fire_Fighting_System) {
   updatedform1AData = await form1ASchema.findByIdAndUpdate(
     form1A._id,
@@ -2171,6 +2423,7 @@ if (data.Vehicle_Performance) {
     form1A._id,
     {
       $set: {
+        "VehiclePerformance.VehiclePerformanceData.$[vehiclePerformanceData].Vehicle_Performance.properties.Any_Other_Feature_Manf_Desire": data.Vehicle_Performance.properties.Any_Other_Feature_Manf_Desire,
         "VehiclePerformance.VehiclePerformanceData.$[vehiclePerformanceData].Vehicle_Performance.properties.Max_hill_star_ability": data.Vehicle_Performance.properties.Max_hill_star_ability,
       },
     },
@@ -2221,7 +2474,8 @@ if (data.Windscreen_and_Wiping_System) {
     { arrayFilters: [{ "windscreenAndWipingSystem._id": data._id }], returnDocument: "after" }
   )
 
-  if (form8 != null) {
+  // if (form8 != null) {
+if (form8 ) {
     const item = form8.Wind_screen.Windscreen.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
     if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
         {$set: {
@@ -2231,6 +2485,76 @@ if (data.Windscreen_and_Wiping_System) {
         },{ arrayFilters: [{ "item._id": item._id }]})
     }
   }
+}
+
+
+
+if (data.Wiper_Motor) {
+  updatedform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    {
+      $set: {
+        "Windscreen_and_Wiping_System.WindscreenAndWipingSystem.$[windscreenAndWipingSystem].Wiper_Motor": data.Wiper_Motor,
+      },
+    },
+    { arrayFilters: [{ "windscreenAndWipingSystem._id": data._id }], returnDocument: "after" }
+  )
+}
+
+if (data.Windscreen_wiper) {
+  updatedform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    {
+      $set: {
+        "Windscreen_and_Wiping_System.WindscreenAndWipingSystem.$[windscreenAndWipingSystem].Windscreen_wiper": data.Windscreen_wiper,
+      },
+    },
+    { arrayFilters: [{ "windscreenAndWipingSystem._id": data._id }], returnDocument: "after" }
+  )
+}
+if (data.Wiper_arm) {
+  updatedform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    {
+      $set: {
+        "Windscreen_and_Wiping_System.WindscreenAndWipingSystem.$[windscreenAndWipingSystem].Wiper_arm": data.Wiper_arm,
+      },
+    },
+    { arrayFilters: [{ "windscreenAndWipingSystem._id": data._id }], returnDocument: "after" }
+  )
+}
+if (data.Wiper_Blade) {
+  updatedform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    {
+      $set: {
+        "Windscreen_and_Wiping_System.WindscreenAndWipingSystem.$[windscreenAndWipingSystem].Wiper_Blade": data.Wiper_Blade,
+      },
+    },
+    { arrayFilters: [{ "windscreenAndWipingSystem._id": data._id }], returnDocument: "after" }
+  )
+}
+if (data.Washer_Tank) {
+  updatedform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    {
+      $set: {
+        "Windscreen_and_Wiping_System.WindscreenAndWipingSystem.$[windscreenAndWipingSystem].Washer_Tank": data.Washer_Tank,
+      },
+    },
+    { arrayFilters: [{ "windscreenAndWipingSystem._id": data._id }], returnDocument: "after" }
+  )
+}
+if (data.Washer_tank_motor_or_Washer_Pump_if_provided) {
+  updatedform1AData = await form1ASchema.findByIdAndUpdate(
+    form1A._id,
+    {
+      $set: {
+        "Windscreen_and_Wiping_System.WindscreenAndWipingSystem.$[windscreenAndWipingSystem].Washer_tank_motor_or_Washer_Pump_if_provided": data.Washer_tank_motor_or_Washer_Pump_if_provided,
+      },
+    },
+    { arrayFilters: [{ "windscreenAndWipingSystem._id": data._id }], returnDocument: "after" }
+  )
 }
 if (data.Seating_Arrangement) {
   updatedform1AData = await form1ASchema.findByIdAndUpdate(
@@ -2343,11 +2667,13 @@ if (data.Front_White_Reflector) {
     { arrayFilters: [{ "retroReflectors._id": data._id }], returnDocument: "after" }
   )
 
-  if (form8 != null) {
+  // if (form8 != null) {
+if (form8 ) {
     const item = form8.Retro_Reflectors.RetroReflectors.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
               "Retro_Reflectors.RetroReflectors.$[item].Front_White_Reflector.properties.Make.value": data.Front_White_Reflector.properties.Make_Front_Reflector.value,
+              "Retro_Reflectors.RetroReflectors.$[item].Front_White_Reflector.properties.TAC_Number.value": data.Front_White_Reflector.properties.TAC_Num_Front_Reflector.value,
             },
           },{ arrayFilters: [{ "item._id": item._id }]})
       }
@@ -2366,7 +2692,8 @@ if (data.Rear_Red_Reflector) {
     { arrayFilters: [{ "retroReflectors._id": data._id }], returnDocument: "after" }
   )
 
-  if (form8 != null) {
+  // if (form8 != null) {
+if (form8 ) {
     const item = form8.Retro_Reflectors.RetroReflectors.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -2390,7 +2717,8 @@ if (data.Side_Amber_Reflector) {
     { arrayFilters: [{ "retroReflectors._id": data._id }], returnDocument: "after" }
   )
 
-  if (form8 != null) {
+  // if (form8 != null) {
+if (form8 ) {
     const item = form8.Retro_Reflectors.RetroReflectors.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -2477,6 +2805,9 @@ const findOrCreateForm1A = async (requestId) => {
         await InstrumentCluster(defaultSupplier._id, form1A)
         console.log(`adding defaultSupplier for CriticalElectricalDevices of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
         await CriticalElectricalDevices(defaultSupplier._id, form1A)
+        console.log(`adding defaultSupplier for VehicleControlUnit of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
+        await VehicleControlUnit(defaultSupplier._id, form1A)
+        
         
         if (requestData) {  
           if(requestData.vehicle_type.value === '2-Wheeler'){
@@ -2505,3 +2836,8 @@ const findOrCreateForm1A = async (requestId) => {
 }
 
 exports.findOrCreateForm1A = findOrCreateForm1A
+
+exports.insertNewForm1A = async (form) => {
+  // const Form1AModel = require("../mongoSchemas/form1ASchema");
+  return await form1ASchema.create(form);
+};

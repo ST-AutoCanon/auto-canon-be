@@ -19,6 +19,7 @@ const WheelRimSchema = mongoose.Schema({
           type: String,
           default: "BIS License/TAC Number with its Validity",
         },
+        display: { type: Boolean, default: false },
       },
       Possible_date_of_submission_of_required_approval: {
         value: { type: String, default: "" },
@@ -45,9 +46,9 @@ const WheelRimSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: {
           type: String,
-          default: "BIS License/TAC Number & its Validity",
-          display: { type: Boolean, default: false },
+          default: "BIS License/TAC Number & its Validity",          
         },
+        display: { type: Boolean, default: false },
       },
       Possible_date_of_submission_of_required_approval: {
         value: { type: String, default: "" },
@@ -159,6 +160,32 @@ const TyresSchema = mongoose.Schema({
       },
     },
   },
+  Any_other_Tyre: {
+    label: { type: String, default: "Any Other Tyre" },
+    properties: {
+      Make: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Make of the Tyre" },
+        
+      },
+      TAC_Number_Its_Validity: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "TAC Number / BIS License and its Validity" },
+      
+      },
+      Possible_date_of_submission_of_required_approval: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Possible date of submission of required approval, if the Certification is in process",
+        },
+      },
+      CoP_Cert_No_with_validity_date: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "CoP Cert No. with validity date" },
+      },
+    },
+  },
 })
 const TractionBatterypackSchema = mongoose.Schema({
   supplier: {
@@ -177,7 +204,7 @@ const TractionBatterypackSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: {
           type: String,
-          default: "Type approval Certififcate number as per applicable standard",
+          default: "Type approval Certififcate number as per applicable standard and it's validity",
         },
       },
       Possible_date_of_submission_of_required_approval: {
@@ -349,7 +376,7 @@ const DaytimeRunningLampSchema = mongoose.Schema({
       },
       TAC_Validity: {
         value: { type: String, default: "" },
-        label: { type: String, default: "TAC & Its Validity" },
+        label: { type: String, default: "TAC and Its Validity" },
       },
       Possible_date_of_submission_of_required_approval: {
         value: { type: String, default: "" },
@@ -448,7 +475,7 @@ const PositionLampsSchema = mongoose.Schema({
       Make_of_Parking_lamp_led_rear: {
         value: { type: String, default: "" },
         label: { type: String, default: "Make of Parking LED bulb rear" },
-        display: { type: Boolean, default: false },
+        // display: { type: Boolean, default: false },
       },
       Category_as_per_AIS035: {
         value: { type: String, default: "" },
@@ -457,8 +484,11 @@ const PositionLampsSchema = mongoose.Schema({
       },
       TAC_Number: {
         value: { type: String, default: "" },
-        label: { type: String, default: "TAC Number of Rear Parking Lamp LED" },
-        display: { type: Boolean, default: false },
+        label: { type: String, default: "TAC Number of Rear Parking LED" },        
+      },
+      TAC_Validity: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "TAC Validity" },
       },
       Possible_date_of_submission_of_required_approval: {
         value: { type: String, default: "" },
@@ -869,6 +899,7 @@ const RetroReflectorsSchema = mongoose.Schema({
           type: String,
           default: "TAC Number of Front Reflector",
         },
+        display: { type: Boolean, default: false },
       },
       TAC_Validity: {
         value: { type: String, default: "" },
@@ -953,6 +984,113 @@ const RetroReflectorsSchema = mongoose.Schema({
       },
     },
   },
+
+
+
+
+  //////////
+  Front_Reflective_Tape: {
+    label: { type: String, default: "Front Reflective Tape" },
+    properties: {
+      Make: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Make of the Reflective Tape" },
+        // display: { type: Boolean, default: false },
+      },
+      TAC_Number: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "TAC Number of Front Reflective Tape",
+        },
+        // display: { type: Boolean, default: false },
+      },
+      TAC_Validity: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "TAC VAlidity" },
+      },
+      Possible_date_of_submission_of_required_approval: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Possible date of submission of required approval, if the Certification is in process",
+        },
+      },
+      CoP_Cert_No_with_validity_date: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "CoP Cert No. with validity date" },
+      },
+    },
+  },
+
+  Rear_Reflective_Tape: {
+    label: { type: String, default: "Rear Reflective Tape" },
+    properties: {
+      Make: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Make of the Reflective Tape" },
+        // display: { type: Boolean, default: false },
+      },
+      TAC_Number: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "TAC Number",
+        },
+        // display: { type: Boolean, default: false },
+      },
+      TAC_Validity: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "TAC VAlidity" },
+      },
+      Possible_date_of_submission_of_required_approval: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Possible date of submission of required approval, if the Certification is in process",
+        },
+      },
+      CoP_Cert_No_with_validity_date: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "CoP Cert No. with validity date" },
+      },
+    },
+  },
+
+  Side_Reflective_Tape: {
+    label: { type: String, default: "Side Reflective Tape" },
+    properties: {
+      Make: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Make of the Reflective Tape" },
+        // display: { type: Boolean, default: false },
+      },
+      TAC_Number: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "TAC Number",
+        },
+        // display: { type: Boolean, default: false },
+      },
+      TAC_Validity: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "TAC VAlidity" },
+      },
+      Possible_date_of_submission_of_required_approval: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Possible date of submission of required approval, if the Certification is in process",
+        },
+      },
+      CoP_Cert_No_with_validity_date: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "CoP Cert No. with validity date" },
+      },
+    },
+  },
+
 })
 
 const HydraulicBrakeHoseSchema = mongoose.Schema({
@@ -970,8 +1108,12 @@ const HydraulicBrakeHoseSchema = mongoose.Schema({
       },
       TAC_Number: {
         value: { type: String, default: "" },
-        label: { type: String, default: "TAC Number of Brake Hose" },
+        label: { type: String, default: "TAC Number and it's Validity" },
         display: { type: Boolean, default: false },
+      },
+      TAC_Validity: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "TAC VAlidity" },
       },
       Possible_date_of_submission_of_required_approval: {
         value: { type: String, default: "" },
@@ -998,7 +1140,7 @@ const BrakeFluidSchema = mongoose.Schema({
     properties: {
       Make: {
         value: { type: String, default: "" },
-        label: { type: String, default: "Make of the Brake Hose" },
+        label: { type: String, default: "Make of the Brake Fluid" },
         display: { type: Boolean, default: false },
       },
       Brake_fluid_Test_Report_No: {
@@ -1024,6 +1166,21 @@ const SpraySuppressionSchema = mongoose.Schema({
           default: "Make of Spray Suppression / Rear Mud Gaurd",
         },
       },
+      TAC_Number: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Test Report No" },        
+      },
+      Possible_date_of_submission_of_required_approval: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Possible date of submission of required approval, if the Certification is in process",
+        },
+      },
+      CoP_Cert_No_with_validity_date: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "CoP Cert No. with validity date" },
+      },
     },
   },
 });
@@ -1043,8 +1200,29 @@ const HandleLockSchema = mongoose.Schema({
           default: "Make of Protective Device / Handle Lock",
         },
       },
+      Vehicle_category: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Vehicle category (IS 14272) " },
+        display: { type: Boolean, default: false },
+      },
+      TAC_Number: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Test Report No" },        
+      },
+      Possible_date_of_submission_of_required_approval: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default: "Possible date of submission of required approval, if the Certification is in process",
+        },
+      },
+      CoP_Cert_No_with_validity_date: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "CoP Cert No. with validity date" },
+      },
     },
   },
+  
 });
 
 const RearViewMirrorSchema = mongoose.Schema({
@@ -1187,15 +1365,7 @@ const WindscreenwipingSchema = mongoose.Schema({
       Make: {
         value: { type: String, default: "" },
         label: { type: String, default: "Make of Wiper Motor" },
-      },
-      Make_washing_system: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Make of washing system if installed" },
-      },
-      Make_Wiper_Blade: {
-        value: { type: String, default: "" },
-        label: { type: String, default: "Make of Wiper Blade" },
-      },
+      }, 
       TAC_Number_Its_Validity: {
         value: { type: String, default: "" },
         label: { type: String, default: "TAC Number & Its Validity" },
@@ -1214,6 +1384,67 @@ const WindscreenwipingSchema = mongoose.Schema({
       },
     },
   },
+
+
+
+  Washing_System: {
+    label: { type: String, default: "Washing System" },
+    properties: {
+      Make: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Make of Washing System" },
+      },      
+      TAC_Number_Its_Validity: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "TAC Number & Its Validity" },
+      },
+      Possible_date_of_submission_of_required_approval: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default:
+            "Possible date of submission of required approval, if the Certification is in process",
+        },
+      },
+      CoP_Cert_No_with_validity_date: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "CoP Cert No. with validity date" },
+      },
+    },
+  },
+
+  Wiper_Blade: {
+    label: { type: String, default: "Wiper Blade" },
+    properties: {
+      Make: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Make of Wiper Blade" },
+      },      
+      TAC_Number_Its_Validity: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "TAC Number & Its Validity" },
+      },
+      Possible_date_of_submission_of_required_approval: {
+        value: { type: String, default: "" },
+        label: {
+          type: String,
+          default:
+            "Possible date of submission of required approval, if the Certification is in process",
+        },
+      },
+      CoP_Cert_No_with_validity_date: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "CoP Cert No. with validity date" },
+      },
+    },
+  },
+
+
+  
+
+
+
+
 });
 
 const ReversingLampSchema = mongoose.Schema({

@@ -1,5 +1,5 @@
 const HomologationRequestSchema = require("../mongoSchemas/homologationRequestSchema");
-const { createFormModelsForRequestId, createFileUploadModelsForRequestId } = require("../services/genericFormsService");
+const { createFormModelsForRequestId, createFileUploadModelsForRequestId,cloneFormsAndFilesForRequest } = require("../services/genericFormsService");
 
 
 exports.getHomologationRequestTemplate = async (req, res, next) => {
@@ -129,3 +129,84 @@ exports.searchHomologationRequests = async (req, res, next) => {
     })
   }
 }
+
+
+exports.cloneHomologationRequest = async (req, res, next) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      throw new Error(`User not found. Please login again.`);
+    }
+
+    const originalRequestId = req.params.id;
+
+    // ✅ 1. Check if original request exists
+    const originalRequest = await HomologationRequestSchema.findById(originalRequestId);
+    if (!originalRequest) {
+      return res.status(404).json({ status: "failure", body: "Original request not found" });
+    }
+
+    // ✅ 2. Check if it has already been cloned
+    const alreadyCloned = await HomologationRequestSchema.findOne({
+      clonedFrom: originalRequestId
+    });
+
+    if (alreadyCloned) {
+      return res.status(400).json({
+        status: "failure",
+        body: "This request has already been cloned once and cannot be cloned again."
+      });
+    }
+
+    // ✅ 3. Prepare clone data
+    const clonedRequestData = {
+      vehicle_type: originalRequest.vehicle_type,
+      fuel_type: originalRequest.fuel_type,
+      certification_type: originalRequest.certification_type,
+      vehicle_max_speed: originalRequest.vehicle_max_speed,
+      motor_nominal_power: originalRequest.motor_nominal_power,
+      motor_peak_power: originalRequest.motor_peak_power,
+      vehicle_length: originalRequest.vehicle_length,
+      vehicle_width: originalRequest.vehicle_width,
+      vehicle_height: originalRequest.vehicle_height,
+      vehicle_unloded_weight: originalRequest.vehicle_unloded_weight,
+      vehicle_category: originalRequest.vehicle_category,
+      prefered_testing_agency: originalRequest.prefered_testing_agency,
+      user: originalRequest.user,
+      request_number: originalRequest.request_number,
+      clonedFrom: originalRequestId, // ✅ This marks the new one as a clone
+      version: (originalRequest.version || 0) + 1 // ✅ Version logic added
+    };
+    console.log('clonedRequestData:', clonedRequestData);
+    // ✅ 4. Create new cloned request
+    const [clonedRequest] = await HomologationRequestSchema.insertMany([clonedRequestData]);
+
+    // ✅ 5. Set version and updatedAt
+    await HomologationRequestSchema.updateOne(
+      { _id: clonedRequest._id },
+      { $set: { updatedAt: new Date() } } // version already set above
+    );
+
+    // ✅ 6. Clone forms and files
+    const formsData = await cloneFormsAndFilesForRequest(originalRequest._id, clonedRequest._id);
+
+    // ✅ 7. Create empty file upload models
+    const fileUploadData = await createFileUploadModelsForRequestId(clonedRequest._id);
+    formsData.fileUploadData = fileUploadData;
+
+    // ✅ 8. Return success
+    res.status(200).json({
+      status: "success",
+      body: {
+        clonedRequest,
+        formsData,
+      },
+    });
+  } catch (error) {
+    console.error(`Error cloning homologation request: ${error}`);
+    res.status(500).json({
+      status: "failure",
+      body: error.message,
+    });
+  }
+};

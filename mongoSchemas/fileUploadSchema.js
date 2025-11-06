@@ -126,6 +126,15 @@ const form1AData = mongoose.Schema({
             }
         }
     },
+    strap_and_HandelHold: {
+        label: { type: String, default: "Strap and hand hold" },
+        properties: {
+            Drawing_handhold_Strap: {
+                label: { type: String, default: "Drawings showing dimensional and material details of strap / handhold(s) and its fixing / bolting details" },
+                file_name: { type: String, default: "" },
+            }
+        }
+    },
     Grab_handle_Straps_3_wheeler: {
         label: { type: String, default: "Nos of Handholds for passenger(s) in  case of 3 Wheeler" },
         properties: {
@@ -149,7 +158,7 @@ const form1AData = mongoose.Schema({
         properties: {
             Diagram_Stands_installation: {
                 label: { type: String, default: 
-                    ` Drawing related to the stand installation showing minimum details given in info image`
+                    "Drawing related to the stand installation showing minimum details given in info image"
                 },
                 file_name: { type: String, default: "" },
             },
@@ -182,8 +191,7 @@ const form1AData = mongoose.Schema({
         properties: {
             Upload_Drawing: {
                 label: { type: String, default: 
-                    `Detailed technical description : Layout including location of "R" Point, "H' Point and related dimensions of 
-                    wiping area and related dimensions of wiper arm(s) and co-ordinates of mounting (see AIS-045)` },
+                    "Detailed technical description Layout including location of R Point, H Point and related dimensions of wiping area and related dimensions of wiper arm(s) and co-ordinates of mounting (see AIS-045)" },
                 file_name: { type: String, default: "" },
             },
         }
@@ -211,6 +219,16 @@ const form1AData = mongoose.Schema({
             Coordinates_of_drawing: {
                 label: { type: String, default: 
                     `Dimensional Drawing indicating installation details of reflective Tapes at front, Rear & side of the vehicle / load body / container / Tanker etc., as per AIS-090.` },
+                file_name: { type: String, default: "" },
+            },
+        }
+    },
+    Device_to_protect_against_unauthorized_use: {
+        label: { type: String, default: "Device(s) to protect against unauthorized use" },
+        properties: {
+            Drawing_showing_installation: {
+                label: { type: String, default: 
+                    `Drawing showing installation details of the protective device(s) against unauthorized use` },
                 file_name: { type: String, default: "" },
             },
         }

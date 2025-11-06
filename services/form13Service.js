@@ -185,6 +185,21 @@ const InsulatingCategory = async (supplierId, form13) => {
   return updateform13Data
 }
 
+const VehicleControlUnit = async (supplierId, form13) => {
+  const VehicleControlUnit = {
+    supplier: supplierId,
+    Vehicle_Control: {},
+  }
+  console.log(`creating data: ${JSON.stringify(VehicleControlUnit)} data for form13: ${form13._id}`)
+  const updateform13Data = await form13Schema.findByIdAndUpdate(
+    form13._id,
+    { $push: { "Vehicle_Control_Unit.VehicleControlUnit": VehicleControlUnit } },
+    { returnDocument: "after" }
+  )
+  console.log(`updateform13Data: ${updateform13Data}`)
+  return updateform13Data
+}
+
 const ChargerSpecification = async (supplierId, form13) => {
   const ChargerSpecification = {
     supplier: supplierId,
@@ -192,6 +207,7 @@ const ChargerSpecification = async (supplierId, form13) => {
     Specifications: {},
     on_board_charger: {},
     Electrical_details_of_vehicle: {},
+    Portable_Residual_Current_Device_PRCD:{},
   }
   console.log(`creating data: ${JSON.stringify(ChargerSpecification)} data for form13: ${form13._id}`)
   const updateform13Data = await form13Schema.findByIdAndUpdate(
@@ -288,6 +304,7 @@ exports.getForm13ForRequestId = async (requestId) => {
     .populate({path:"Vehicle_Electrical_Specification.VehicleElectricalSpecification.supplier"} )
     .populate({path:"Controller.PowerController.supplier"})    
     .populate({path: "Vehicle_Performance.VehiclePerformance.supplier"})
+    .populate({path:"Vehicle_Control_Unit.VehicleControlUnit.supplier"}) 
     if (form13Data != null) {
       return form13Data
     }
@@ -360,17 +377,33 @@ exports.updateform13Data = async (requestId, data) => {
     }
     let updatedform13Data
     console.log(`updating ${JSON.stringify(data)} data for form13: ${form13._id}`)
+    // if (data.Manufacturer_Details) {
+    //   updatedform13Data = await form13Schema.findByIdAndUpdate(
+    //     form13._id,
+    //     {
+    //       $set: {
+    //         "Vehicle_General_Information.vehicleGeneralInformation.$[vehicleGeneralInformation].Manufacturer_Details": data.Manufacturer_Details,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "vehicleGeneralInformation._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Manufacturer_Details) {
       updatedform13Data = await form13Schema.findByIdAndUpdate(
         form13._id,
         {
           $set: {
-            "Vehicle_General_Information.vehicleGeneralInformation.$[vehicleGeneralInformation].Manufacturer_Details": data.Manufacturer_Details,
+            "Vehicle_General_Information.vehicleGeneralInformation.$[vehicleGeneralInformation].Manufacturer_Details.properties.Basic_model.value":
+              data.Manufacturer_Details.properties.Basic_model.value,
           },
         },
-        { arrayFilters: [{ "vehicleGeneralInformation._id": data._id }], returnDocument: "after" }
-      )
+        {
+          arrayFilters: [{ "vehicleGeneralInformation._id": data._id }],
+          returnDocument: "after", // or new: true if using Mongoose
+        }
+      );
     }
+     
     if (data.General_description_of_vehicle) {
       updatedform13Data = await form13Schema.findByIdAndUpdate(
         form13._id,
@@ -416,7 +449,8 @@ exports.updateform13Data = async (requestId, data) => {
         { arrayFilters: [{ "tractionBatterypack._id": data._id }], returnDocument: "after" }
       )
 
-      if (form8 != null) {
+      // if (form8 != null) {
+        if (form8) {
         const item = form8.Traction_Battery_Pack.TractionBatterypack.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
       if(item != null) {await form8Schema.findByIdAndUpdate(form8._id,
           {$set: {
@@ -470,17 +504,49 @@ exports.updateform13Data = async (requestId, data) => {
         { arrayFilters: [{ "driveTrainSystemData._id": data._id }], returnDocument: "after" }
       )
     }
+    // if (data.Instrument_Cluster) {
+    //   updatedform13Data = await form13Schema.findByIdAndUpdate(
+    //     form13._id,
+    //     {
+    //       $set: {
+    //         "Instrument_Cluster.InstrumentCluster.$[instrumentCluster].Instrument_Cluster": data.Instrument_Cluster,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "instrumentCluster._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
+
     if (data.Instrument_Cluster) {
       updatedform13Data = await form13Schema.findByIdAndUpdate(
         form13._id,
         {
           $set: {
-            "Instrument_Cluster.InstrumentCluster.$[instrumentCluster].Instrument_Cluster": data.Instrument_Cluster,
+            "Instrument_Cluster.InstrumentCluster.$[instrumentCluster].Instrument_Cluster.properties.Model_of_the_Instrument_Cluster.value":
+              data.Instrument_Cluster.properties.Model_of_the_Instrument_Cluster.value,
+            "Instrument_Cluster.InstrumentCluster.$[instrumentCluster].Instrument_Cluster.properties.How_State_of_Charge_is_being_displayed.value":
+              data.Instrument_Cluster.properties.How_State_of_Charge_is_being_displayed.value,
+            "Instrument_Cluster.InstrumentCluster.$[instrumentCluster].Instrument_Cluster.properties.State_charge_vehicle_is_Recommended_to_Charge.value":
+              data.Instrument_Cluster.properties.State_charge_vehicle_is_Recommended_to_Charge.value,
+            "Instrument_Cluster.InstrumentCluster.$[instrumentCluster].Instrument_Cluster.properties.State_of_Charge_indication_format.value":
+              data.Instrument_Cluster.properties.State_of_Charge_indication_format.value,
+            "Instrument_Cluster.InstrumentCluster.$[instrumentCluster].Instrument_Cluster.properties.State_of_Charge_indication_format_battry.value":
+              data.Instrument_Cluster.properties.State_of_Charge_indication_format_battry.value,
+            "Instrument_Cluster.InstrumentCluster.$[instrumentCluster].Instrument_Cluster.properties.Relationship_of_state_of_charge_indicator.value":
+              data.Instrument_Cluster.properties.Relationship_of_state_of_charge_indicator.value,
+            "Instrument_Cluster.InstrumentCluster.$[instrumentCluster].Instrument_Cluster.properties.Indication_of_state_of_charge_of_battery.value":
+              data.Instrument_Cluster.properties.Indication_of_state_of_charge_of_battery.value,
+            "Instrument_Cluster.InstrumentCluster.$[instrumentCluster].Instrument_Cluster.properties.Indication_when_Battery_completely_run_of_charge.value":
+              data.Instrument_Cluster.properties.Indication_when_Battery_completely_run_of_charge.value,
           },
         },
-        { arrayFilters: [{ "instrumentCluster._id": data._id }], returnDocument: "after" }
-      )
+        {
+          arrayFilters: [{ "instrumentCluster._id": data._id }],
+          returnDocument: "after",
+        }
+      );
     }
+    
+    
     if (data.DC_DC_Converter) {
       updatedform13Data = await form13Schema.findByIdAndUpdate(
         form13._id,
@@ -492,6 +558,17 @@ exports.updateform13Data = async (requestId, data) => {
         { arrayFilters: [{ "dCDCConverter._id": data._id }], returnDocument: "after" }
       )
     }
+        if (data.Vehicle_Control) {
+          updatedform13Data = await form13Schema.findByIdAndUpdate(
+            form13._id,
+            {
+              $set: {
+                "Vehicle_Control_Unit.VehicleControlUnit.$[vehicleControlUnit].Vehicle_Control": data.Vehicle_Control,
+              },
+            },
+            { arrayFilters: [{ "vehicleControlUnit._id": data._id }], returnDocument: "after" }
+          )
+        }
     if (data.Insulating_Category) {
       updatedform13Data = await form13Schema.findByIdAndUpdate(
         form13._id,
@@ -547,6 +624,19 @@ exports.updateform13Data = async (requestId, data) => {
         { arrayFilters: [{ "chargerSpecification._id": data._id }], returnDocument: "after" }
       )
     }
+    if (data.Portable_Residual_Current_Device_PRCD) {
+      updatedform13Data = await form13Schema.findByIdAndUpdate(
+        form13._id,
+        {
+          $set: {
+            "Charger_Specification.ChargerSpecification.$[chargerSpecification].Portable_Residual_Current_Device_PRCD": data.Portable_Residual_Current_Device_PRCD,
+          },
+        },
+        { arrayFilters: [{ "chargerSpecification._id": data._id }], returnDocument: "after" }
+      )
+    }
+
+    
     if (data.Specifications_of_circuit_breakers_or_fuses_used_for_protection_of_batteries_or_power_train) {
       updatedform13Data = await form13Schema.findByIdAndUpdate(
         form13._id,
@@ -662,6 +752,8 @@ const findOrCreateForm13 = async (requestId) => {
         await Controller(defaultSupplier._id, form13)
         console.log(`adding defaultSupplier for VehiclePerformanceData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
         await VehiclePerformanceData(defaultSupplier._id, form13)  
+        console.log(`adding defaultSupplier for VehicleControlUnit of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
+        await VehicleControlUnit(defaultSupplier._id, form13)
       } else{       
         console.log(`inside findOrCreateForm13 :defaultSupplier is not found`)
       }
@@ -670,3 +762,8 @@ const findOrCreateForm13 = async (requestId) => {
 }
 
 exports.findOrCreateForm13 = findOrCreateForm13
+
+exports.insertNewForm13 = async (form) => {
+  // const Form13Model = require("../mongoSchemas/form13Schema");
+  return await form13Schema.create(form);
+};

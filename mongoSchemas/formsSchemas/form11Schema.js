@@ -16,6 +16,11 @@ const vehicleGeneralInformationSchema = mongoose.Schema({
         value: { type: String, default: "" },
         label: { type: String, default: "variant(s)" },
       },
+      Vehicle_category: {
+        value: { type: String, default: "" },
+        label: { type: String, default: "Vehicle category (IS 14272) " },
+        display: { type: Boolean, default: false },
+      },
       Manufacturer_name_and_address: {
         value: { type: String, default: "" },
         label: { type: String, default: "Manufacturer’s name and address" },
@@ -73,7 +78,7 @@ const codeForMonthOfProductionSchema = mongoose.Schema({
     ref: "supplier",
   },
 
-  Month_of_Production1: {
+  Month_of_Production: {
     label: { type: String, default: "Code for Month of production" },
     properties: {
       January: {

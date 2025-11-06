@@ -33,6 +33,8 @@ const TyresData = async (supplierId, form8) => {
   const TyreData = {
     supplier: supplierId,
     // Front_tyre: {},
+    Rear_tyre: {},
+    Any_other_Tyre: {},    
     Front_tyre: {
       properties: {
         Make: { value:'' },
@@ -42,7 +44,7 @@ const TyresData = async (supplierId, form8) => {
         tyre_vehicle_type: { value: vehicle_type === '2-Wheeler' ? '2-Wheeler' : '3-Wheeler' },
       },
     },
-    Rear_tyre: {},
+    
   }
   console.log(`creating data: ${JSON.stringify(TyreData)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(form8._id, { $push: { "Tyres.TyresData": TyreData } }, { returnDocument: "after" })
@@ -154,6 +156,9 @@ const RetroReflectorsData = async (supplierId, form8) => {
     Front_White_Reflector: {},
     Rear_Red_Reflector: {},
     Side_Amber_Reflector: {},
+    Front_Reflective_Tape: {},
+    Rear_Reflective_Tape: {},
+    Side_Reflective_Tape: {},
   }
   console.log(`creating data: ${JSON.stringify(RetroReflectors)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
@@ -289,6 +294,8 @@ const WindscreenwipingData = async (supplierId, form8) => {
   const Windscreenwiping = {
     supplier: supplierId,
     Wiping_System: {},
+    Washing_System:{},
+    Wiper_Blade:{},
   }
   console.log(`creating data: ${JSON.stringify(Windscreenwiping)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
@@ -439,39 +446,93 @@ exports.updateForm8Data = async (requestId, data) => {
     }
     let updatedform8Data
     console.log(`updating ${JSON.stringify(data)} data for form8: ${form8._id}`)
+    // if (data.Front_Wheel_Rim) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Wheel_Rim.WheelRim.$[wheelRim].Front_Wheel_Rim": data.Front_Wheel_Rim,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "wheelRim._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Front_Wheel_Rim) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Wheel_Rim.WheelRim.$[wheelRim].Front_Wheel_Rim": data.Front_Wheel_Rim,
+            // "Wheel_Rim.WheelRim.$[wheelRim].Front_Wheel_Rim": data.Front_Wheel_Rim, // ❌ this would overwrite Make too
+    
+            // ✅ update only the fields you want, skip Make
+            // "Wheel_Rim.WheelRim.$[wheelRim].Front_Wheel_Rim.properties.BIS_License_TAC_Number_with_its_Validity.value": data.Front_Wheel_Rim.properties.BIS_License_TAC_Number_with_its_Validity.value,
+            "Wheel_Rim.WheelRim.$[wheelRim].Front_Wheel_Rim.properties.Possible_date_of_submission_of_required_approval.value": data.Front_Wheel_Rim.properties.Possible_date_of_submission_of_required_approval.value,
+            "Wheel_Rim.WheelRim.$[wheelRim].Front_Wheel_Rim.properties.CoP_Cert_No_with_validity_date.value": data.Front_Wheel_Rim.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "wheelRim._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    
+    // if (data.Rear_Wheel_Rim) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Wheel_Rim.WheelRim.$[wheelRim].Rear_Wheel_Rim": data.Rear_Wheel_Rim,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "wheelRim._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Rear_Wheel_Rim) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Wheel_Rim.WheelRim.$[wheelRim].Rear_Wheel_Rim": data.Rear_Wheel_Rim,
+            // Don’t overwrite the whole object
+            // "Wheel_Rim.WheelRim.$[wheelRim].Rear_Wheel_Rim": data.Rear_Wheel_Rim, ❌
+    
+            // ✅ Update only the fields except Make
+            // "Wheel_Rim.WheelRim.$[wheelRim].Rear_Wheel_Rim.properties.BIS_License_TAC_Number_its_Validity.value": data.Rear_Wheel_Rim.properties.BIS_License_TAC_Number_its_Validity.value,
+            "Wheel_Rim.WheelRim.$[wheelRim].Rear_Wheel_Rim.properties.Possible_date_of_submission_of_required_approval.value": data.Rear_Wheel_Rim.properties.Possible_date_of_submission_of_required_approval.value,
+            "Wheel_Rim.WheelRim.$[wheelRim].Rear_Wheel_Rim.properties.CoP_Cert_No_with_validity_date.value": data.Rear_Wheel_Rim.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "wheelRim._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    // if (data.Horn) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Horn.Horn.$[horn].Horn": data.Horn,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "horn._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Horn) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Horn.Horn.$[horn].Horn": data.Horn,
+            // ❌ Do not update Make
+            // ❌ Do not update TAC_Number_Its_Validity
+    
+            // ✅ Only update remaining fields
+            "Horn.Horn.$[horn].Horn.properties.Possible_date_of_submission_of_required_approval.value": data.Horn.properties.Possible_date_of_submission_of_required_approval.value,
+            "Horn.Horn.$[horn].Horn.properties.CoP_Cert_No_with_validity_date.value": data.Horn.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "horn._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+
+    
     if (data.Front_tyre) {
 
       // if(vehicle_type==='2-Wheeler'){   
@@ -491,22 +552,22 @@ exports.updateForm8Data = async (requestId, data) => {
             "Tyres.TyresData.$[tyresData].Front_tyre.properties.TAC_Number_Its_Validity.value": data.Front_tyre.properties.TAC_Number_Its_Validity.value,
             "Tyres.TyresData.$[tyresData].Front_tyre.properties.Possible_date_of_submission_of_required_approval.value": data.Front_tyre.properties.Possible_date_of_submission_of_required_approval.value,
             "Tyres.TyresData.$[tyresData].Front_tyre.properties.CoP_Cert_No_with_validity_date.value": data.Front_tyre.properties.CoP_Cert_No_with_validity_date.value,
-            "Tyres.TyresData.$[tyresData].Front_tyre.properties.tyre_vehicle_type.value": data.Front_tyre.properties.tyre_vehicle_type.value,
+            // "Tyres.TyresData.$[tyresData].Front_tyre.properties.tyre_vehicle_type.value": data.Front_tyre.properties.tyre_vehicle_type.value,
           },
         },
         { arrayFilters: [{ "tyresData._id": data._id }], returnDocument: "after" }
       )
         // if (form1A != null) {
-          if (form1A ) {
-              const item = form1A.Tyres.TyresData.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
-            if(item != null) {await form1ASchema.findByIdAndUpdate(form8._id,
-                {$set: {
+      //     if (form1A ) {
+      //         const item = form1A.Tyres.TyresData.find(arrItem => arrItem.supplier && arrItem.supplier.toString() === data.supplier._id);
+      //       if(item != null) {await form1ASchema.findByIdAndUpdate(form8._id,
+      //           {$set: {
             
-      "Tyres.TyresData.$[item].Front_Tyre.properties.tyre_vehicle_type.value": data.Front_Tyre.properties.tyre_vehicle_type.value,
-                  },
-                },{ arrayFilters: [{ "item._id": item._id }]})
-            }
-            }
+      // "Tyres.TyresData.$[item].Front_Tyre.properties.tyre_vehicle_type.value": data.Front_Tyre.properties.tyre_vehicle_type.value,
+      //             },
+      //           },{ arrayFilters: [{ "item._id": item._id }]})
+      //       }
+      //       }
     }
     if (data.Rear_tyre) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
@@ -514,6 +575,17 @@ exports.updateForm8Data = async (requestId, data) => {
         {
           $set: {
             "Tyres.TyresData.$[tyresData].Rear_tyre": data.Rear_tyre,
+          },
+        },
+        { arrayFilters: [{ "tyresData._id": data._id }], returnDocument: "after" }
+      )
+    }
+    if (data.Any_other_Tyre) {
+      updatedform8Data = await form8Schema.findByIdAndUpdate(
+        form8._id,
+        {
+          $set: {
+            "Tyres.TyresData.$[tyresData].Any_other_Tyre": data.Any_other_Tyre,
           },
         },
         { arrayFilters: [{ "tyresData._id": data._id }], returnDocument: "after" }
@@ -531,50 +603,113 @@ exports.updateForm8Data = async (requestId, data) => {
       )
     }
 
+    // if (data.Main_Beam_Head_Lamp_LED_type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Head_Lamp.HeadLamp.$[headLamp].Main_Beam_Head_Lamp_LED_type": data.Main_Beam_Head_Lamp_LED_type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "headLamp._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Main_Beam_Head_Lamp_LED_type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Head_Lamp.HeadLamp.$[headLamp].Main_Beam_Head_Lamp_LED_type": data.Main_Beam_Head_Lamp_LED_type,
+            // ❌ skip Make & TAC_Number (display false)
+    
+            // ✅ update only these
+            "Head_Lamp.HeadLamp.$[headLamp].Main_Beam_Head_Lamp_LED_type.properties.TAC_Validity.value": data.Main_Beam_Head_Lamp_LED_type.properties.TAC_Validity.value,
+            "Head_Lamp.HeadLamp.$[headLamp].Main_Beam_Head_Lamp_LED_type.properties.Possible_date_of_submission_of_required_approval.value": data.Main_Beam_Head_Lamp_LED_type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Head_Lamp.HeadLamp.$[headLamp].Main_Beam_Head_Lamp_LED_type.properties.CoP_Cert_No_with_validity_date.value": data.Main_Beam_Head_Lamp_LED_type.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "headLamp._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    // if (data.Main_Beam_Headlamp_Filament_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Head_Lamp.HeadLamp.$[headLamp].Main_Beam_Headlamp_Filament_Type": data.Main_Beam_Headlamp_Filament_Type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "headLamp._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Main_Beam_Headlamp_Filament_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Head_Lamp.HeadLamp.$[headLamp].Main_Beam_Headlamp_Filament_Type": data.Main_Beam_Headlamp_Filament_Type,
+            // ❌ Skip Make, Category_of_bulb, TAC_Number
+            "Head_Lamp.HeadLamp.$[headLamp].Main_Beam_Headlamp_Filament_Type.properties.TAC_Validity.value": data.Main_Beam_Headlamp_Filament_Type.properties.TAC_Validity.value,
+            "Head_Lamp.HeadLamp.$[headLamp].Main_Beam_Headlamp_Filament_Type.properties.Possible_date_of_submission_of_required_approval.value": data.Main_Beam_Headlamp_Filament_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Head_Lamp.HeadLamp.$[headLamp].Main_Beam_Headlamp_Filament_Type.properties.CoP_Cert_No_with_validity_date.value": data.Main_Beam_Headlamp_Filament_Type.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "headLamp._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    // if (data.Dipped_Beam_Headlamp_LED_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Head_Lamp.HeadLamp.$[headLamp].Dipped_Beam_Headlamp_LED_Type": data.Dipped_Beam_Headlamp_LED_Type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "headLamp._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Dipped_Beam_Headlamp_LED_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Head_Lamp.HeadLamp.$[headLamp].Dipped_Beam_Headlamp_LED_Type": data.Dipped_Beam_Headlamp_LED_Type,
+            // ❌ Skip Make & TAC_Number
+            "Head_Lamp.HeadLamp.$[headLamp].Dipped_Beam_Headlamp_LED_Type.properties.TAC_Validity.value": data.Dipped_Beam_Headlamp_LED_Type.properties.TAC_Validity.value,
+            "Head_Lamp.HeadLamp.$[headLamp].Dipped_Beam_Headlamp_LED_Type.properties.Possible_date_of_submission_of_required_approval.value": data.Dipped_Beam_Headlamp_LED_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Head_Lamp.HeadLamp.$[headLamp].Dipped_Beam_Headlamp_LED_Type.properties.CoP_Cert_No_with_validity_date.value": data.Dipped_Beam_Headlamp_LED_Type.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "headLamp._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    // if (data.Dipped_Beam_Headlamp_Filament_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Head_Lamp.HeadLamp.$[headLamp].Dipped_Beam_Headlamp_Filament_Type": data.Dipped_Beam_Headlamp_Filament_Type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "headLamp._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
+
     if (data.Dipped_Beam_Headlamp_Filament_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Head_Lamp.HeadLamp.$[headLamp].Dipped_Beam_Headlamp_Filament_Type": data.Dipped_Beam_Headlamp_Filament_Type,
+            // Skip Make, Category_as_per_AIS_035, TAC_Number
+            "Head_Lamp.HeadLamp.$[headLamp].Dipped_Beam_Headlamp_Filament_Type.properties.TAC_Validity.value": data.Dipped_Beam_Headlamp_Filament_Type.properties.TAC_Validity.value,
+            "Head_Lamp.HeadLamp.$[headLamp].Dipped_Beam_Headlamp_Filament_Type.properties.Possible_date_of_submission_of_required_approval.value": data.Dipped_Beam_Headlamp_Filament_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Head_Lamp.HeadLamp.$[headLamp].Dipped_Beam_Headlamp_Filament_Type.properties.CoP_Cert_No_with_validity_date.value": data.Dipped_Beam_Headlamp_Filament_Type.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "headLamp._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
     if (data.Daytime_Running_Lamp) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
@@ -587,28 +722,56 @@ exports.updateForm8Data = async (requestId, data) => {
       )
     }
 
+    // if (data.Front_Position_Lamp_LED_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Position_Lamps.PositionLamps.$[positionLamps].Front_Position_Lamp_LED_Type": data.Front_Position_Lamp_LED_Type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Front_Position_Lamp_LED_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Position_Lamps.PositionLamps.$[positionLamps].Front_Position_Lamp_LED_Type": data.Front_Position_Lamp_LED_Type,
+            "Position_Lamps.PositionLamps.$[positionLamps].Front_Position_Lamp_LED_Type.properties.TAC_Validity.value": data.Front_Position_Lamp_LED_Type.properties.TAC_Validity.value,
+            "Position_Lamps.PositionLamps.$[positionLamps].Front_Position_Lamp_LED_Type.properties.Possible_date_of_submission_of_required_approval.value": data.Front_Position_Lamp_LED_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Position_Lamps.PositionLamps.$[positionLamps].Front_Position_Lamp_LED_Type.properties.CoP_Cert_No_with_validity_date.value": data.Front_Position_Lamp_LED_Type.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    // if (data.Front_Position_Lamp_Bulb_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Position_Lamps.PositionLamps.$[positionLamps].Front_Position_Lamp_Bulb_Type": data.Front_Position_Lamp_Bulb_Type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Front_Position_Lamp_Bulb_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Position_Lamps.PositionLamps.$[positionLamps].Front_Position_Lamp_Bulb_Type": data.Front_Position_Lamp_Bulb_Type,
+            "Position_Lamps.PositionLamps.$[positionLamps].Front_Position_Lamp_Bulb_Type.properties.TAC_Validity.value": data.Front_Position_Lamp_Bulb_Type.properties.TAC_Validity.value,
+            "Position_Lamps.PositionLamps.$[positionLamps].Front_Position_Lamp_Bulb_Type.properties.Possible_date_of_submission_of_required_approval.value": data.Front_Position_Lamp_Bulb_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Position_Lamps.PositionLamps.$[positionLamps].Front_Position_Lamp_Bulb_Type.properties.CoP_Cert_No_with_validity_date.value": data.Front_Position_Lamp_Bulb_Type.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
     if (data.Parking_Lamp_Led_Rear) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
@@ -620,124 +783,289 @@ exports.updateForm8Data = async (requestId, data) => {
         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
       )
     }
+    // if (data.Parking_Lamp_Bulb_Rear) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Position_Lamps.PositionLamps.$[positionLamps].Parking_Lamp_Bulb_Rear": data.Parking_Lamp_Bulb_Rear,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Parking_Lamp_Bulb_Rear) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Position_Lamps.PositionLamps.$[positionLamps].Parking_Lamp_Bulb_Rear": data.Parking_Lamp_Bulb_Rear,
+            "Position_Lamps.PositionLamps.$[positionLamps].Parking_Lamp_Bulb_Rear.properties.TAC_Validity.value": data.Parking_Lamp_Bulb_Rear.properties.TAC_Validity.value,
+            "Position_Lamps.PositionLamps.$[positionLamps].Parking_Lamp_Bulb_Rear.properties.Possible_date_of_submission_of_required_approval.value": data.Parking_Lamp_Bulb_Rear.properties.Possible_date_of_submission_of_required_approval.value,
+            "Position_Lamps.PositionLamps.$[positionLamps].Parking_Lamp_Bulb_Rear.properties.CoP_Cert_No_with_validity_date.value": data.Parking_Lamp_Bulb_Rear.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    // if (data.Stop_Lamp_LED_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Position_Lamps.PositionLamps.$[positionLamps].Stop_Lamp_LED_Type": data.Stop_Lamp_LED_Type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Stop_Lamp_LED_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Position_Lamps.PositionLamps.$[positionLamps].Stop_Lamp_LED_Type": data.Stop_Lamp_LED_Type,
+            "Position_Lamps.PositionLamps.$[positionLamps].Stop_Lamp_LED_Type.properties.TAC_Validity.value": data.Stop_Lamp_LED_Type.properties.TAC_Validity.value,
+            "Position_Lamps.PositionLamps.$[positionLamps].Stop_Lamp_LED_Type.properties.Possible_date_of_submission_of_required_approval.value": data.Stop_Lamp_LED_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Position_Lamps.PositionLamps.$[positionLamps].Stop_Lamp_LED_Type.properties.CoP_Cert_No_with_validity_date.value": data.Stop_Lamp_LED_Type.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    // if (data.Stop_lamp_bulb_Filament_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Position_Lamps.PositionLamps.$[positionLamps].Stop_lamp_bulb_Filament_Type": data.Stop_lamp_bulb_Filament_Type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Stop_lamp_bulb_Filament_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Position_Lamps.PositionLamps.$[positionLamps].Stop_lamp_bulb_Filament_Type": data.Stop_lamp_bulb_Filament_Type,
+            "Position_Lamps.PositionLamps.$[positionLamps].Stop_lamp_bulb_Filament_Type.properties.TAC_Validity.value": data.Stop_lamp_bulb_Filament_Type.properties.TAC_Validity.value,
+            "Position_Lamps.PositionLamps.$[positionLamps].Stop_lamp_bulb_Filament_Type.properties.Possible_date_of_submission_of_required_approval.value": data.Stop_lamp_bulb_Filament_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Position_Lamps.PositionLamps.$[positionLamps].Stop_lamp_bulb_Filament_Type.properties.CoP_Cert_No_with_validity_date.value": data.Stop_lamp_bulb_Filament_Type.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "positionLamps._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
 
+    // if (data.Registration_Plate_Lamp_LED_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.$[rearRegistrationPlatelamp].Registration_Plate_Lamp_LED_Type":
+    //           data.Registration_Plate_Lamp_LED_Type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "rearRegistrationPlatelamp._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Registration_Plate_Lamp_LED_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.$[rearRegistrationPlatelamp].Registration_Plate_Lamp_LED_Type":
-              data.Registration_Plate_Lamp_LED_Type,
+            "Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.$[rearRegistrationPlatelamp].Registration_Plate_Lamp_LED_Type.properties.TAC_Validity.value":
+              data.Registration_Plate_Lamp_LED_Type.properties.TAC_Validity.value,
+            "Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.$[rearRegistrationPlatelamp].Registration_Plate_Lamp_LED_Type.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Registration_Plate_Lamp_LED_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.$[rearRegistrationPlatelamp].Registration_Plate_Lamp_LED_Type.properties.CoP_Cert_No_with_validity_date.value":
+              data.Registration_Plate_Lamp_LED_Type.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "rearRegistrationPlatelamp._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    // if (data.Registration_Plate_Lamp_bulb_type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.$[rearRegistrationPlatelamp].Registration_Plate_Lamp_bulb_type":
+    //           data.Registration_Plate_Lamp_bulb_type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "rearRegistrationPlatelamp._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
+
     if (data.Registration_Plate_Lamp_bulb_type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.$[rearRegistrationPlatelamp].Registration_Plate_Lamp_bulb_type":
-              data.Registration_Plate_Lamp_bulb_type,
+            "Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.$[rearRegistrationPlatelamp].Registration_Plate_Lamp_bulb_type.properties.TAC_Validity.value":
+              data.Registration_Plate_Lamp_bulb_type.properties.TAC_Validity.value,
+            "Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.$[rearRegistrationPlatelamp].Registration_Plate_Lamp_bulb_type.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Registration_Plate_Lamp_bulb_type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Rear_Registration_Plate_lamp.RearRegistrationPlatelamp.$[rearRegistrationPlatelamp].Registration_Plate_Lamp_bulb_type.properties.CoP_Cert_No_with_validity_date.value":
+              data.Registration_Plate_Lamp_bulb_type.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "rearRegistrationPlatelamp._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
-
+    
+    // if (data.Front_Direction_Indicator_LED_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Front_Direction_Indicator_LED_Type":
+    //           data.Front_Direction_Indicator_LED_Type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Front_Direction_Indicator_LED_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Front_Direction_Indicator_LED_Type":
-              data.Front_Direction_Indicator_LED_Type,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Front_Direction_Indicator_LED_Type.properties.TAC_Validity.value":
+              data.Front_Direction_Indicator_LED_Type.properties.TAC_Validity.value,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Front_Direction_Indicator_LED_Type.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Front_Direction_Indicator_LED_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Front_Direction_Indicator_LED_Type.properties.CoP_Cert_No_with_validity_date.value":
+              data.Front_Direction_Indicator_LED_Type.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    // if (data.Front_Direction_indicator_Bulb_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Front_Direction_indicator_Bulb_Type":
+    //           data.Front_Direction_indicator_Bulb_Type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
+
     if (data.Front_Direction_indicator_Bulb_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Front_Direction_indicator_Bulb_Type":
-              data.Front_Direction_indicator_Bulb_Type,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Front_Direction_indicator_Bulb_Type.properties.TAC_Validity.value":
+              data.Front_Direction_indicator_Bulb_Type.properties.TAC_Validity.value,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Front_Direction_indicator_Bulb_Type.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Front_Direction_indicator_Bulb_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Front_Direction_indicator_Bulb_Type.properties.CoP_Cert_No_with_validity_date.value":
+              data.Front_Direction_indicator_Bulb_Type.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    // if (data.Rear_Direction_Indicator_LED_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Rear_Direction_Indicator_LED_Type":
+    //           data.Rear_Direction_Indicator_LED_Type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Rear_Direction_Indicator_LED_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Rear_Direction_Indicator_LED_Type":
-              data.Rear_Direction_Indicator_LED_Type,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Rear_Direction_Indicator_LED_Type.properties.TAC_Validity.value":
+              data.Rear_Direction_Indicator_LED_Type.properties.TAC_Validity.value,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Rear_Direction_Indicator_LED_Type.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Rear_Direction_Indicator_LED_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Rear_Direction_Indicator_LED_Type.properties.CoP_Cert_No_with_validity_date.value":
+              data.Rear_Direction_Indicator_LED_Type.properties.CoP_Cert_No_with_validity_date.value,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Rear_Direction_Indicator_LED_Type.properties.TAC_Number.value":
+              data.Rear_Direction_Indicator_LED_Type.properties.TAC_Number.value,
           },
         },
         { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    // if (data.Rear_Direction_Indicator_Bulb_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Rear_Direction_Indicator_Bulb_Type":
+    //           data.Rear_Direction_Indicator_Bulb_Type,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
+
     if (data.Rear_Direction_Indicator_Bulb_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Rear_Direction_Indicator_Bulb_Type":
-              data.Rear_Direction_Indicator_Bulb_Type,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Rear_Direction_Indicator_Bulb_Type.properties.TAC_Validity.value":
+              data.Rear_Direction_Indicator_Bulb_Type.properties.TAC_Validity.value,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Rear_Direction_Indicator_Bulb_Type.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Rear_Direction_Indicator_Bulb_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Rear_Direction_Indicator_Bulb_Type.properties.CoP_Cert_No_with_validity_date.value":
+              data.Rear_Direction_Indicator_Bulb_Type.properties.CoP_Cert_No_with_validity_date.value,            
           },
         },
         { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
+    // if (data.Side_Direction_Indicator) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Side_Direction_Indicator": data.Side_Direction_Indicator,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Side_Direction_Indicator) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Side_Direction_Indicator": data.Side_Direction_Indicator,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Side_Direction_Indicator.properties.TAC_Validity.value":
+              data.Side_Direction_Indicator.properties.TAC_Validity.value,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Side_Direction_Indicator.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Side_Direction_Indicator.properties.Possible_date_of_submission_of_required_approval.value,
+            "Direction_Indicator_Lamp.DirectionIndicatorLamp.$[directionIndicatorLamp].Side_Direction_Indicator.properties.CoP_Cert_No_with_validity_date.value":
+              data.Side_Direction_Indicator.properties.CoP_Cert_No_with_validity_date.value
           },
         },
         { arrayFilters: [{ "directionIndicatorLamp._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
+    
 
     if (data.Front_White_Reflector) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
@@ -750,68 +1078,172 @@ exports.updateForm8Data = async (requestId, data) => {
         { arrayFilters: [{ "retroReflectors._id": data._id }], returnDocument: "after" }
       )
     }
+    // if (data.Rear_Red_Reflector) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Retro_Reflectors.RetroReflectors.$[retroReflectors].Rear_Red_Reflector": data.Rear_Red_Reflector,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "retroReflectors._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Rear_Red_Reflector) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Retro_Reflectors.RetroReflectors.$[retroReflectors].Rear_Red_Reflector": data.Rear_Red_Reflector,
+            "Retro_Reflectors.RetroReflectors.$[retroReflector].Rear_Red_Reflector.properties.TAC_Validity.value":
+              data.Rear_Red_Reflector.properties.TAC_Validity.value,
+            "Retro_Reflectors.RetroReflectors.$[retroReflector].Rear_Red_Reflector.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Rear_Red_Reflector.properties.Possible_date_of_submission_of_required_approval.value,
+            "Retro_Reflectors.RetroReflectors.$[retroReflector].Rear_Red_Reflector.properties.CoP_Cert_No_with_validity_date.value":
+              data.Rear_Red_Reflector.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
-        { arrayFilters: [{ "retroReflectors._id": data._id }], returnDocument: "after" }
-      )
+        { arrayFilters: [{ "retroReflector._id": data._id }], returnDocument: "after" }
+      );
     }
+    
+    // if (data.Side_Amber_Reflector) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Retro_Reflectors.RetroReflectors.$[retroReflectors].Side_Amber_Reflector": data.Side_Amber_Reflector,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "retroReflectors._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
     if (data.Side_Amber_Reflector) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Retro_Reflectors.RetroReflectors.$[retroReflectors].Side_Amber_Reflector": data.Side_Amber_Reflector,
+            "Retro_Reflectors.RetroReflectors.$[retroReflector].Side_Amber_Reflector.properties.TAC_Validity.value":
+              data.Side_Amber_Reflector.properties.TAC_Validity.value,
+            "Retro_Reflectors.RetroReflectors.$[retroReflector].Side_Amber_Reflector.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Side_Amber_Reflector.properties.Possible_date_of_submission_of_required_approval.value,
+            "Retro_Reflectors.RetroReflectors.$[retroReflector].Side_Amber_Reflector.properties.CoP_Cert_No_with_validity_date.value":
+              data.Side_Amber_Reflector.properties.CoP_Cert_No_with_validity_date.value,
+          },
+        },
+        { arrayFilters: [{ "retroReflector._id": data._id }], returnDocument: "after" }
+      );
+    }
+    
+    if (data.Front_Reflective_Tape) {
+      updatedform8Data = await form8Schema.findByIdAndUpdate(
+        form8._id,
+        {
+          $set: {
+            "Retro_Reflectors.RetroReflectors.$[retroReflectors].Front_Reflective_Tape": data.Front_Reflective_Tape,
+          },
+        },
+        { arrayFilters: [{ "retroReflectors._id": data._id }], returnDocument: "after" }
+      )
+    }
+    if (data.Rear_Reflective_Tape) {
+      updatedform8Data = await form8Schema.findByIdAndUpdate(
+        form8._id,
+        {
+          $set: {
+            "Retro_Reflectors.RetroReflectors.$[retroReflectors].Rear_Reflective_Tape": data.Rear_Reflective_Tape,
+          },
+        },
+        { arrayFilters: [{ "retroReflectors._id": data._id }], returnDocument: "after" }
+      )
+    }
+     if (data.Side_Reflective_Tape) {
+      updatedform8Data = await form8Schema.findByIdAndUpdate(
+        form8._id,
+        {
+          $set: {
+            "Retro_Reflectors.RetroReflectors.$[retroReflectors].Side_Reflective_Tape": data.Side_Reflective_Tape,
           },
         },
         { arrayFilters: [{ "retroReflectors._id": data._id }], returnDocument: "after" }
       )
     }
 
+    // if (data.Hydraulic_Brake_Hose) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Hydraulic_Brake_Hose.HydraulicBrakeHose.$[hydraulicBrakeHose].Hydraulic_Brake_Hose": data.Hydraulic_Brake_Hose,
+    //       },
+    //     },
+    //     { arrayFilters: [{ "hydraulicBrakeHose._id": data._id }], returnDocument: "after" }
+    //   )
+    // }
+
     if (data.Hydraulic_Brake_Hose) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Hydraulic_Brake_Hose.HydraulicBrakeHose.$[hydraulicBrakeHose].Hydraulic_Brake_Hose": data.Hydraulic_Brake_Hose,
+            "Hydraulic_Brake_Hose.HydraulicBrakeHose.$[hydraulicBrakeHose].Hydraulic_Brake_Hose.properties.TAC_Validity.value":
+              data.Hydraulic_Brake_Hose.properties.TAC_Validity.value,
+            "Hydraulic_Brake_Hose.HydraulicBrakeHose.$[hydraulicBrakeHose].Hydraulic_Brake_Hose.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Hydraulic_Brake_Hose.properties.Possible_date_of_submission_of_required_approval.value,
+            "Hydraulic_Brake_Hose.HydraulicBrakeHose.$[hydraulicBrakeHose].Hydraulic_Brake_Hose.properties.CoP_Cert_No_with_validity_date.value":
+              data.Hydraulic_Brake_Hose.properties.CoP_Cert_No_with_validity_date.value
           },
         },
         { arrayFilters: [{ "hydraulicBrakeHose._id": data._id }], returnDocument: "after" }
-      )
+      );
     }
-    if (data.Hydraulic_Brake_Hose) {
-      updatedform8Data = await form8Schema.findByIdAndUpdate(
-        form8._id,
-        {
-          $set: {
-            "Hydraulic_Brake_Hose.HydraulicBrakeHose.$[hydraulicBrakeHose].Hydraulic_Brake_Hose": data.Hydraulic_Brake_Hose,
-          },
-        },
-        {
-          arrayFilters: [{ "hydraulicBrakeHose._id": data._id }],
-          returnDocument: "after",
-        }
-      )
-    }
+    
+    // if (data.Hydraulic_Brake_Hose) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Hydraulic_Brake_Hose.HydraulicBrakeHose.$[hydraulicBrakeHose].Hydraulic_Brake_Hose": data.Hydraulic_Brake_Hose,
+    //       },
+    //     },
+    //     {
+    //       arrayFilters: [{ "hydraulicBrakeHose._id": data._id }],
+    //       returnDocument: "after",
+    //     }
+    //   )
+    // }
+
+
+    // if (data.Hydraulic_Brake_Fluid) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Brake_Fluid.BrakeFluid.$[brakeFluid].Hydraulic_Brake_Fluid": data.Hydraulic_Brake_Fluid,
+    //       },
+    //     },
+    //     {
+    //       arrayFilters: [{ "brakeFluid._id": data._id }],
+    //       returnDocument: "after",
+    //     }
+    //   )
+    // }
+
     if (data.Hydraulic_Brake_Fluid) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Brake_Fluid.BrakeFluid.$[brakeFluid].Hydraulic_Brake_Fluid": data.Hydraulic_Brake_Fluid,
+            "Brake_Fluid.BrakeFluid.$[brakeFluid].Hydraulic_Brake_Fluid.properties.Brake_fluid_Test_Report_No.value":
+              data.Hydraulic_Brake_Fluid.properties.Brake_fluid_Test_Report_No.value
           },
         },
         {
           arrayFilters: [{ "brakeFluid._id": data._id }],
           returnDocument: "after",
         }
-      )
+      );
     }
+    
     if (data.Spray_Suppression_System) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
@@ -826,41 +1258,77 @@ exports.updateForm8Data = async (requestId, data) => {
         }
       )
     }
+    // if (data.Protective_Device_Handle_Lock) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Handle_Lock.HandleLock.$[handleLock].Protective_Device_Handle_Lock": data.Protective_Device_Handle_Lock,
+    //       },
+    //     },
+    //     {
+    //       arrayFilters: [{ "handleLock._id": data._id }],
+    //       returnDocument: "after",
+    //     }
+    //   )
+    // }
+
     if (data.Protective_Device_Handle_Lock) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Handle_Lock.HandleLock.$[handleLock].Protective_Device_Handle_Lock": data.Protective_Device_Handle_Lock,
+            "Handle_Lock.HandleLock.$[handleLock].Protective_Device_Handle_Lock.properties.Make.value": data.Protective_Device_Handle_Lock.properties.Make.value,
+            "Handle_Lock.HandleLock.$[handleLock].Protective_Device_Handle_Lock.properties.TAC_Number.value":
+              data.Protective_Device_Handle_Lock.properties.TAC_Number.value,
+            "Handle_Lock.HandleLock.$[handleLock].Protective_Device_Handle_Lock.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Protective_Device_Handle_Lock.properties.Possible_date_of_submission_of_required_approval.value,
+            "Handle_Lock.HandleLock.$[handleLock].Protective_Device_Handle_Lock.properties.CoP_Cert_No_with_validity_date.value":
+              data.Protective_Device_Handle_Lock.properties.CoP_Cert_No_with_validity_date.value,
           },
         },
         {
           arrayFilters: [{ "handleLock._id": data._id }],
           returnDocument: "after",
         }
-      )
+      );
     }
+       
+
+    
+    // if (data.Rear_View_Mirror) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Rear_View_Mirror.RearViewMirror.$[rearViewMirror].Rear_View_Mirror": data.Rear_View_Mirror,
+    //       },
+    //     },
+    //     {
+    //       arrayFilters: [{ "rearViewMirror._id": data._id }],
+    //       returnDocument: "after",
+    //     }
+    //   )
+    // }
     if (data.Rear_View_Mirror) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Rear_View_Mirror.RearViewMirror.$[rearViewMirror].Rear_View_Mirror": data.Rear_View_Mirror,
+            "Rear_View_Mirror.RearViewMirror.$[rearViewMirror].Rear_View_Mirror.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Rear_View_Mirror.properties.Possible_date_of_submission_of_required_approval.value,
+            "Rear_View_Mirror.RearViewMirror.$[rearViewMirror].Rear_View_Mirror.properties.CoP_Cert_No_with_validity_date.value":
+              data.Rear_View_Mirror.properties.CoP_Cert_No_with_validity_date.value
           },
         },
         {
           arrayFilters: [{ "rearViewMirror._id": data._id }],
           returnDocument: "after",
         }
-      )
+      );
     }
+    
     if (data.Windscreen) {
-      // if (vehicle_type = '2-Wheeler') {
-      //   data.Windscreen.properties.Make.value = 'NA';
-      //   data.Windscreen.properties.BIS_License_Number_Validity.value = 'NA';
-      //   data.Windscreen.properties.Possible_date_of_submission_of_required_approval.value = 'NA';
-      //   data.Windscreen.properties.CoP_Cert_No_with_validity_date.value = 'NA';
-      // }
 
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
@@ -923,37 +1391,109 @@ exports.updateForm8Data = async (requestId, data) => {
         }
       )
     }
+    if (data.Washing_System) {
+      updatedform8Data = await form8Schema.findByIdAndUpdate(
+        form8._id,
+        {
+          $set: {
+            "Windscreen_wiping.Windscreenwiping.$[windscreenwiping].Washing_System": data.Washing_System,
+          },
+        },
+        {
+          arrayFilters: [{ "windscreenwiping._id": data._id }],
+          returnDocument: "after",
+        }
+      )
+    }
+    if (data.Wiper_Blade) {
+      updatedform8Data = await form8Schema.findByIdAndUpdate(
+        form8._id,
+        {
+          $set: {
+            "Windscreen_wiping.Windscreenwiping.$[windscreenwiping].Wiper_Blade": data.Wiper_Blade,
+          },
+        },
+        {
+          arrayFilters: [{ "windscreenwiping._id": data._id }],
+          returnDocument: "after",
+        }
+      )
+    }
+    
+    
+
+    // if (data.Reversing_Lamp) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Reversing_Lamp.ReversingLamp.$[reversingLamp].Reversing_Lamp": data.Reversing_Lamp,
+    //       },
+    //     },
+    //     {
+    //       arrayFilters: [{ "reversingLamp._id": data._id }],
+    //       returnDocument: "after",
+    //     }
+    //   )
+    // }
+
 
     if (data.Reversing_Lamp) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Reversing_Lamp.ReversingLamp.$[reversingLamp].Reversing_Lamp": data.Reversing_Lamp,
+            "Reversing_Lamp.ReversingLamp.$[reversingLamp].Reversing_Lamp.properties.TAC_Validity.value":
+              data.Reversing_Lamp.properties.TAC_Validity.value,
+            "Reversing_Lamp.ReversingLamp.$[reversingLamp].Reversing_Lamp.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Reversing_Lamp.properties.Possible_date_of_submission_of_required_approval.value,
+            "Reversing_Lamp.ReversingLamp.$[reversingLamp].Reversing_Lamp.properties.CoP_Cert_No_with_validity_date.value":
+              data.Reversing_Lamp.properties.CoP_Cert_No_with_validity_date.value
           },
         },
         {
           arrayFilters: [{ "reversingLamp._id": data._id }],
           returnDocument: "after",
         }
-      )
+      );
     }
+    
+    // if (data.Reverse_Lamp_Bulb_Type) {
+    //   updatedform8Data = await form8Schema.findByIdAndUpdate(
+    //     form8._id,
+    //     {
+    //       $set: {
+    //         "Reversing_Lamp.ReversingLamp.$[reversingLamp].Reverse_Lamp_Bulb_Type": data.Reverse_Lamp_Bulb_Type,
+    //       },
+    //     },
+    //     {
+    //       arrayFilters: [{ "reversingLamp._id": data._id }],
+    //       returnDocument: "after",
+    //     }
+    //   )
+    // }
+
 
     if (data.Reverse_Lamp_Bulb_Type) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
         {
           $set: {
-            "Reversing_Lamp.ReversingLamp.$[reversingLamp].Reverse_Lamp_Bulb_Type": data.Reverse_Lamp_Bulb_Type,
+            "Reversing_Lamp.ReversingLamp.$[reversingLamp].Reverse_Lamp_Bulb_Type.properties.TAC_Validity.value":
+              data.Reverse_Lamp_Bulb_Type.properties.TAC_Validity.value,
+            "Reversing_Lamp.ReversingLamp.$[reversingLamp].Reverse_Lamp_Bulb_Type.properties.Possible_date_of_submission_of_required_approval.value":
+              data.Reverse_Lamp_Bulb_Type.properties.Possible_date_of_submission_of_required_approval.value,
+            "Reversing_Lamp.ReversingLamp.$[reversingLamp].Reverse_Lamp_Bulb_Type.properties.CoP_Cert_No_with_validity_date.value":
+              data.Reverse_Lamp_Bulb_Type.properties.CoP_Cert_No_with_validity_date.value
           },
         },
         {
           arrayFilters: [{ "reversingLamp._id": data._id }],
           returnDocument: "after",
         }
-      )
+      );
     }
-
+    
     if (data.Grab_handle_Straps) {
       updatedform8Data = await form8Schema.findByIdAndUpdate(
         form8._id,
@@ -1005,3 +1545,9 @@ const findOrCreateForm8 = async (requestId) => {
 }
 
 exports.findOrCreateForm8 = findOrCreateForm8
+
+
+exports.insertNewForm8 = async (form) => {
+  // const Form8Model = require("../mongoSchemas/form8Schema");
+  return await form8Schema.create(form);
+};

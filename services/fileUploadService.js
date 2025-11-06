@@ -110,6 +110,7 @@ exports.findOrCreateFileUpload = async (requestId) => {
         Horn: {},
         Rear_View_Mirror: {},
         Grab_handle_Straps: {},
+        strap_and_HandelHold:{},
         Grab_handle_Straps_3_wheeler: {},
         Spray_Suppression_Rear_Mud_Gaurd: {},
         Two_Wheeler_Stand: {},
@@ -118,6 +119,7 @@ exports.findOrCreateFileUpload = async (requestId) => {
         Windscreen_and_Wiping_System: {},
         R_Point: {},
         Rear: {},
+        Device_to_protect_against_unauthorized_use:{},
       }
 
       const form7Data = {
@@ -150,3 +152,8 @@ exports.findOrCreateFileUpload = async (requestId) => {
     }
   return fileUpload
 }
+
+exports.insertNewFileUpload = async (fileUploadData) => {
+  // const FileUploadModel = require("../mongoSchemas/fileUploadSchema");
+  return await fileUploadSchema.create(fileUploadData);
+};

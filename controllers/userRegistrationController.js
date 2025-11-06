@@ -15,6 +15,7 @@ exports.newUserRegistration = async (req, res, next) => {
       businessName: request.businessName,
       registrationDate: request.registrationDate,
       registrationNumber: request.registrationNumber,
+      vehicleType: request.vehicleType,
       businessDescription: request.businessDescription,
       profileAddress: {
         address1: request.profileAddress.address1,
