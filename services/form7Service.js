@@ -17,6 +17,10 @@ const TyresData = async (supplierId, form7) => {
     //     tyre_vehicle_type: { value: vehicle_type === '2-Wheeler' ? '2-Wheeler' : '3-Wheeler' },
     //   },
     // },
+
+    /////updates 
+    ////new 
+    
     Front_Tyre: {
       properties: {
         Laden: { value: "" },
