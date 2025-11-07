@@ -20,6 +20,8 @@ const TyresData = async (supplierId, form7) => {
 
     /////updates 
     ////new 
+
+    
     
     Front_Tyre: {
       properties: {
@@ -47,6 +49,7 @@ const TyresData = async (supplierId, form7) => {
   console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
+
 
 const WheelRimData = async (supplierId, form7) => {
   const WheelRimData = {
