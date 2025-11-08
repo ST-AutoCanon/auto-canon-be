@@ -3,7 +3,7 @@ const express = require("express")
 const bodyParser = require('body-parser');
 const path = require('path'); 
 const cors = require("cors")
-const port = 3005;
+const port = 3006;
 const { getMongoConnection } = require("./controllers/mongoService")
 const { registerRoutes } = require("./routes/routesRegistry")
 
@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 app.use(bodyParser.json({ limit: '20mb' }));
-app.use(bodyParser());
+// app.use(bodyParser());
 
 
 // Serves static files from the '/home/auto-canon-be/uploads' directory
