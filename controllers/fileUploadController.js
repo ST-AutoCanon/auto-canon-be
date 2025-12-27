@@ -54,7 +54,7 @@ exports.fileUpload = async (req) => {
         // const filePath = `/home/vinayak/uploads/${filename}`;
         // const filePath = `/home/auto-canon-be/uploads/${filename}`;
         // const filePath = `/home/vinayak/Desktop/new/auto-canon-FE-master/src/assets/uploads/${filename}`;    
-        const filePath = `/home/ubuntu/Bv-reg(new)/neww/auto-canon-FE-master/src/footerUploads/${filename}`;     
+        const filePath = `/home/ubuntu/auto-canon(new)/neww/auto-canon-FE-master/src/footerUploads/${filename}`;     
         // console.log(`looking for file: ${filePath}`)  
         // Check if the file exists
         if (fs.existsSync(filePath)) {
@@ -85,7 +85,7 @@ exports.fileUpload = async (req) => {
       // const filePath = `/home/vinayak/uploads/${filename}`;
       // const filePath = `/home/auto-canon-be/uploads/${filename}`;
       // const filePath = `/home/vinayak/Desktop/new/auto-canon-FE-master/src/assets/uploads/${filename}`;   
-      const filePath = `/home/ubuntu/Bv-reg(new)/neww/auto-canon-FE-master/src/footerUploads/${filename}`;     
+      const filePath = `/home/ubuntu/auto-canon(new)/neww/auto-canon-FE-master/src/footerUploads/${filename}`;     
       // console.log(`looking for file: ${filePath}`)  
       // Check if the file exists
       if (fs.existsSync(filePath)) {

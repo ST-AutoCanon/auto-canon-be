@@ -151,7 +151,7 @@ exports.signUp = async (req, res) => {
 exports.signin = async (req, res) => {
 
   const { username, password } = req.body;
-  // console.log('req.body;;:',req.body);
+  console.log('req.body;;:',req.body);
   try {
     // Find user by username or username1
     // const user = await User.findOne({

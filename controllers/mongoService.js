@@ -24,7 +24,7 @@ function defaultSupplierModel(){
 
 exports.getMongoConnection = async () => {
   try {
-    const mongoConnectionURL =`mongodb://${MONGO_USER}:${MONGO_PWD}@${MONGO_IP}:${MONGO_PORT}/sukalpatechnew?authSource=admin`;
+    const mongoConnectionURL =`mongodb://${MONGO_USER}:${MONGO_PWD}@${MONGO_IP}:${MONGO_PORT}/autocanon?authSource=admin`;
     mongoose.set("strictQuery", true)
     const mongoConnection = await mongoose.connect(`${mongoConnectionURL}`)
     if (mongoConnection){
