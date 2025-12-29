@@ -14,9 +14,9 @@ const barrelRoutes = require("./formsRoutes")
 // Updated the file path to ensure it points to the correct directory for file storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) { 
-    cb(null, 'uploads/');
-    cb(null, '/home/auto-canon-be/uploads/');  
-    cb(null, '/home/ubuntu/auto-canon(new)/neww/auto-canon-FE-master/src/footerUploads/'); 
+    // cb(null, 'uploads/');
+     cb(null, '/home/auto-canon-be/uploads/'); 
+    // cb(null, '/home/ubuntu/Bv-reg(new)/neww/bv-reg-FE-master/src/footerUploads/'); 
   },
   filename: function (req, file, cb) {
     const requestId = req.params.requestId.replace(/\//g, '');    
