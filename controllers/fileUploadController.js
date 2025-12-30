@@ -51,6 +51,7 @@ exports.fileUpload = async (req) => {
     try {
         const filename = req.params.filename;
         // const filePath = `../uploads/${filename}`;
+        const filePath = `/home/auto-canon-be/uploads/${filename}`;
         // const filePath = `/home/vinayak/uploads/${filename}`;
         const filePath = `/home/auto-canon-be/uploads/${filename}`;
         // const filePath = `/home/vinayak/Desktop/new/bv-reg-FE-master/src/assets/uploads/${filename}`;    
@@ -82,6 +83,8 @@ exports.fileUpload = async (req) => {
     try {
       const filename = req.params.filename;
       // const filePath = `../uploads/${filename}`;
+      const filePath = `/home/auto-canon-be/uploads/${filename}`;
+
       // const filePath = `/home/vinayak/uploads/${filename}`;
       const filePath = `/home/auto-canon-be/uploads/${filename}`;
       // const filePath = `/home/vinayak/Desktop/new/bv-reg-FE-master/src/assets/uploads/${filename}`;   

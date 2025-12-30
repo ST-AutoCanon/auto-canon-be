@@ -200,6 +200,21 @@ const VehicleControlUnit = async (supplierId, form13) => {
   return updateform13Data
 }
 
+const VehicleControlUnit = async (supplierId, form13) => {
+  const VehicleControlUnit = {
+    supplier: supplierId,
+    Vehicle_Control: {},
+  }
+  console.log(`creating data: ${JSON.stringify(VehicleControlUnit)} data for form13: ${form13._id}`)
+  const updateform13Data = await form13Schema.findByIdAndUpdate(
+    form13._id,
+    { $push: { "Vehicle_Control_Unit.VehicleControlUnit": VehicleControlUnit } },
+    { returnDocument: "after" }
+  )
+  console.log(`updateform13Data: ${updateform13Data}`)
+  return updateform13Data
+}
+
 const ChargerSpecification = async (supplierId, form13) => {
   const ChargerSpecification = {
     supplier: supplierId,
