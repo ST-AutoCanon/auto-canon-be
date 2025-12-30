@@ -16,14 +16,14 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) { 
     ////////
     // cb(null, 'uploads/');
-     cb(null, '/home/auto-canon-be/uploads/');  
-    // cb(null, '/home/ubuntu/Bv-reg(new)/neww/auto-canon-FE-master/src/footerUploads/'); 
+     cb(null, '/home/auto-canon-be/uploads/'); 
+    // cb(null, '/home/ubuntu/Bv-reg(new)/neww/bv-reg-FE-master/src/footerUploads/'); 
   },
   filename: function (req, file, cb) {
     const requestId = req.params.requestId.replace(/\//g, '');    
     const originalname = file.originalname.replace(/\s+/g, '_')
     const filename = `${requestId}-${originalname}`;
-    console.log(`Uploading Image: ${filename}`)
+    // console.log(`Uploading Image: ${filename}`)
     cb(null, filename);
   }
 });

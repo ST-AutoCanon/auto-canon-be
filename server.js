@@ -15,10 +15,10 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 app.use(bodyParser.json({ limit: '20mb' }));
-app.use(bodyParser());
+// app.use(bodyParser());
 
 
-// Serves static files from the '/home/auto-canon-be/uploads' directory
+// Serves static files from the '/home/bv-reg-be/uploads' directory
 // when accessed via the '/uploads' route in the URL.
 app.use('/uploads', express.static('/home/auto-canon-be/uploads'));
 app.use('/footerUploads', express.static(path.join(__dirname, 'footerUploads')));
