@@ -11,7 +11,7 @@ docker-compose down
 docker logs -f node-app
 
 # to connect to mongodb
-docker exec -it bv-reg-be_mongo-db_1 mongosh -u "mongo" -p "mongo"
+docker exec -it auto-canon-be_mongo-db_1 mongosh -u "mongo" -p "mongo"
 
 # mongo commands:
 

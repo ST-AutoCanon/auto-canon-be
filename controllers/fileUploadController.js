@@ -12,10 +12,8 @@ exports.fileUpload = async (req) => {
         const propertyName = req.body.propertyName || 'default';
         const filename = `${requestId}-${originalname}`;
 
-        // console.log(`adding image: ${filename} for property: ${propertyName}`)
 
         const fileUploadData = await uploadFileUploadRequestId(requestId, form, headerName, propertyName, filename )
-        // console.log(`file: "${filename}" uploaded successfully: fileUploadData: ${fileUploadData}`)
         return fileUploadData;
     } catch (error) {
       // console.log(`Exception occured: ${error}`);
@@ -24,7 +22,6 @@ exports.fileUpload = async (req) => {
 
   exports.footerDataUpdate = async (req, res, next) => {
     try {
-      // console.log('req.body:',req)
       const requestId = req.params.requestId
       const { data } = req.body
       // console.log(' footerDataupdate data:',data)
@@ -55,7 +52,6 @@ exports.fileUpload = async (req) => {
         const filePath = `/home/auto-canon-be/uploads/${filename}`;
         // const filePath = `/home/vinayak/Desktop/new/bv-reg-FE-master/src/assets/uploads/${filename}`;    
         // const filePath = `/home/ubuntu/Bv-reg(new)/neww/bv-reg-FE-master/src/footerUploads/${filename}`;     
-        console.log(`looking for file: ${filePath}`)  
         // Check if the file exists
         if (fs.existsSync(filePath)) {
             res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
@@ -78,30 +74,30 @@ exports.fileUpload = async (req) => {
 
 
 
-  exports.fileDownloads = (req, res) => {
-    try {
-      const filename = req.params.filename;
-      // const filePath = `../uploads/${filename}`;
-      // const filePath = `/home/vinayak/uploads/${filename}`;
-      const filePath = `/home/auto-canon-be/uploads/${filename}`;
-      // const filePath = `/home/vinayak/Desktop/new/bv-reg-FE-master/src/assets/uploads/${filename}`;   
-      // const filePath = `/home/ubuntu/bv-reg(new)/neww/bv-reg-FE-master/src/footerUploads/${filename}`;     
-      // console.log(`looking for file: ${filePath}`)  
-      // Check if the file exists
-      if (fs.existsSync(filePath)) {
-          res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
-          res.setHeader('Content-Type', 'application/pdf/image/*');
+  // exports.fileDownloads = (req, res) => {
+  //   try {
+  //     const filename = req.params.filename;
+  //     // const filePath = `../uploads/${filename}`;
+  //     // const filePath = `/home/vinayak/uploads/${filename}`;
+  //     const filePath = `/home/auto-canon-be/uploads/${filename}`;
+  //     // const filePath = `/home/vinayak/Desktop/new/bv-reg-FE-master/src/assets/uploads/${filename}`;   
+  //     // const filePath = `/home/ubuntu/bv-reg(new)/neww/bv-reg-FE-master/src/footerUploads/${filename}`;     
+  //     // console.log(`looking for file: ${filePath}`)  
+  //     // Check if the file exists
+  //     if (fs.existsSync(filePath)) {
+  //         res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+  //         res.setHeader('Content-Type', 'application/pdf/image/*');
   
-          const fileStream = fs.createReadStream(filePath);
-          fileStream.pipe(res);
-      } else {
-          res.status(404).send('File not found.');
-      }
-  } catch (error) {
-    // console.log(`Exception occured: ${error}`);
-    res.status(200).json({
-      status: "failure",
-      body: error,
-    });
-  }
-  };
+  //         const fileStream = fs.createReadStream(filePath);
+  //         fileStream.pipe(res);
+  //     } else {
+  //         res.status(404).send('File not found.');
+  //     }
+  // } catch (error) {
+  //   // console.log(`Exception occured: ${error}`);
+  //   res.status(200).json({
+  //     status: "failure",
+  //     body: error,
+  //   });
+  // }
+  // };
