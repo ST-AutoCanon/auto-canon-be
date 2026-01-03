@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt")
 const UserProfile = require("../mongoSchemas/userProfileSchema")
-const { sendUserRegistrationMail,sendForgotPasswordMail } = require("./sendgridEmailService")
+const { sendUserRegistrationMail,sendForgotPasswordMail } = require("./emailService")
 
 exports.createUserProfile = async (userRegistrationReq) => {
   const userProfile = await UserProfile.find({ username: userRegistrationReq.emailId })

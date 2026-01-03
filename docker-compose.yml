@@ -29,6 +29,11 @@ services:
       SENDGRID_API_KEY : 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
       NEW_SIGNIN_URL : https://auto-canon.in/NewSignin
       RESET_PASSWORD : https://auto-canon.in/ResetPassword
+      # SMTP CONFIGS
+      SMTP_HOST: mail.pulsework.in
+      SMTP_PORT: 587
+      SMTP_USER: hr@sukalpatech.com
+      SMTP_PASS: SukalpaTech@2024
     depends_on:
       - mongo-db
     command: npm run start

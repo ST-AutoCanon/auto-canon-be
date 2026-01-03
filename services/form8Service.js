@@ -13,9 +13,7 @@ const WheelRimData = async (supplierId, form8) => {
     Front_Wheel_Rim: {},
     Rear_Wheel_Rim: {},
   }
-  //console.log(`creating data: ${JSON.stringify(WheelRim)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(form8._id, { $push: { "Wheel_Rim.WheelRim": WheelRim } }, { returnDocument: "after" })
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -24,9 +22,7 @@ const HornData = async (supplierId, form8) => {
     supplier: supplierId,
     Horn: {},
   }
-  //console.log(`creating data: ${JSON.stringify(Horn)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(form8._id, { $push: { "Horn.Horn": Horn } }, { returnDocument: "after" })
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 const TyresData = async (supplierId, form8) => {
@@ -46,9 +42,7 @@ const TyresData = async (supplierId, form8) => {
     },
     
   }
-  //console.log(`creating data: ${JSON.stringify(TyreData)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(form8._id, { $push: { "Tyres.TyresData": TyreData } }, { returnDocument: "after" })
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 const TractionBatterypackData = async (supplierId, form8) => {
@@ -56,13 +50,11 @@ const TractionBatterypackData = async (supplierId, form8) => {
     supplier: supplierId,
     Traction_Battery_Pack: {},
   }
-  //console.log(`creating data: ${JSON.stringify(TractionBatterypack)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Traction_Battery_Pack.TractionBatterypack": TractionBatterypack } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -74,9 +66,7 @@ const HeadLampData = async (supplierId, form8) => {
     Dipped_Beam_Headlamp_LED_Type: {},
     Dipped_Beam_Headlamp_Filament_Type: {}
   }
-  //console.log(`creating data: ${JSON.stringify(HeadLamp)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(form8._id, { $push: { "Head_Lamp.HeadLamp": HeadLamp } }, { returnDocument: "after" })
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -85,13 +75,11 @@ const DaytimeRunningLampData = async (supplierId, form8) => {
     supplier: supplierId,
     Daytime_Running_Lamp: {},
   }
-  //console.log(`creating data: ${JSON.stringify(DaytimeRunningLamp)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Daytime_Running_Lamp.DaytimeRunningLamp": DaytimeRunningLamp } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -105,13 +93,11 @@ const PositionLampsData = async (supplierId, form8) => {
     Stop_Lamp_LED_Type: {},
     Stop_lamp_bulb_Filament_Type: {},
   }
-  //console.log(`creating data: ${JSON.stringify(PositionLamps)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Position_Lamps.PositionLamps": PositionLamps } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -121,13 +107,11 @@ const RearRegistrationPlateNumberPlatelampData = async (supplierId, form8) => {
     Registration_Plate_Lamp_LED_Type: {},
     Registration_Plate_Lamp_bulb_type: {},
   }
-  //console.log(`creating data: ${JSON.stringify(RearRegistrationPlateNumberPlatelamp)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Rear_Registration_Plate_lamp.RearRegistrationPlatelamp": RearRegistrationPlateNumberPlatelamp } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -140,13 +124,11 @@ const DirectionIndicatorLampData = async (supplierId, form8) => {
     Rear_Direction_Indicator_Bulb_Type: {},
     Side_Direction_Indicator: {},
   }
-  //console.log(`creating data: ${JSON.stringify(DirectionIndicatorLamp)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Direction_Indicator_Lamp.DirectionIndicatorLamp": DirectionIndicatorLamp } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -160,13 +142,11 @@ const RetroReflectorsData = async (supplierId, form8) => {
     Rear_Reflective_Tape: {},
     Side_Reflective_Tape: {},
   }
-  //console.log(`creating data: ${JSON.stringify(RetroReflectors)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Retro_Reflectors.RetroReflectors": RetroReflectors } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -175,13 +155,11 @@ const HydraulicBrakeHoseData = async (supplierId, form8) => {
     supplier: supplierId,
     Hydraulic_Brake_Hose: {},
   }
-  //console.log(`creating data: ${JSON.stringify(HydraulicBrakeHose)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Hydraulic_Brake_Hose.HydraulicBrakeHose": HydraulicBrakeHose } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -190,13 +168,11 @@ const BrakeFluidData = async (supplierId, form8) => {
     supplier: supplierId,
     Hydraulic_Brake_Fluid: {},
   }
-  //console.log(`creating data: ${JSON.stringify(BrakeFluid)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Brake_Fluid.BrakeFluid": BrakeFluid } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -205,13 +181,11 @@ const SpraySuppressionData = async (supplierId, form8) => {
     supplier: supplierId,
     Spray_Suppression_System: {},
   }
-  //console.log(`creating data: ${JSON.stringify(SpraySuppression)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Spray_Suppression.SpraySuppression": SpraySuppression } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -220,13 +194,11 @@ const HandleLockData = async (supplierId, form8) => {
     supplier: supplierId,
     Protective_Device_Handle_Lock: {},
   }
-  //console.log(`creating data: ${JSON.stringify(HandleLock)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Handle_Lock.HandleLock": HandleLock } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -235,13 +207,11 @@ const RearViewMirrorData = async (supplierId, form8) => {
     supplier: supplierId,
     Rear_View_Mirror: {},
   }
-  //console.log(`creating data: ${JSON.stringify(RearViewMirror)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Rear_View_Mirror.RearViewMirror": RearViewMirror } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -250,13 +220,11 @@ const WindscreenData = async (supplierId, form8) => {
     supplier: supplierId,
     Windscreen: {},
   }
-  //console.log(`creating data: ${JSON.stringify(Windscreen)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Wind_screen.Windscreen": Windscreen } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -265,13 +233,11 @@ const SideglassData = async (supplierId, form8) => {
     supplier: supplierId,
     Side_Glass: {},
   }
-  //console.log(`creating data: ${JSON.stringify(Sideglass)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Side_glass.Sideglass": Sideglass } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -280,13 +246,11 @@ const RearglassData = async (supplierId, form8) => {
     supplier: supplierId,
     Rear_Glass: {},
   }
-  //console.log(`creating data: ${JSON.stringify(Rearglass)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Rear_glass.Rearglass": Rearglass } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -297,13 +261,11 @@ const WindscreenwipingData = async (supplierId, form8) => {
     Washing_System:{},
     Wiper_Blade:{},
   }
-  //console.log(`creating data: ${JSON.stringify(Windscreenwiping)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Windscreen_wiping.Windscreenwiping": Windscreenwiping } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -313,13 +275,11 @@ const ReversingLampData = async (supplierId, form8) => {
     Reversing_Lamp: {},
     Reverse_Lamp_Bulb_Type: {},
   }
-  //console.log(`creating data: ${JSON.stringify(ReversingLamp)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Reversing_Lamp.ReversingLamp": ReversingLamp } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -328,13 +288,11 @@ const GrabhandleData = async (supplierId, form8) => {
     supplier: supplierId,
     Grab_handle_Straps: {},
   }
-  //console.log(`creating data: ${JSON.stringify(Grabhandle)} data for form8: ${form8._id}`)
   const updateform8Data = await form8Schema.findByIdAndUpdate(
     form8._id,
     { $push: { "Grab_handle.Grabhandle": Grabhandle } },
     { returnDocument: "after" }
   )
-  //console.log(`updateform8Data: ${updateform8Data}`)
   return updateform8Data
 }
 
@@ -369,7 +327,6 @@ exports.getForm8ForRequestId = async (requestId) => {
     }
     return null;
   } catch (error) {
-    //console.log(`Exception occured: ${error}`);
     res.status(200).json({
       status: "failure",
       body: error,
@@ -379,7 +336,6 @@ exports.getForm8ForRequestId = async (requestId) => {
 
 exports.createEmptyForm8ComponentDataForSupplier = async (component, supplierId, requestId) => {
   try {
-    //console.log(`fetching form8 data for requestId: ${requestId}`)
     const form8 = await findOrCreateForm8(requestId)
     switch (component) {
       case "Wheel Rim":
@@ -428,7 +384,6 @@ exports.createEmptyForm8ComponentDataForSupplier = async (component, supplierId,
         break
     }
   } catch (error) {
-    //console.log(`Exception occured: ${error}`)
     return error
   }
 }
@@ -1200,16 +1155,13 @@ exports.updateForm8Data = async (requestId, data) => {
     }
     return updatedform8Data
   } catch (error) {
-    //console.log(`Exception occured: ${error}`)
     return error
   }
 }
 
 const findOrCreateForm8 = async (requestId) => {
-  //console.log(`inside findOrCreateForm8`)
   let form8 = await form8Schema.findOne({ homologationRequest: requestId })
   if (form8 == null) {
-    //console.log(`creatng new form8 collection for requestId: ${requestId}`)
     form8 = await form8Schema.create({
       homologationRequest: requestId,
     })
@@ -1217,7 +1169,6 @@ const findOrCreateForm8 = async (requestId) => {
     if (defaultSupplier) {
       const requestData = await homologationRequestSchema.findById(requestId)
 
-      //console.log(`adding defaultSupplier for GrabhandleData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`)
       await GrabhandleData(defaultSupplier._id, form8)
 
       if (requestData.vehicle_type.value === '2-Wheeler') {
@@ -1228,7 +1179,6 @@ const findOrCreateForm8 = async (requestId) => {
 
       }
     } else {
-      //console.log(`inside findOrCreateForm8 :defaultSupplier is not found`)
     }
   }
   return form8

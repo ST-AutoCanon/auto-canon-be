@@ -50,7 +50,6 @@ const WheelRimData = async (supplierId, form7) => {
     { $push: { "Wheel_Rim.WheelRim": WheelRimData } },
     { returnDocument: "after" }
   );
-  //console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
 const DriveTrainSystem = async (supplierId, form7) => {
@@ -69,7 +68,6 @@ const DriveTrainSystem = async (supplierId, form7) => {
     { $push: { "Drive_Train_System.DriveTrainSystemData": DriveTrainSystem } },
     { returnDocument: "after" }
   );
-  //console.log(`updatedForm7Data: ${updatedForm7Data}`);
   return updatedForm7Data;
 };
 const TractionBatterypackData = async (supplierId, form7) => {
@@ -77,11 +75,7 @@ const TractionBatterypackData = async (supplierId, form7) => {
     supplier: supplierId,
     Traction_Battery_Pack: {},
   };
-  //console.log(
-  //   `creating data: ${JSON.stringify(
-  //     TractionBatterypackData
-  //   )} data for form7: ${form7._id}`
-  // );
+  
   const updateForm7Data = await form7Schema.findByIdAndUpdate(
     form7._id,
     {
@@ -91,7 +85,6 @@ const TractionBatterypackData = async (supplierId, form7) => {
     },
     { returnDocument: "after" }
   );
-  //console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
 
@@ -100,17 +93,12 @@ const WindscreenwipingData = async (supplierId, form7) => {
     supplier: supplierId,
     Wiping_System: {},
   };
-//console.log(
-  //   `creating data: ${JSON.stringify(WindscreenwipingData)} data for form7: ${
-  //     form7._id
-  //   }`
-  // );
+
   const updateForm7Data = await form7Schema.findByIdAndUpdate(
     form7._id,
     { $push: { "Windscreen_wiping.Windscreenwiping": WindscreenwipingData } },
     { returnDocument: "after" }
   );
-  //console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
 
@@ -120,11 +108,7 @@ const VehicleGeneralInformationData = async (supplierId, form7) => {
     Manufacturer_Details: {},
     Variants: {},
   };
-  //console.log(
-  //   `creating data: ${JSON.stringify(
-  //     VehicleGeneralInformationData
-  //   )} data for form7: ${form7._id}`
-  // );
+  
   const updateForm7Data = await form7Schema.findByIdAndUpdate(
     form7._id,
     {
@@ -135,7 +119,6 @@ const VehicleGeneralInformationData = async (supplierId, form7) => {
     },
     { returnDocument: "after" }
   );
-  //console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
 
@@ -144,11 +127,7 @@ const GeneralarrangementofthevehicleData = async (supplierId, form7) => {
     supplier: supplierId,
     General_arrangement_of_the_vehicle: {},
   };
-  //console.log(
-  //   `creating data: ${JSON.stringify(
-  //     GeneralarrangementofthevehicleData
-  //   )} data for form7: ${form7._id}`
-  // );
+  
   const updateForm7Data = await form7Schema.findByIdAndUpdate(
     form7._id,
     {
@@ -183,7 +162,6 @@ const VehicleDimensionsData = async (supplierId, form7) => {
     },
     { returnDocument: "after" }
   );
-  //console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
 
@@ -195,15 +173,12 @@ const WeightsData = async (supplierId, form7) => {
     Gradability: {},
     Maximum_Carrying_capacity: {},
   };
-  //console.log(
-  //   `creating data: ${JSON.stringify(WeightsData)} data for form7: ${form7._id}`
-  // );
+  
   const updateForm7Data = await form7Schema.findByIdAndUpdate(
     form7._id,
     { $push: { "Weights.Weights": WeightsData } },
     { returnDocument: "after" }
   );
-  //console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
 
@@ -214,17 +189,12 @@ const SuspensionData = async (supplierId, form7) => {
     Front_Suspension: {},
     Rear_Suspension: {},
   };
- //console.log(
-  //   `creating data: ${JSON.stringify(SuspensionData)} data for form7: ${
-  //     form7._id
-  //   }`
-  // );
+
   const updateForm7Data = await form7Schema.findByIdAndUpdate(
     form7._id,
     { $push: { "Suspension.Suspension": SuspensionData } },
     { returnDocument: "after" }
   );
-  //console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
 
@@ -239,15 +209,12 @@ const BrakesData = async (supplierId, form7) => {
     Parking_Brake: {},
     Re_Generative_Brake: {},
   };
-  //console.log(
-  //   `creating data: ${JSON.stringify(BrakesData)} data for form7: ${form7._id}`
-  // );
+  
   const updateForm7Data = await form7Schema.findByIdAndUpdate(
     form7._id,
     { $push: { "Brakes.Brakes": BrakesData } },
     { returnDocument: "after" }
   );
-  //console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
 
@@ -259,17 +226,12 @@ const SteeringSuspensionData = async (supplierId, form7) => {
     Front_Suspension: {},
     Rear_Suspension: {},
   };
-  //console.log(
-  //   `creating data: ${JSON.stringify(SteeringData)} data for form7: ${
-  //     form7._id
-  //   }`
-  // );
+  
   const updateForm7Data = await form7Schema.findByIdAndUpdate(
     form7._id,
     { $push: { "SteeringSuspension.SteeringSuspensionData": SteeringData } },
     { returnDocument: "after" }
   );
-  //console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
 
@@ -278,17 +240,12 @@ const SteeringData = async (supplierId, form7) => {
     supplier: supplierId,
     Steering_System: {},
   };
-//console.log(
-  //   `creating data: ${JSON.stringify(SteeringData)} data for form7: ${
-  //     form7._id
-  //   }`
-  // );
+
   const updateForm7Data = await form7Schema.findByIdAndUpdate(
     form7._id,
     { $push: { "Steering.Steering": SteeringData } },
     { returnDocument: "after" }
   );
-  //console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
 
@@ -297,11 +254,7 @@ const VehiclePerformanceData = async (supplierId, form7) => {
     supplier: supplierId,
     Performance: {},
   };
-  //console.log(
-  //   `creating data: ${JSON.stringify(VehiclePerformanceData)} data for form7: ${
-  //     form7._id
-  //   }`
-  // );
+  
   const updateForm7Data = await form7Schema.findByIdAndUpdate(
     form7._id,
     {
@@ -311,7 +264,6 @@ const VehiclePerformanceData = async (supplierId, form7) => {
     },
     { returnDocument: "after" }
   );
-  //console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
 
@@ -320,11 +272,7 @@ const VehicleElectricalSpecification = async (supplierId, form7) => {
     supplier: supplierId,
     Electrical_system: {},
   };
-  //console.log(
-  //   `creating data: ${JSON.stringify(
-  //     VehicleElectricalSpecification
-  //   )} data for form7: ${form7._id}`
-  // );
+  
   const updateForm7Data = await form7Schema.findByIdAndUpdate(
     form7._id,
     {
@@ -335,7 +283,6 @@ const VehicleElectricalSpecification = async (supplierId, form7) => {
     },
     { returnDocument: "after" }
   );
-  //console.log(`updateForm7Data: ${updateForm7Data}`);
   return updateForm7Data;
 };
 
@@ -372,7 +319,6 @@ exports.getForm7ForRequestId = async (requestId) => {
     }
     return null;
   } catch (error) {
-    //console.log(`Exception occured: ${error}`);
   }
 };
 
@@ -419,7 +365,6 @@ exports.createEmptyForm7ComponentDataForSupplier = async (
         break;
     }
   } catch (error) {
-    //console.log(`Exception occured: ${error}`);
     return error;
   }
 };
@@ -956,69 +901,45 @@ exports.updateForm7Data = async (requestId, data) => {
 
     return updatedForm7Data;
   } catch (error) {
-    //console.log(`Exception occured: ${error}`);
     return error;
   }
 };
 
 const findOrCreateForm7 = async (requestId) => {
-  //console.log(`inside findOrCreateForm7`);
   let form7 = await form7Schema.findOne({ homologationRequest: requestId });
   if (form7 == null) {
-    //console.log(`creatng new form7 collection for requestId: ${requestId}`);
     form7 = await form7Schema.create({
       homologationRequest: requestId,
     });
     const defaultSupplier = await getSupplierByKey();
     if (defaultSupplier) {
       const requestData = await homologationRequestSchema.findById(requestId);
-       //console.log(
-      //   `adding defaultSupplier for VehicleGeneralInformationData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`
-      // );
+      
       await VehicleGeneralInformationData(defaultSupplier._id, form7);
-    // console.log(
-    //     `adding defaultSupplier for GeneralarrangementofthevehicleData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`
-    //   );
+    
       await GeneralarrangementofthevehicleData(defaultSupplier._id, form7);
-   //console.log(
-      //   `adding defaultSupplier for VehicleDimensionsData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`
-      // );
+   
       await VehicleDimensionsData(defaultSupplier._id, form7);
-    //console.log(
-      //   `adding defaultSupplier for WeightsData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`
-      // );
+    
       await WeightsData(defaultSupplier._id, form7);
-    //console.log(
-      //   `adding defaultSupplier for BrakesData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`
-      // );
+    
       await BrakesData(defaultSupplier._id, form7);
-     //console.log(
-      //   `adding defaultSupplier for VehiclePerformanceData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`
-      // );
+     
       await VehiclePerformanceData(defaultSupplier._id, form7);
-       //console.log(
-      //   `adding defaultSupplier for VehicleElectricalSpecification of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`
-      // );
+       
       await VehicleElectricalSpecification(defaultSupplier._id, form7);
-      //console.log(
-      //   `adding defaultSupplier for DriveTrainSystem of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`
-      // );
+     
       await DriveTrainSystem(defaultSupplier._id, form7);
       if (requestData.vehicle_type.value === "2-Wheeler") {
         vehicle_type = "2-Wheeler";
-       //console.log(
-        //   `adding defaultSupplier for SuspensionData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`
-        // );
+      
         await SuspensionData(defaultSupplier._id, form7);
       } else {
         vehicle_type = "3-Wheeler";
-       //console.log(
-        //   `adding defaultSupplier for SteeringSuspensionData of key: ${defaultSupplier.supplierKey} and id: ${defaultSupplier._id}`
-        // );
+       
         await SteeringSuspensionData(defaultSupplier._id, form7);
       }
     } else {
-      //console.log(`inside findOrCreateForm7 :defaultSupplier is not found`);
     }
   }
   return form7;
