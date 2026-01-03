@@ -68,20 +68,6 @@ const DaytimeRunningLampData = async (supplierId, form1A) => {
     Daytime_Running_Lamp: {},
     Daytime_Running_Lamp_Led: {},
   }
-  const updateform1AData = await form1ASchema.findByIdAndUpdate(
-    form1A._id,
-    { $push: { "Daytime_Running_Lamp.DaytimeRunningLamp": DaytimeRunningLamp } },
-    { returnDocument: "after" }
-  )
-  return updateform1AData
-}
-
-const DaytimeRunningLampData = async (supplierId, form1A) => {
-  const DaytimeRunningLamp = {
-    supplier: supplierId,
-    Daytime_Running_Lamp: {},
-    Daytime_Running_Lamp_Led: {},
-  }
   console.log(`creating data: ${JSON.stringify(DaytimeRunningLamp)} data for form1A: ${form1A._id}`)
   const updateform1AData = await form1ASchema.findByIdAndUpdate(
     form1A._id,
@@ -232,19 +218,6 @@ const BrakeFluid = async (supplierId, form1A) => {
   const updateform1AData = await form1ASchema.findByIdAndUpdate(
     form1A._id,
     { $push: { "Brake_Fluid.BrakeFluid": BrakeFluid } },
-    { returnDocument: "after" }
-  )
-  return updateform1AData
-}
-
-const VehicleControlUnit = async (supplierId, form1A) => {
-  const VehicleControlUnit = {
-    supplier: supplierId,
-    Vehicle_Control: {},
-  }
-  const updateform1AData = await form1ASchema.findByIdAndUpdate(
-    form1A._id,
-    { $push: { "Vehicle_Control_Unit.VehicleControlUnit": VehicleControlUnit } },
     { returnDocument: "after" }
   )
   return updateform1AData
