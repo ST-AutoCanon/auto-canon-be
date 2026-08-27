@@ -1,6 +1,8 @@
 const sgMail = require("@sendgrid/mail")
-const NEW_SIGNIN_URL = process.env.NEW_SIGNIN_URL
-const RESET_PASSWORD = process.env.RESET_PASSWORD
+// const NEW_SIGNIN_URL = process.env.NEW_SIGNIN_URL
+// const RESET_PASSWORD = process.env.RESET_PASSWORD
+const NEW_SIGNIN_URL = 3001
+const RESET_PASSWORD = 3001
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 exports.sendUserRegistrationMail = async (emailId, username, tempPassword) => {
